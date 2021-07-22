@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("My Grocery App"),
+          title: Text("Home"),
           bottom: TabBar(
             tabs: [
               Tab(
@@ -30,6 +30,10 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [BuyPage(), BoughtPage(), InventoryPage()],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(CupertinoIcons.shopping_cart),
         ),
       ),
     );
