@@ -4,16 +4,20 @@ TODO: add more properites into the model such as
    II. image of the item
 */
 
+import 'package:flutter/widgets.dart';
+
 class ItemModel {
-  final int id;
-  final String name;
-  final String type;
-  // final num price1;
-  // final num price2;
+  final String name; // name of item
+  final String
+      catagory; // catagory of item such as dairy, vagitables, fruits, beans, other
+  final bool status; // buy list or Bought list
+  // final num price1; // save price for one place
+  // final num price2; // save price for 2nd place
 
   ItemModel(
-    this.id,
     this.name,
-    this.type,
+    this.catagory,
+    this.status,
   );
+  String id = UniqueKey().toString();
 }

@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/home_page.dart';
 import 'package:my_grocery_list/utils/theme.dart';
 
-/*
-TODO: Add pop up on each tab to show number of items in the tap
-
-*/
 void main() {
   runApp(MyApp());
 }
