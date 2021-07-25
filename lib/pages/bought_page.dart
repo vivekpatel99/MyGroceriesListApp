@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 
 class BoughtPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
@@ -62,7 +63,12 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 return Dismissible(
                   key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
+                  // direction: DismissDirection.endToStart,
+                  background: secondaryBackground(
+                      mainAxisAlignment: MainAxisAlignment.start),
+                  secondaryBackground: dismissibleBackground(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      msgText: 'Move to Buy'),
                   onDismissed: (_) {
                     itemList[index].status = true;
                   },

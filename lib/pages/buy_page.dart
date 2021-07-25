@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 
 class BuyPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
@@ -63,34 +64,11 @@ class CatagorySection extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 return Dismissible(
                   key: ValueKey(itemList[index].id),
-                  background: Container(
-                    color: Colors.deepPurpleAccent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.forward),
-                          Text('Move to Bought')
-                        ],
-                      ),
-                    ),
-                  ),
-                  secondaryBackground: Container(
-                    color: Colors.red,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Icon(Icons.delete),
-                          Text(
-                            'Move to Trash',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  background: dismissibleBackground(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      msgText: 'Move to Bought'),
+                  secondaryBackground: secondaryBackground(
+                      mainAxisAlignment: MainAxisAlignment.end),
                   // direction: DismissDirection.startToEnd,
                   onDismissed: (DismissDirection direction) {
                     // TODO: add undo snackbar when delete the item
