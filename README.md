@@ -1,6 +1,7 @@
 # my_grocery_list
 
 A new Flutter project.
+[![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 
 ## Getting Started
 

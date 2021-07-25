@@ -12,8 +12,8 @@ class HomePage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
-          bottom: TabBar(
+          title: const Text("Home"),
+          bottom: const TabBar(
             tabs: [
               Tab(
                 text: "Buy",

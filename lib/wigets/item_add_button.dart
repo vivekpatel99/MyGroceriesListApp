@@ -10,10 +10,10 @@ class AddItemButton extends StatelessWidget {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return PopUPAddItemWindow();
+              return const PopUPAddItemWindow();
             });
       },
-      child: Icon(CupertinoIcons.shopping_cart),
+      child: const Icon(CupertinoIcons.shopping_cart),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:my_grocery_list/models/item_model.dart';
 
 class InventoryModel {
-  late ItemModel _item;
+  // late ItemModel _item;
   final List<ItemModel> _buyItemList = [];
   final List<ItemModel> _boughtItemList = [];
 
