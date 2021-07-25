@@ -32,7 +32,7 @@ class BuyPage extends StatelessWidget {
 }
 
 class CatagorySection extends StatelessWidget {
-  const CatagorySection({
+  CatagorySection({
     Key? key,
     required this.catagory,
     required this.itemList,
@@ -40,7 +40,7 @@ class CatagorySection extends StatelessWidget {
 
   final CatagoryItem catagory;
   final List<ItemModel> itemList;
-
+  final CatagoryItemModel cTM = CatagoryItemModel();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,6 +75,7 @@ class CatagorySection extends StatelessWidget {
                     if (direction == DismissDirection.startToEnd) {
                       itemList[index].status = false;
                     } else {
+                      cTM.remove(listName: itemList, index: index);
                       print('remove item');
                     }
                   },

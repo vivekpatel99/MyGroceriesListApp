@@ -31,7 +31,7 @@ class BoughtPage extends StatelessWidget {
 }
 
 class _CatagorySectionBoughtpage extends StatelessWidget {
-  const _CatagorySectionBoughtpage({
+  _CatagorySectionBoughtpage({
     Key? key,
     required this.catagory,
     required this.itemList,
@@ -39,7 +39,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
 
   final CatagoryItem catagory;
   final List<ItemModel> itemList;
-
+  final CatagoryItemModel cTM = CatagoryItemModel();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,8 +69,12 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                   secondaryBackground: dismissibleBackground(
                       mainAxisAlignment: MainAxisAlignment.end,
                       msgText: 'Move to Buy'),
-                  onDismissed: (_) {
-                    itemList[index].status = true;
+                  onDismissed: (DismissDirection direction) {
+                    if (direction == DismissDirection.endToStart) {
+                      itemList[index].status = true;
+                    } else {
+                      cTM.remove(listName: itemList, index: index);
+                    }
                   },
                   child: Card(
                     child: !itemList[index].status

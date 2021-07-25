@@ -74,4 +74,8 @@ class CatagoryItemModel {
     ItemModel(name: 'Apple', catagory: 'Fruits'),
     ItemModel(name: 'Banane', catagory: 'Fruits'),
   ];
+
+  remove({required List<ItemModel> listName, required int index}) {
+    listName.removeAt(index);
+  }
 }
