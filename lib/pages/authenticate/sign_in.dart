@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/loading.dart';
 
 // TODO Beautification needed
-
+// TODO filter firebase error and dispaly it on page
 class SignIn extends StatefulWidget {
   final Function toggleView;
   const SignIn({
@@ -17,87 +19,106 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-
+  final AuthService _auth = AuthService();
   // Testfield inputs
+  bool loading = false;
   String email = '';
   String password = '';
   String error = '';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: const Text('Sign In'),
-          actions: [
-            TextButton.icon(
-              onPressed: () {
-                widget.toggleView();
-              },
-              icon: const Icon(Icons.person),
-              label: const Text('Sign up'),
-              // style: ButtonStyle(
-              //     foregroundColor: MaterialStateProperty.all(Colors.black),
-              //     ),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const Placeholder(
-                    fallbackHeight: 200.0,
-                    fallbackWidth: 20.0,
-                  ),
-                  kSizedBox,
-                  TextFormField(
-                    decoration: kTextFormInputDecoration.copyWith(
-                      hintText: 'Email',
-                    ),
-                    validator: (_enteredEmail) =>
-                        _enteredEmail!.isEmpty ? 'Enter an Email' : null,
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
+    return loading
+        ? const Loading()
+        : SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                title: const Text('Sign In'),
+                actions: [
+                  TextButton.icon(
+                    onPressed: () {
+                      widget.toggleView();
                     },
-                  ),
-                  kSizedBox,
-                  TextFormField(
-                    decoration: kTextFormInputDecoration.copyWith(
-                      hintText: 'Password',
-                    ),
-                    validator: (_enteredPassword) =>
-                        _enteredPassword!.length < 3
-                            ? 'Enter  a password with 3+ chars long'
-                            : null,
-                    onChanged: (_enteredPassword) {
-                      setState(() {
-                        password = _enteredPassword;
-                      });
-                    },
-                  ),
-                  kSizedBox,
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print('$email $password');
-                        }
-                      },
-                      icon: const Icon(CupertinoIcons.signature),
-                      label: const Text('Sign in')),
-                  kSizedBox,
-                  Text(
-                    error,
-                    style: const TextStyle(color: Colors.red, fontSize: 14.0),
-                  ),
+                    icon: const Icon(Icons.person),
+                    label: const Text('Sign Up'),
+                    // style: ButtonStyle(
+                    //     foregroundColor: MaterialStateProperty.all(Colors.black),
+                    //     ),
+                  )
                 ],
-              )),
-        ),
-      ),
-    );
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const Placeholder(
+                          fallbackHeight: 200.0,
+                          fallbackWidth: 20.0,
+                        ),
+                        kSizedBox,
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: kTextFormInputDecoration.copyWith(
+                            hintText: 'Email',
+                          ),
+                          validator: (_enteredEmail) =>
+                              _enteredEmail!.isEmpty ? 'Enter an Email' : null,
+                          onChanged: (value) {
+                            setState(() {
+                              email = value;
+                            });
+                          },
+                        ),
+                        kSizedBox,
+                        TextFormField(
+                          obscureText: true,
+                          keyboardType: TextInputType.number,
+                          decoration: kTextFormInputDecoration.copyWith(
+                            hintText: 'Password',
+                          ),
+                          validator: (_enteredPassword) =>
+                              _enteredPassword!.length < 3
+                                  ? 'Enter  a password with 6+ chars long'
+                                  : null,
+                          onChanged: (_enteredPassword) {
+                            setState(() {
+                              password = _enteredPassword;
+                            });
+                          },
+                        ),
+                        kSizedBox,
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                final dynamic _result =
+                                    _auth.signInWithEmailAndPassord(
+                                        email: email, password: password);
+                                if (_result == null) {
+                                  setState(() {
+                                    loading = false;
+                                    error =
+                                        'Could not sign in with those credentials';
+                                  });
+                                }
+                              }
+                            },
+                            icon: const Icon(CupertinoIcons.signature),
+                            label: const Text('Sign In')),
+                        kSizedBox,
+                        Text(
+                          error,
+                          style: const TextStyle(
+                              color: Colors.red, fontSize: 14.0),
+                        ),
+                      ],
+                    )),
+              ),
+            ),
+          );
   }
 }
