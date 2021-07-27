@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/pages/home_page.dart';
+import 'package:my_grocery_list/pages/wrapper.dart';
 import 'package:my_grocery_list/utils/theme.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: MyTheme.darkTheme(context),
       // darkTheme: ThemeData.dark(),
-      home: const HomePage(),
+      home: Wrapper(),
     );
   }
 }

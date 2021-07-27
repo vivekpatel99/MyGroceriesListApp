@@ -13,6 +13,7 @@ class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Todo: replace in SingleChildScrollView with ListWheelScrollView
       body: SingleChildScrollView(
         child: Column(
           children: [

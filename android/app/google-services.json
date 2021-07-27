@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "405291175610",
+    "project_id": "mygrocerylist-2ab17",
+    "storage_bucket": "mygrocerylist-2ab17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405291175610:android:73d7dc70fd048785f9bc83",
+        "android_client_info": {
+          "package_name": "com.viv.my_grocery_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405291175610-m4bhjv3lvot8ollmep4g7mts19pvjgdq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzjBaJ1A1ZB_T8Pmgbh0EQjhRr8W1SzZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405291175610-m4bhjv3lvot8ollmep4g7mts19pvjgdq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
