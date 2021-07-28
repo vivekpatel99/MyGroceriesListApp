@@ -46,23 +46,23 @@ class AuthService {
       final User user = result.user!;
 
       // * create a new document for the user with the uid
-      Dairy milk = Dairy(name: 'Milk');
-      Dairy cheese = Dairy(name: 'cheese');
+      final Dairy milk = Dairy(name: 'Milk');
+      final Dairy cheese = Dairy(name: 'cheese');
 
-      Vegetables bringel = Vegetables(name: 'bringel');
-      Vegetables ginger = Vegetables(name: 'ginger');
+      final Vegetables bringel = Vegetables(name: 'bringel');
+      final Vegetables ginger = Vegetables(name: 'ginger');
 
-      Fruits melon = Fruits(name: 'melon');
-      Fruits watermelon = Fruits(name: 'watermelon');
+      final Fruits melon = Fruits(name: 'melon');
+      final Fruits watermelon = Fruits(name: 'watermelon');
 
       // Map<String, List<MyItemModel>> grocerylist = {
       //   'Dairy': [milk, cheese],
       //   'veg': [milk, cheese],
       //   'fruit': [milk, cheese],
       // };
-      List<Dairy> dairyList = [];
-      List<Vegetables> vegetablesList = [];
-      List<Fruits> fruitsList = [];
+      final List<Dairy> dairyList = [milk, cheese];
+      final List<Vegetables> vegetablesList = [bringel, ginger];
+      final List<Fruits> fruitsList = [melon, watermelon];
 
       MyGroceryList mylist = MyGroceryList(
           dairy: dairyList, vegetable: vegetablesList, fruits: fruitsList);

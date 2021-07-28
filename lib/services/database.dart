@@ -14,7 +14,7 @@ class DatabaseService {
   });
 
   // * collection reference
-  final CollectionReference groceryLists =
+  final CollectionReference groceryListsCollection =
       FirebaseFirestore.instance.collection('groceryList');
 
   // * update userdata
@@ -58,6 +58,11 @@ class DatabaseService {
 }
 }
 */
-    return groceryLists.doc(uid).set(myGroceryList.toJson());
+    return groceryListsCollection.doc(uid).set(myGroceryList.toJson());
+  }
+
+  // * Get grocerylist stream
+  Stream<QuerySnapshot> get groceryList {
+    return groceryListsCollection.snapshots();
   }
 }
