@@ -8,9 +8,9 @@ class DatabaseService {
   * 3. each user will have his own documents in site the collection
   * 4. each documents have different groceryList
   */
-  final String uid;
+  final String? uid;
   DatabaseService({
-    required this.uid,
+    this.uid,
   });
 
   // * collection reference
@@ -58,11 +58,45 @@ class DatabaseService {
 }
 }
 */
+    // groceryListsCollection.doc(uid).set(myGroceryList.toJson());
+
+    // print('########## groceryListsCollection');
+    // print('${groceryListsCollection.doc(uid).get()}');
     return groceryListsCollection.doc(uid).set(myGroceryList.toJson());
   }
 
+  // * get grocerylist from snapshot
+  List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
+    print('#############');
+
+    return snapshot.docs.map((doc) {
+      final Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
+      print(_myGroceryList.dairy);
+      // print('----');
+      // final List<Dairy>? dairyList = data?['Dairy'] as List<Dairy>?;
+
+      // print(dairyList);
+      // final List<Vegetables>? vegetableList =
+      //     data?['Vegetables'] as List<Vegetables>?;
+      // final List<Fruits>? fruitsList = data?['Fruits'] as List<Fruits>?;
+
+      // final MyGroceryList myGList = MyGroceryList(
+      //   dairy: dairyList ?? [],
+      //   vegetables: vegetableList ?? [],
+      //   fruits: fruitsList ?? [],
+      // );
+      return _myGroceryList;
+      // return MyGroceryList(
+      //   dairy: dairyList ?? [],
+      //   vegetables: vegetableList ?? [],
+      //   fruits: fruitsList ?? [],
+      // );
+    }).toList();
+  }
+
   // * Get grocerylist stream
-  Stream<QuerySnapshot> get groceryList {
-    return groceryListsCollection.snapshots();
+  Stream<List<MyGroceryList>>? get groceryList {
+    return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
   }
 }
