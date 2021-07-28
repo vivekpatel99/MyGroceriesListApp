@@ -7,6 +7,7 @@ import 'package:my_grocery_list/shared/loading.dart';
 // TODO Beautification needed
 // TODO add number only password in sign in and up pages
 // TODO filter firebase error and dispaly it on page
+// TODO add more checks on user input
 class SignUp extends StatefulWidget {
   const SignUp({
     Key? key,
@@ -90,13 +91,15 @@ class _SignUpState extends State<SignUp> {
                       kSizedBox,
                       ElevatedButton.icon(
                           onPressed: () async {
-                            setState(() {
-                              loading = true;
-                            });
                             if (_formKey.currentState!.validate()) {
-                              dynamic result =
-                                  await _auth.registerWithEmailAndPassword(
+                              setState(() {
+                                loading = true;
+                              });
+                              final dynamic result =
+                                  await _auth.signupWithEmailAndPassword(
                                       email: _email, password: _password);
+                              print('###############');
+                              print(result.toString());
                               if (result == null) {
                                 setState(() {
                                   loading = false;
@@ -111,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                           label: const Text('Sign Up')),
                       kSizedBox,
                       Text(
-                        _error.toString(),
+                        _error,
                         style:
                             const TextStyle(color: Colors.red, fontSize: 14.0),
                       ),
