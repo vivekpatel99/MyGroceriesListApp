@@ -5,6 +5,7 @@ import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/wigets/item_add_button.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,10 @@ class HomePage extends StatelessWidget {
                   onPressed: () async {
                     await _auth.signOut();
                   },
-                  icon: const Icon(CupertinoIcons.person),
+                  style: kButtonSytle,
+                  icon: const Icon(
+                    CupertinoIcons.person,
+                  ),
                   label: const Text('Sign Out'))
             ],
             bottom: const TabBar(

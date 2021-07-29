@@ -116,6 +116,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                     onPressed: () async {
                       final Catagory _catagory =
                           Catagory(name: _userEnteredItemName);
+                      print('$_catagoryName $_userEnteredItemName');
                       await DatabaseService(uid: userId).addItem(
                         catagoryName: _catagoryName,
                         catagory: _catagory,

@@ -34,12 +34,16 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text('Sign In'),
+              title: const Text(
+                'Sign In',
+                style: TextStyle(color: Colors.deepPurpleAccent),
+              ),
               actions: [
                 TextButton.icon(
                   onPressed: () {
                     widget.toggleView();
                   },
+                  style: kButtonSytle,
                   icon: const Icon(Icons.person),
                   label: const Text('Sign Up'),
                   // style: ButtonStyle(
@@ -91,6 +95,11 @@ class _SignInState extends State<SignIn> {
                       ),
                       kSizedBox,
                       ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.deepPurpleAccent,
+                            ),
+                          ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() {
@@ -109,7 +118,9 @@ class _SignInState extends State<SignIn> {
                             }
                           },
                           icon: const Icon(CupertinoIcons.signature),
-                          label: const Text('Sign In')),
+                          label: const Text(
+                            'Sign In',
+                          )),
                       kSizedBox,
                       Text(
                         error,

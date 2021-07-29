@@ -8,17 +8,22 @@ import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:provider/provider.dart';
 
+//utANom4HpGWmDKSh4hHEjM0AvLV2
+
 class BuyPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
-  final dairyProdList = CatagoryItemModel.dairyProdList;
-  final vegetablesList = CatagoryItemModel.vegetablesList;
-  final fruitsList = CatagoryItemModel.fruitsList;
 
   @override
   Widget build(BuildContext context) {
     try {
       final myGroceryList = Provider.of<List<MyGroceryList>>(context);
-
+      final myplist = myGroceryList.map((e) => e.toJson());
+      print('BBBBBUUUUUUUYYYYYY');
+      print(myGroceryList[0].toJson());
+      // myGroceryList.forEach((element) {
+      //   print('BBBbbbbbbbbbbbbbbb');
+      //   print(element.toJson());
+      // });
       return Scaffold(
         // Todo: replace in SingleChildScrollView with ListWheelScrollView
         body: SingleChildScrollView(
@@ -36,6 +41,33 @@ class BuyPage extends StatelessWidget {
                   catagory: _catagoryList[2],
                   itemList: myGroceryList[0].fruitsList),
               const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[3],
+                  itemList: myGroceryList[0].breadBakeryList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[4],
+                  itemList: myGroceryList[0].dryGoodsList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[5],
+                  itemList: myGroceryList[0].frozenFoodsList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[6],
+                  itemList: myGroceryList[0].beveragesList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[7],
+                  itemList: myGroceryList[0].cleanersList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[8],
+                  itemList: myGroceryList[0].personalCareList),
+              const Divider(),
+              CatagorySection(
+                  catagory: _catagoryList[9],
+                  itemList: myGroceryList[0].otherList),
             ],
           ),
         ),
@@ -48,7 +80,7 @@ class BuyPage extends StatelessWidget {
 }
 
 class CatagorySection extends StatelessWidget {
-  CatagorySection({
+  const CatagorySection({
     Key? key,
     required this.catagory,
     required this.itemList,
@@ -56,15 +88,11 @@ class CatagorySection extends StatelessWidget {
 
   final CatagoryItem catagory;
   final List<dynamic>? itemList;
-  final CatagoryItemModel cTM = CatagoryItemModel();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
     final _itemList = itemList ?? [];
-    final String userId = user?.uid ?? '';
 
-    // print(itemListMap);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -82,7 +110,6 @@ class CatagorySection extends StatelessWidget {
             ItemListView(
               catagoryName: catagory.catagoryName,
               itemList: _itemList,
-              userId: userId,
             ),
         ],
       ),
@@ -93,18 +120,18 @@ class CatagorySection extends StatelessWidget {
 class ItemListView extends StatelessWidget {
   final String catagoryName;
   final List<dynamic> itemList;
-  final String userId;
   const ItemListView({
     Key? key,
     required this.catagoryName,
     required this.itemList,
-    required this.userId,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final itemListMap = itemList.map((_list) => _list.toJson()).toList();
-
+    final user = Provider.of<UserModel?>(context);
+    final String userId = user?.uid ?? '';
+    print(itemListMap);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,

@@ -35,7 +35,7 @@ class CatagoryItemModel {
     CatagoryItem(id: 1, catagoryName: 'Dairy', isCheck: false),
     CatagoryItem(id: 2, catagoryName: 'Vegetables', isCheck: false),
     CatagoryItem(id: 3, catagoryName: 'Fruits', isCheck: false),
-    CatagoryItem(id: 4, catagoryName: 'Bread/Bakery', isCheck: false),
+    CatagoryItem(id: 4, catagoryName: 'Bakery', isCheck: false),
     CatagoryItem(
         id: 5, catagoryName: 'Dry/Baking(/Powder) Goods', isCheck: false),
     CatagoryItem(id: 6, catagoryName: 'Frozen Foods', isCheck: false),

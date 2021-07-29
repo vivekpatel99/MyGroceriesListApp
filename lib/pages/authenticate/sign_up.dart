@@ -34,7 +34,8 @@ class _SignUpState extends State<SignUp> {
             child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text('Sign Up'),
+              title: const Text('Sign Up',
+                  style: TextStyle(color: Colors.deepPurpleAccent)),
               actions: [
                 TextButton.icon(
                   onPressed: () {
@@ -90,6 +91,11 @@ class _SignUpState extends State<SignUp> {
                       ),
                       kSizedBox,
                       ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.deepPurpleAccent,
+                            ),
+                          ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() {

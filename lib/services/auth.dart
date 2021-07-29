@@ -5,7 +5,7 @@ import 'package:my_grocery_list/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User userInfo;
+  // late User userInfo;
 //------------------------------------------------------------------------------
 // create user object based on firebase user
   UserModel? _userFromFirebaseUser(User? userInfo) {
@@ -19,9 +19,9 @@ class AuthService {
         .map((User? _user) => _userFromFirebaseUser(_user));
   }
 
-  String get userId {
-    return userInfo.uid;
-  }
+  // String get userId {
+  //   return userInfo.uid;
+  // }
 
 //------------------------------------------------------------------------------
   // sign in with email and password
@@ -47,33 +47,46 @@ class AuthService {
       // print('$email $password');
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      userInfo = result.user!;
+      final User userInfo = result.user!;
 
       // * create a new document for the user with the uid
-      final Catagory milk = Catagory(name: 'Milk');
-      final Catagory cheese = Catagory(name: 'cheese');
+      // final Catagory milk = Catagory(name: 'Milk');
+      // final Catagory cheese = Catagory(name: 'cheese');
 
-      final Catagory bringel = Catagory(name: 'bringel');
-      final Catagory ginger = Catagory(name: 'ginger');
+      // final Catagory bringel = Catagory(name: 'bringel');
+      // final Catagory ginger = Catagory(name: 'ginger');
 
-      final Catagory melon = Catagory(name: 'melon');
-      final Catagory watermelon = Catagory(name: 'watermelon');
+      // final Catagory melon = Catagory(name: 'melon');
+      // final Catagory watermelon = Catagory(name: 'watermelon');
 
       // Map<String, List<MyItemModel>> grocerylist = {
       //   'Dairy': [milk, cheese],
       //   'veg': [milk, cheese],
       //   'fruit': [milk, cheese],
       // };
-      final List<Catagory> dairyList = [milk, cheese];
-      final List<Catagory> vegetablesList = [bringel, ginger];
-      final List<Catagory> fruitsList = [melon, watermelon];
 
+      final List<Catagory> dairyList = [];
+      final List<Catagory> vegetablesList = [];
+      final List<Catagory> fruitsList = [];
+      final List<Catagory> breadBakeryList = [];
+      final List<Catagory> dryGoodsList = [];
+      final List<Catagory> frozenFoodsList = [];
+      final List<Catagory> beveragesList = [];
+      final List<Catagory> cleanersList = [];
+      final List<Catagory> personalCareList = [];
+      final List<Catagory> otherList = [];
       final MyGroceryList mylist = MyGroceryList(
           dairyList: dairyList,
           vegetableList: vegetablesList,
-          fruitsList: fruitsList);
+          fruitsList: fruitsList,
+          breadBakeryList: breadBakeryList,
+          dryGoodsList: dryGoodsList,
+          frozenFoodsList: frozenFoodsList,
+          beveragesList: beveragesList,
+          cleanersList: cleanersList,
+          personalCareList: personalCareList,
+          otherList: otherList);
 
-      print(mylist.toJson());
       await DatabaseService(uid: userInfo.uid)
           .updateUserData(myGroceryList: mylist);
 

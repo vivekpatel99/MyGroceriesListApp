@@ -179,85 +179,152 @@ class MyGroceryList {
   List<Catagory>? vegetableList;
   List<Catagory>? fruitsList;
 
-  List<Catagory?>? dreadBakery;
-  // List<Catagory?>? dryGoods;
-  // List<Catagory?>? frozenFoods;
-  // List<Catagory?>? beverages;
-  // List<Catagory?>? cleaners;
-  // List<Catagory?>? personalCare;
-  // List<Catagory?>? other;
+  List<Catagory>? breadBakeryList;
+  List<Catagory>? dryGoodsList;
+  List<Catagory>? frozenFoodsList;
+  List<Catagory>? beveragesList;
+  List<Catagory>? cleanersList;
+  List<Catagory>? personalCareList;
+  List<Catagory>? otherList;
 
   MyGroceryList({
     this.dairyList,
     this.vegetableList,
     this.fruitsList,
-    this.dreadBakery,
-    // this.dryGoods,
-    // this.frozenFoods,
-    // this.beverages,
-    // this.cleaners,
-    // this.personalCare,
-    // this.other,
+    this.breadBakeryList,
+    this.dryGoodsList,
+    this.frozenFoodsList,
+    this.beveragesList,
+    this.cleanersList,
+    this.personalCareList,
+    this.otherList,
   });
   factory MyGroceryList.fromJson(Map<String, dynamic> json) {
-    List<Catagory>? _dairyList;
-    if (json["Dairy"] != null) {
-      final v = json["Dairy"];
-      final arr0 = <Catagory>[];
-      v.forEach((v) {
-        arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
-      });
-      _dairyList = arr0;
+    //--------------------------------------------------------------------------
+    List<Catagory>? _innerFromJson(
+        {required String catName, required Map<String, dynamic> json}) {
+      if (json[catName] != null) {
+        final v = json[catName];
+        final arr0 = <Catagory>[];
+        v.forEach((v) {
+          arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
+        });
+        return arr0;
+      }
     }
-    List<Catagory>? _vegetableList;
-    if (json["Vegetables"] != null) {
-      final v = json["Vegetables"];
-      final arr0 = <Catagory>[];
-      v.forEach((v) {
-        arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
-      });
-      _vegetableList = arr0;
-    }
-    List<Catagory>? _fruitsList;
-    if (json["Fruits"] != null) {
-      final v = json["Fruits"];
-      final arr0 = <Catagory>[];
-      v.forEach((v) {
-        arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
-      });
-      _fruitsList = arr0;
-    }
+
+    final List<Catagory>? _dairyList =
+        _innerFromJson(catName: "Dairy", json: json);
+    // if (json["Dairy"] != null) {
+    //   final v = json["Dairy"];
+    //   final arr0 = <Catagory>[];
+    //   v.forEach((v) {
+    //     arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
+    //   });
+    //   _dairyList = arr0;
+    // }
+    final List<Catagory>? _vegetableList =
+        _innerFromJson(catName: "Vegetables", json: json);
+    // if (json["Vegetables"] != null) {
+    //   final v = json["Vegetables"];
+    //   final arr0 = <Catagory>[];
+    //   v.forEach((v) {
+    //     arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
+    //   });
+    //   _vegetableList = arr0;
+    // }
+    final List<Catagory>? _fruitsList =
+        _innerFromJson(catName: "Fruits", json: json);
+    // if (json["Fruits"] != null) {
+    //   final v = json["Fruits"];
+    //   final arr0 = <Catagory>[];
+    //   v.forEach((v) {
+    //     arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
+    //   });
+    //   _fruitsList = arr0;
+    // }
+    final List<Catagory>? _breadBakeryList =
+        _innerFromJson(catName: "Bakery", json: json);
+
+    final List<Catagory>? _dryGoodsList =
+        _innerFromJson(catName: "Dry/Baking(/Powder) Goods", json: json);
+
+    final List<Catagory>? _frozenFoodsList =
+        _innerFromJson(catName: "Frozen Foods", json: json);
+
+    final List<Catagory>? _beveragesList =
+        _innerFromJson(catName: "Beverages", json: json);
+
+    final List<Catagory>? _cleanersList =
+        _innerFromJson(catName: "Cleaners", json: json);
+
+    final List<Catagory>? _personalCareList =
+        _innerFromJson(catName: "Personal Care", json: json);
+
+    final List<Catagory>? _otherList =
+        _innerFromJson(catName: "Other", json: json);
+
     return MyGroceryList(
         dairyList: _dairyList,
         vegetableList: _vegetableList,
-        fruitsList: _fruitsList);
+        fruitsList: _fruitsList,
+        breadBakeryList: _breadBakeryList,
+        dryGoodsList: _dryGoodsList,
+        frozenFoodsList: _frozenFoodsList,
+        beveragesList: _beveragesList,
+        cleanersList: _cleanersList,
+        personalCareList: _personalCareList,
+        otherList: _otherList);
   }
   Map<String, dynamic> toJson() {
+    List<dynamic>? _innerToJson({required List<Catagory>? catList}) {
+      if (catList != null) {
+        final v = catList;
+        final arr0 = [];
+        v.forEach((v) {
+          arr0.add(v.toJson());
+        });
+        return arr0;
+      }
+    }
+
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (dairyList != null) {
-      final v = dairyList;
-      final arr0 = [];
-      v!.forEach((v) {
-        arr0.add(v.toJson());
-      });
-      data["Dairy"] = arr0;
-    }
-    if (vegetableList != null) {
-      final v = vegetableList;
-      final arr0 = [];
-      v!.forEach((v) {
-        arr0.add(v.toJson());
-      });
-      data["Vegetables"] = arr0;
-    }
-    if (fruitsList != null) {
-      final v = fruitsList;
-      final arr0 = [];
-      v!.forEach((v) {
-        arr0.add(v.toJson());
-      });
-      data["Fruits"] = arr0;
-    }
+    data["Dairy"] = _innerToJson(catList: dairyList);
+    // if (dairyList != null) {
+    //   final v = dairyList;
+    //   final arr0 = [];
+    //   v!.forEach((v) {
+    //     arr0.add(v.toJson());
+    //   });
+    //   data["Dairy"] = arr0;
+    // }
+    data["Vegetables"] = _innerToJson(catList: vegetableList);
+    // if (vegetableList != null) {
+    //   final v = vegetableList;
+    //   final arr0 = [];
+    //   v!.forEach((v) {
+    //     arr0.add(v.toJson());
+    //   });
+    //   data["Vegetables"] = arr0;
+    // }
+    data["Fruits"] = _innerToJson(catList: fruitsList);
+    // if (fruitsList != null) {
+    //   final v = fruitsList;
+    //   final arr0 = [];
+    //   v!.forEach((v) {
+    //     arr0.add(v.toJson());
+    //   });
+    //   data["Fruits"] = arr0;
+    // }
+
+    data["Bakery"] = _innerToJson(catList: breadBakeryList);
+    data["Dry/Baking(/Powder) Goods"] = _innerToJson(catList: dryGoodsList);
+    data["Frozen Foods"] = _innerToJson(catList: frozenFoodsList);
+    data["Beverages"] = _innerToJson(catList: beveragesList);
+    data["Cleaners"] = _innerToJson(catList: cleanersList);
+    data["PersonalCare"] = _innerToJson(catList: personalCareList);
+    data["Other"] = _innerToJson(catList: otherList);
+
     return data;
   }
 }

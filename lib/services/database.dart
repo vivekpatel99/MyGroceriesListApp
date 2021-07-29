@@ -8,15 +8,13 @@ class DatabaseService {
   * 3. each user will have his own documents in site the collection
   * 4. each documents have different groceryList
   */
-  final String? uid;
-  DatabaseService({
-    this.uid,
-  });
-
 //------------------------------------------------------------------------------
   // * collection reference
   final CollectionReference groceryListsCollection =
       FirebaseFirestore.instance.collection('groceryList');
+
+  final String? uid;
+  DatabaseService({this.uid});
 
 //------------------------------------------------------------------------------
   // * update tobuy status
@@ -138,14 +136,21 @@ class DatabaseService {
   List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data = (doc.data() as Map<String, dynamic>?) ?? {};
-      final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
-      return _myGroceryList;
+      print('####');
+      print(data);
+      // final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
+      return MyGroceryList.fromJson(data);
     }).toList();
   }
 
 //------------------------------------------------------------------------------
   // * Get grocerylist stream
-  Stream<List<MyGroceryList>>? get groceryList {
+  Stream<List<MyGroceryList>> get groceryList {
+    final bla =
+        groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
+    print('mmmmmmmmmmmmm');
+    print(groceryListsCollection.snapshots());
+    // print();
     return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
   }
 }

@@ -16,6 +16,7 @@ class BoughtPage extends StatelessWidget {
   Widget build(BuildContext context) {
     try {
       final myGroceryList = Provider.of<List<MyGroceryList>>(context);
+
       return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -32,6 +33,33 @@ class BoughtPage extends StatelessWidget {
                   catagory: _catagoryList[2],
                   itemList: myGroceryList[0].fruitsList),
               const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[3],
+                  itemList: myGroceryList[0].breadBakeryList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[4],
+                  itemList: myGroceryList[0].dryGoodsList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[5],
+                  itemList: myGroceryList[0].frozenFoodsList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[6],
+                  itemList: myGroceryList[0].beveragesList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[7],
+                  itemList: myGroceryList[0].cleanersList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[8],
+                  itemList: myGroceryList[0].personalCareList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[9],
+                  itemList: myGroceryList[0].otherList),
             ],
           ),
         ),
@@ -44,7 +72,7 @@ class BoughtPage extends StatelessWidget {
 }
 
 class _CatagorySectionBoughtpage extends StatelessWidget {
-  _CatagorySectionBoughtpage({
+  const _CatagorySectionBoughtpage({
     Key? key,
     required this.catagory,
     required this.itemList,
@@ -52,14 +80,13 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
 
   final CatagoryItem catagory;
   final List<dynamic>? itemList;
-  final CatagoryItemModel cTM = CatagoryItemModel();
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     final _itemList = itemList ?? [];
     final String userId = user?.uid ?? '';
-    final itemListMap = itemList!.map((_list) => _list.toJson()).toList();
+    final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -71,15 +98,15 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          if (itemList!.isEmpty)
+          if (_itemList.isEmpty)
             const Text("No Items")
           else
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: itemList!.length,
+              itemCount: _itemList.length,
               itemBuilder: (BuildContext context, index) {
-                final String _name = itemList![index].name as String;
+                final String _name = _itemList[index].name as String;
 
                 return Dismissible(
                   key: UniqueKey(),
@@ -93,7 +120,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                       itemListMap[index]['toBuy'] = true;
                       // _toBuy = false;
                       // print('_buy $_toBuy');
-                      print(itemListMap[index]['toBuy']);
+                      // print(itemListMap[index]['toBuy']);
                       // itemListMap[index]['toBuy'] = false;
                       await DatabaseService(uid: userId).moveToBuyBought(
                         catagoryName: catagory.catagoryName,
