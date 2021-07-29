@@ -1,4 +1,4 @@
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 
 class InventoryModel {
   // late ItemModel _item;

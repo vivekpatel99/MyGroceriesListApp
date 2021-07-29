@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:provider/provider.dart';

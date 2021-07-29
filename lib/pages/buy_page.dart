@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
-import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -104,12 +103,12 @@ class CatagorySection extends StatelessWidget {
                     // TODO: add undo snackbar when delete the item
                     if (direction == DismissDirection.startToEnd) {
                       _toBuy = false;
-                      var field = itemListMap['Milk'];
+                      var field = itemListMap;
                       print(field);
-                      await DatabaseService(uid: userId).moveToBuyBought(
-                          catagoryName: catagory.catagoryName,
-                          itemName: 'toBuy',
-                          toBuy: false);
+                      // await DatabaseService(uid: userId).moveToBuyBought(
+                      //     catagoryName: catagory.catagoryName,
+                      //     itemName: 'toBuy',
+                      //     toBuy: false);
                     } else {
                       // cTM.remove(listName: itemList, index: index);
                     }

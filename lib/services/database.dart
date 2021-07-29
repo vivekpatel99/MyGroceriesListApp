@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 
 class DatabaseService {
   /*
@@ -22,7 +22,7 @@ class DatabaseService {
       {required String catagoryName,
       required String itemName,
       required bool toBuy}) {
-    var options = SetOptions(merge: true);
+    final options = SetOptions(merge: true);
     final FieldPath fPath = FieldPath([catagoryName, itemName]);
     print('$catagoryName.$itemName $toBuy');
     return groceryListsCollection
@@ -96,7 +96,7 @@ class DatabaseService {
   // * get grocerylist from snapshot
   List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      final data = (doc.data() as Map<String, dynamic>?) ?? {};
       final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
       return _myGroceryList;
     }).toList();

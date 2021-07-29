@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
 

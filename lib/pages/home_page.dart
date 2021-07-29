@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/services/auth.dart';

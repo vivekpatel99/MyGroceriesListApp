@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_mode.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
   const PopUPAddItemWindow({Key? key}) : super(key: key);
