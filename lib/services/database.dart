@@ -67,7 +67,7 @@ class DatabaseService {
 */
     final options = SetOptions(merge: true);
     // List<dynamic> mapList = {catagoryName: catagory.toJason()};
-    print('$catagoryName : ${catagory.toJson()}');
+    // print('$catagoryName : ${catagory.toJson()}');
 
     // {
     //       // catagoryName: catagory.toJson(),

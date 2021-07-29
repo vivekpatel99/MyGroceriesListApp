@@ -179,7 +179,7 @@ class MyGroceryList {
   List<Catagory>? vegetableList;
   List<Catagory>? fruitsList;
 
-  // List<Catagory?>? dreadBakery;
+  List<Catagory?>? dreadBakery;
   // List<Catagory?>? dryGoods;
   // List<Catagory?>? frozenFoods;
   // List<Catagory?>? beverages;
@@ -191,7 +191,7 @@ class MyGroceryList {
     this.dairyList,
     this.vegetableList,
     this.fruitsList,
-    // this.dreadBakery,
+    this.dreadBakery,
     // this.dryGoods,
     // this.frozenFoods,
     // this.beverages,

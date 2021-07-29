@@ -121,10 +121,6 @@ class ItemListView extends StatelessWidget {
             // TODO: add undo snackbar when delete the item
             if (direction == DismissDirection.startToEnd) {
               itemListMap[index]['toBuy'] = false;
-              // _toBuy = false;
-              // print('_buy $_toBuy');
-              // print(itemListMap[index]['toBuy']);
-              // itemListMap[index]['toBuy'] = false;
               await DatabaseService(uid: userId).moveToBuyBought(
                 catagoryName: catagoryName,
                 mapList: itemListMap,
