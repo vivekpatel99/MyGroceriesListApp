@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
+import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,6 @@ class BoughtPage extends StatelessWidget {
   Widget build(BuildContext context) {
     try {
       final myGroceryList = Provider.of<List<MyGroceryList>>(context);
-      print(myGroceryList[0].dairyList![0].toBuy);
       return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -52,8 +53,13 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
   final CatagoryItem catagory;
   final List<dynamic>? itemList;
   final CatagoryItemModel cTM = CatagoryItemModel();
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel?>(context);
+    final _itemList = itemList ?? [];
+    final String userId = user?.uid ?? '';
+    final itemListMap = itemList!.map((_list) => _list.toJson()).toList();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -74,24 +80,29 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
               itemCount: itemList!.length,
               itemBuilder: (BuildContext context, index) {
                 final String _name = itemList![index].name as String;
-                bool _toBuy = itemList![index].toBuy as bool;
+
                 return Dismissible(
                   key: UniqueKey(),
-                  // direction: DismissDirection.endToStart,
                   background: secondaryBackground(
                       mainAxisAlignment: MainAxisAlignment.start),
                   secondaryBackground: dismissibleBackground(
                       mainAxisAlignment: MainAxisAlignment.end,
                       msgText: 'Move to Buy'),
-                  onDismissed: (DismissDirection direction) {
+                  onDismissed: (DismissDirection direction) async {
                     if (direction == DismissDirection.endToStart) {
-                      _toBuy = true;
-                    } else {
-                      // cTM.remove(listName: itemList, index: index);
-                    }
+                      itemListMap[index]['toBuy'] = true;
+                      // _toBuy = false;
+                      // print('_buy $_toBuy');
+                      print(itemListMap[index]['toBuy']);
+                      // itemListMap[index]['toBuy'] = false;
+                      await DatabaseService(uid: userId).moveToBuyBought(
+                        catagoryName: catagory.catagoryName,
+                        mapList: itemListMap,
+                      );
+                    } else {}
                   },
                   child: Card(
-                    child: !_toBuy
+                    child: !(itemListMap[index]['toBuy'] as bool)
                         ? ListTile(
                             title: Text(_name),
                           )

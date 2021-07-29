@@ -18,30 +18,22 @@ class DatabaseService {
   final CollectionReference groceryListsCollection =
       FirebaseFirestore.instance.collection('groceryList');
 
-  Future<void> moveToBuyBought(
-      {required String catagoryName,
-      required String itemName,
-      required bool toBuy}) {
+//------------------------------------------------------------------------------
+  // * update tobuy status
+  Future<void> moveToBuyBought({
+    required String catagoryName,
+    required List<dynamic> mapList,
+  }) {
     final options = SetOptions(merge: true);
-    final FieldPath fPath = FieldPath([catagoryName, itemName]);
-    print('$catagoryName.$itemName $toBuy');
+
     return groceryListsCollection
         .doc(uid)
         .set({
-          "Dairy": [
-            {"name": "Milk", "toBuy": false},
-            {"name": "Cheese", "toBuy": true}
-          ]
+          catagoryName: mapList,
         }, options)
         .then((value) => print('Done'))
         .catchError((error) => print(error.toString()));
   }
-
-//------------------------------------------------------------------------------
-  // * update tobuy status
-  // Future<void> moveToBought(UserData _userData) async {
-  //   return await groceryListsCollection.doc(uid).set(_userData.myGroceryList);
-  // }
 
   //------------------------------------------------------------------------------
   // * update userdata

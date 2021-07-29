@@ -4,6 +4,7 @@ import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
+import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -60,14 +61,10 @@ class CatagorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
-    final myGroceryList = Provider.of<List<MyGroceryList>>(context);
     final _itemList = itemList ?? [];
     final String userId = user?.uid ?? '';
 
-    print('############ $userId');
-    final UserData _userdata =
-        UserData(uid: userId, myGroceryList: myGroceryList);
-
+    // print(itemListMap);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -82,49 +79,71 @@ class CatagorySection extends StatelessWidget {
           if (_itemList.isEmpty)
             const Text("No Items")
           else
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: _itemList.length,
-              itemBuilder: (BuildContext context, index) {
-                final itemListMap = (_itemList[index] as Catagory).toJson();
-
-                final String _name = _itemList[index].name as String;
-                bool _toBuy = _itemList[index].toBuy as bool;
-                return Dismissible(
-                  key: ValueKey(_name),
-                  background: dismissibleBackground(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      msgText: 'Move to Bought'),
-                  secondaryBackground: secondaryBackground(
-                      mainAxisAlignment: MainAxisAlignment.end),
-                  // direction: DismissDirection.startToEnd,
-                  onDismissed: (DismissDirection direction) async {
-                    // TODO: add undo snackbar when delete the item
-                    if (direction == DismissDirection.startToEnd) {
-                      _toBuy = false;
-                      var field = itemListMap;
-                      print(field);
-                      // await DatabaseService(uid: userId).moveToBuyBought(
-                      //     catagoryName: catagory.catagoryName,
-                      //     itemName: 'toBuy',
-                      //     toBuy: false);
-                    } else {
-                      // cTM.remove(listName: itemList, index: index);
-                    }
-                  },
-                  child: Card(
-                    child: _toBuy
-                        ? ListTile(
-                            title: Text(itemList![index].name.toString()),
-                          )
-                        : null,
-                  ),
-                );
-              },
+            ItemListView(
+              catagoryName: catagory.catagoryName,
+              itemList: _itemList,
+              userId: userId,
             ),
         ],
       ),
+    );
+  }
+}
+
+class ItemListView extends StatelessWidget {
+  final String catagoryName;
+  final List<dynamic> itemList;
+  final String userId;
+  const ItemListView({
+    Key? key,
+    required this.catagoryName,
+    required this.itemList,
+    required this.userId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final itemListMap = itemList.map((_list) => _list.toJson()).toList();
+    print(itemListMap);
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: itemList.length,
+      itemBuilder: (BuildContext context, index) {
+        //  String _name = itemList[index].name ;
+        // bool _toBuy = itemList[index].toBuy ;
+        return Dismissible(
+          key: UniqueKey(), //ValueKey(itemList[index].name),
+          background: dismissibleBackground(
+              mainAxisAlignment: MainAxisAlignment.start,
+              msgText: 'Move to Bought'),
+          secondaryBackground:
+              secondaryBackground(mainAxisAlignment: MainAxisAlignment.end),
+          onDismissed: (DismissDirection direction) async {
+            // TODO: add undo snackbar when delete the item
+            if (direction == DismissDirection.startToEnd) {
+              itemListMap[index]['toBuy'] = false;
+              // _toBuy = false;
+              // print('_buy $_toBuy');
+              print(itemListMap[index]['toBuy']);
+              // itemListMap[index]['toBuy'] = false;
+              await DatabaseService(uid: userId).moveToBuyBought(
+                catagoryName: catagoryName,
+                mapList: itemListMap,
+              );
+            } else {
+              // cTM.remove(listName: itemList, index: index);
+            }
+          },
+          child: Card(
+            child: itemListMap[index]['toBuy'] as bool
+                ? ListTile(
+                    title: Text(itemList[index].name.toString()),
+                  )
+                : null,
+          ),
+        );
+      },
     );
   }
 }

@@ -262,7 +262,7 @@ class MyGroceryList {
   }
 }
 
-class SomeRootEntity {
+class MyGroceryListList {
 /*
 {
   "myGroceryList": {
@@ -290,10 +290,10 @@ class SomeRootEntity {
 
   MyGroceryList? myGroceryList;
 
-  SomeRootEntity({
+  MyGroceryListList({
     this.myGroceryList,
   });
-  SomeRootEntity.fromJson(Map<String, dynamic> json) {
+  MyGroceryListList.fromJson(Map<String, dynamic> json) {
     myGroceryList = (json["myGroceryList"] != null)
         ? MyGroceryList.fromJson(json["myGroceryList"] as Map<String, dynamic>)
         : null;
