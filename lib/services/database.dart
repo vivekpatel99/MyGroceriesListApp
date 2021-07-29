@@ -35,6 +35,55 @@ class DatabaseService {
         .catchError((error) => print(error.toString()));
   }
 
+//------------------------------------------------------------------------------
+  // * delete items
+  Future<void> deleteItemFromCataogry({
+    required String catagoryName,
+    required dynamic mapList,
+  }) {
+    return groceryListsCollection
+        .doc(uid)
+        .update({
+          catagoryName: FieldValue.arrayRemove([mapList]),
+        })
+        .then((value) => print('Done'))
+        .catchError((error) => print(error.toString()));
+  }
+
+  //------------------------------------------------------------------------------
+  // * update userdata
+  Future addItem({
+    required String catagoryName,
+    required Catagory catagory,
+  }) async {
+/* 
+{
+  "Dairy": [
+    {
+      "name": "Milk",
+      "toBuy": true
+    },]
+
+*/
+    final options = SetOptions(merge: true);
+    // List<dynamic> mapList = {catagoryName: catagory.toJason()};
+    print('$catagoryName : ${catagory.toJson()}');
+
+    // {
+    //       // catagoryName: catagory.toJson(),
+    //       'Dairy': FieldValue.arrayUnion([
+    //         {'name': 'Cheese', 'toBuy': true}
+    //       ])
+    //     }
+    return groceryListsCollection
+        .doc(uid)
+        .set({
+          catagoryName: FieldValue.arrayUnion([catagory.toJson()])
+        }, options)
+        .then((value) => print('Done'))
+        .catchError((error) => print(error.toString()));
+  }
+
   //------------------------------------------------------------------------------
   // * update userdata
   Future updateUserData({required MyGroceryList myGroceryList}) async {

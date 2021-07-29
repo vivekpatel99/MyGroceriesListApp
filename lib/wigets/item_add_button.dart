@@ -13,7 +13,7 @@ class AddItemButton extends StatelessWidget {
               return const PopUPAddItemWindow();
             });
       },
-      child: const Icon(CupertinoIcons.shopping_cart),
+      child: const Icon(CupertinoIcons.add),
     );
   }
 }

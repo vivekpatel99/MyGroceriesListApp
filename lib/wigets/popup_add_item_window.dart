@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/user_model.dart';
+import 'package:my_grocery_list/services/database.dart';
+import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
   const PopUPAddItemWindow({Key? key}) : super(key: key);
@@ -40,6 +43,8 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel?>(context);
+    final String userId = user?.uid ?? '';
     return AlertDialog(
       scrollable: true,
       title: const Text('Add Item to Buy'),
@@ -92,6 +97,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                             }
                             _catagoryList[index].isCheck = value!;
                             _catagoryName = _catagoryList[index].catagoryName;
+
                             setState(() {});
                           },
                         ),
@@ -107,20 +113,20 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      print('$_userEnteredItemName -> $_catagoryName');
-                      if (_catagoryName == 'Dairy') {
-                        dairyProdList.add(ItemModel(
-                            name: _userEnteredItemName,
-                            catagory: _catagoryName));
-                      }
+                    onPressed: () async {
+                      final Catagory _catagory =
+                          Catagory(name: _userEnteredItemName);
+                      await DatabaseService(uid: userId).addItem(
+                        catagoryName: _catagoryName,
+                        catagory: _catagory,
+                      );
                       _textFieldController.text.isEmpty
                           ? _validate = true
                           : _validate = false;
                       if (_itemIdx != -1) {
                         _catagoryList[_itemIdx].isCheck = false;
                       }
-                      print('nothing entered');
+
                       _addItemButtonVerification(context);
                       if (_textFieldController.text.isNotEmpty &&
                           _selectedIdx.isNotEmpty) {

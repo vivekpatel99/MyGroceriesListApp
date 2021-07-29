@@ -104,14 +104,12 @@ class ItemListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemListMap = itemList.map((_list) => _list.toJson()).toList();
-    print(itemListMap);
+
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: itemList.length,
       itemBuilder: (BuildContext context, index) {
-        //  String _name = itemList[index].name ;
-        // bool _toBuy = itemList[index].toBuy ;
         return Dismissible(
           key: UniqueKey(), //ValueKey(itemList[index].name),
           background: dismissibleBackground(
@@ -125,14 +123,17 @@ class ItemListView extends StatelessWidget {
               itemListMap[index]['toBuy'] = false;
               // _toBuy = false;
               // print('_buy $_toBuy');
-              print(itemListMap[index]['toBuy']);
+              // print(itemListMap[index]['toBuy']);
               // itemListMap[index]['toBuy'] = false;
               await DatabaseService(uid: userId).moveToBuyBought(
                 catagoryName: catagoryName,
                 mapList: itemListMap,
               );
             } else {
-              // cTM.remove(listName: itemList, index: index);
+              await DatabaseService(uid: userId).deleteItemFromCataogry(
+                catagoryName: catagoryName,
+                mapList: itemListMap[index],
+              );
             }
           },
           child: Card(

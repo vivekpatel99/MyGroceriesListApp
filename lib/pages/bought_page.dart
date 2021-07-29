@@ -99,7 +99,12 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                         catagoryName: catagory.catagoryName,
                         mapList: itemListMap,
                       );
-                    } else {}
+                    } else {
+                      await DatabaseService(uid: userId).deleteItemFromCataogry(
+                        catagoryName: catagory.catagoryName,
+                        mapList: itemListMap[index],
+                      );
+                    }
                   },
                   child: Card(
                     child: !(itemListMap[index]['toBuy'] as bool)
