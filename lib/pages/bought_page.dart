@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/item_mode.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
+import 'package:my_grocery_list/shared/loading.dart';
+import 'package:provider/provider.dart';
 
 class BoughtPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
@@ -10,23 +12,33 @@ class BoughtPage extends StatelessWidget {
   final fruitsList = CatagoryItemModel.fruitsList;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _CatagorySectionBoughtpage(
-                catagory: _catagoryList[0], itemList: dairyProdList),
-            const Divider(),
-            _CatagorySectionBoughtpage(
-                catagory: _catagoryList[1], itemList: vegetablesList),
-            const Divider(),
-            _CatagorySectionBoughtpage(
-                catagory: _catagoryList[2], itemList: fruitsList),
-            const Divider(),
-          ],
+    try {
+      final myGroceryList = Provider.of<List<MyGroceryList>>(context);
+      print(myGroceryList[0].dairyList![0].toBuy);
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[0],
+                  itemList: myGroceryList[0].dairyList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[1],
+                  itemList: myGroceryList[0].vegetableList),
+              const Divider(),
+              _CatagorySectionBoughtpage(
+                  catagory: _catagoryList[2],
+                  itemList: myGroceryList[0].fruitsList),
+              const Divider(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      print(e.toString());
+      return const Loading();
+    }
   }
 }
 
@@ -38,7 +50,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
   }) : super(key: key);
 
   final CatagoryItem catagory;
-  final List<ItemModel> itemList;
+  final List<dynamic>? itemList;
   final CatagoryItemModel cTM = CatagoryItemModel();
   @override
   Widget build(BuildContext context) {
@@ -53,14 +65,16 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          if (itemList.isEmpty)
+          if (itemList!.isEmpty)
             const Text("No Items")
           else
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: itemList.length,
+              itemCount: itemList!.length,
               itemBuilder: (BuildContext context, index) {
+                final String _name = itemList![index].name as String;
+                bool _toBuy = itemList![index].toBuy as bool;
                 return Dismissible(
                   key: UniqueKey(),
                   // direction: DismissDirection.endToStart,
@@ -71,15 +85,15 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                       msgText: 'Move to Buy'),
                   onDismissed: (DismissDirection direction) {
                     if (direction == DismissDirection.endToStart) {
-                      itemList[index].status = true;
+                      _toBuy = true;
                     } else {
-                      cTM.remove(listName: itemList, index: index);
+                      // cTM.remove(listName: itemList, index: index);
                     }
                   },
                   child: Card(
-                    child: !itemList[index].status
+                    child: !_toBuy
                         ? ListTile(
-                            title: Text(itemList[index].name),
+                            title: Text(_name),
                           )
                         : null,
                   ),

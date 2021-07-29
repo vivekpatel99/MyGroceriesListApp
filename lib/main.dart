@@ -6,6 +6,7 @@ import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/utils/theme.dart';
 import 'package:provider/provider.dart';
 
+// todo add internet connection check
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/item_mode.dart';
 
 class DatabaseService {
   /*
@@ -13,10 +13,37 @@ class DatabaseService {
     this.uid,
   });
 
+//------------------------------------------------------------------------------
   // * collection reference
   final CollectionReference groceryListsCollection =
       FirebaseFirestore.instance.collection('groceryList');
 
+  Future<void> moveToBuyBought(
+      {required String catagoryName,
+      required String itemName,
+      required bool toBuy}) {
+    var options = SetOptions(merge: true);
+    final FieldPath fPath = FieldPath([catagoryName, itemName]);
+    print('$catagoryName.$itemName $toBuy');
+    return groceryListsCollection
+        .doc(uid)
+        .set({
+          "Dairy": [
+            {"name": "Milk", "toBuy": false},
+            {"name": "Cheese", "toBuy": true}
+          ]
+        }, options)
+        .then((value) => print('Done'))
+        .catchError((error) => print(error.toString()));
+  }
+
+//------------------------------------------------------------------------------
+  // * update tobuy status
+  // Future<void> moveToBought(UserData _userData) async {
+  //   return await groceryListsCollection.doc(uid).set(_userData.myGroceryList);
+  // }
+
+  //------------------------------------------------------------------------------
   // * update userdata
   Future updateUserData({required MyGroceryList myGroceryList}) async {
 /* {
@@ -65,36 +92,17 @@ class DatabaseService {
     return groceryListsCollection.doc(uid).set(myGroceryList.toJson());
   }
 
+//------------------------------------------------------------------------------
   // * get grocerylist from snapshot
   List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
-    print('#############');
-
     return snapshot.docs.map((doc) {
-      final Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
-      print(_myGroceryList.dairy);
-      // print('----');
-      // final List<Dairy>? dairyList = data?['Dairy'] as List<Dairy>?;
-
-      // print(dairyList);
-      // final List<Vegetables>? vegetableList =
-      //     data?['Vegetables'] as List<Vegetables>?;
-      // final List<Fruits>? fruitsList = data?['Fruits'] as List<Fruits>?;
-
-      // final MyGroceryList myGList = MyGroceryList(
-      //   dairy: dairyList ?? [],
-      //   vegetables: vegetableList ?? [],
-      //   fruits: fruitsList ?? [],
-      // );
       return _myGroceryList;
-      // return MyGroceryList(
-      //   dairy: dairyList ?? [],
-      //   vegetables: vegetableList ?? [],
-      //   fruits: fruitsList ?? [],
-      // );
     }).toList();
   }
 
+//------------------------------------------------------------------------------
   // * Get grocerylist stream
   Stream<List<MyGroceryList>>? get groceryList {
     return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);

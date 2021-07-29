@@ -1,4 +1,4 @@
-import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/item_mode.dart';
 
 class CatagoryItem {
   final int id;

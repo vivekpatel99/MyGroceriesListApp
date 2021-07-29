@@ -98,8 +98,7 @@ class _SignUpState extends State<SignUp> {
                               final dynamic result =
                                   await _auth.signupWithEmailAndPassword(
                                       email: _email, password: _password);
-                              print('###############');
-                              print(result.toString());
+
                               if (result == null) {
                                 setState(() {
                                   loading = false;
