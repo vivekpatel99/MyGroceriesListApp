@@ -2,7 +2,10 @@
 
 # my_grocery_list
 
-A new Flutter project.
+It is simple grocery list app.
+
+One simple log in into the app and start adding buying items.
+with help of left swip the item can be move to bought tab and with right swip item can be deleted.
 
 ## Getting Started
 
