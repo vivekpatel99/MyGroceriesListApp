@@ -23,7 +23,8 @@ class DatabaseService {
     required List<dynamic> mapList,
   }) {
     final options = SetOptions(merge: true);
-
+    print('####### MovetoBuy');
+    print(uid);
     return groceryListsCollection
         .doc(uid)
         .set({
@@ -133,11 +134,27 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * get grocerylist from snapshot
-  List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
+  List<MyGroceryList> __groceryListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data = (doc.data() as Map<String, dynamic>?) ?? {};
-      print('####');
-      print(data);
+      return MyGroceryList.fromJson(data);
+    }).toList();
+  }
+
+//------------------------------------------------------------------------------
+  // * Get grocerylist stream
+  Stream<List<MyGroceryList>> get _groceryList {
+    return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
+  }
+
+//##############################################################################
+  // * get grocerylist from snapshot
+  List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      // if (doc.id == uid) {
+      final data = (doc.data() as Map<String, dynamic>?) ?? {};
+      // print('####');
+      // print('$data');
       // final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
       return MyGroceryList.fromJson(data);
     }).toList();
@@ -146,11 +163,67 @@ class DatabaseService {
 //------------------------------------------------------------------------------
   // * Get grocerylist stream
   Stream<List<MyGroceryList>> get groceryList {
-    final bla =
-        groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
-    print('mmmmmmmmmmmmm');
-    print(groceryListsCollection.snapshots());
-    // print();
+    // final FirebaseAuth auth = AuthService().auth;
+    // final User? currentuser = auth.currentUser as User;
+    // final String userId = (currentuser?.uid ?? '');
+
+    // Map<String, dynamic>? data;
+    // final docSnapshots = groceryListsCollection.doc(uid);
+    // docSnapshots.snapshots().listen((docSnapshot) {
+    //   data = (docSnapshot.data() as Map<String, dynamic>?) ?? {};
+    //   if ((docSnapshot.exists as bool)) {
+    //     print('####################### docSnapshot');
+    //     print(data);
+    //   } else {
+    //     data = null;
+    //   }
+    // });
+    // print('##########');
+    // Map<String, dynamic>? datamore =
+    // await(docSnapshots.get() as Map<String, dynamic>?) ?? {};
+    // print(datamore);
+
+    // Stream<Map<String, dynamic>> documentStream =
+    //     groceryListsCollection.doc(uid).snapshots().listen((docSnapshot) {
+    //   if (docSnapshot.exists) {
+    //     final Stream<Map<String, dynamic>>? data =
+    //         (docSnapshot.data() as Map<String, dynamic>?);
+    //   }
+    // });
+    // bla.map((event) {
+    //   print('####');
+    //   final Map<String, dynamic> data =
+    //       (event.data() as Map<String, dynamic>?) ?? {};
+    //   print(data['Dairy']);
+    //   return data;
+    // }).toList();
+
+    // print('--------- get groceryList ----- uid');
+    // print(uid);
+    // final Future<DocumentSnapshot<Map<String, dynamic>>>? mylist =
+    //     groceryListsCollection.doc(uid).get();
+    // print(bla);
+
     return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
+
+    // return groceryListsCollection.snapshots().map((snapShot) => snapShot.docs
+    //     .map((document) => MyGroceryList.fromJson(
+    //         (document.data() as Map<String, dynamic>?) ?? {}))
+    //     .toList());
+
+    // return MyGroceryList.fromJson(data);
+  }
+
+  MyGroceryList myGroceryListFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic>? data = (snapshot.data() as Map<String, dynamic>?);
+
+    return MyGroceryList.fromJson(data);
+  }
+
+  Stream<MyGroceryList> get currentDocument {
+    return groceryListsCollection
+        .doc(uid)
+        .snapshots()
+        .map(myGroceryListFromSnapshot);
   }
 }

@@ -9,7 +9,12 @@ class AuthService {
 //------------------------------------------------------------------------------
 // create user object based on firebase user
   UserModel? _userFromFirebaseUser(User? userInfo) {
+    print(userInfo?.uid);
     return userInfo != null ? UserModel(uid: userInfo.uid) : null;
+  }
+
+  FirebaseAuth get auth {
+    return _auth;
   }
 
 //------------------------------------------------------------------------------
@@ -31,7 +36,7 @@ class AuthService {
       final UserCredential _result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User _user = _result.user!;
-
+      await DatabaseService(uid: _user.uid);
       return _userFromFirebaseUser(_user);
     } catch (e) {
       print(e.toString());
@@ -50,21 +55,6 @@ class AuthService {
       final User userInfo = result.user!;
 
       // * create a new document for the user with the uid
-      // final Catagory milk = Catagory(name: 'Milk');
-      // final Catagory cheese = Catagory(name: 'cheese');
-
-      // final Catagory bringel = Catagory(name: 'bringel');
-      // final Catagory ginger = Catagory(name: 'ginger');
-
-      // final Catagory melon = Catagory(name: 'melon');
-      // final Catagory watermelon = Catagory(name: 'watermelon');
-
-      // Map<String, List<MyItemModel>> grocerylist = {
-      //   'Dairy': [milk, cheese],
-      //   'veg': [milk, cheese],
-      //   'fruit': [milk, cheese],
-      // };
-
       final List<Catagory> dairyList = [];
       final List<Catagory> vegetablesList = [];
       final List<Catagory> fruitsList = [];

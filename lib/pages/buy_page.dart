@@ -16,14 +16,11 @@ class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<List<MyGroceryList>>(context);
-      final myplist = myGroceryList.map((e) => e.toJson());
+      final myGroceryList = Provider.of<MyGroceryList>(context);
+      final myplist = myGroceryList.toJson();
       print('BBBBBUUUUUUUYYYYYY');
-      print(myGroceryList[0].toJson());
-      // myGroceryList.forEach((element) {
-      //   print('BBBbbbbbbbbbbbbbbb');
-      //   print(element.toJson());
-      // });
+      print(myplist);
+
       return Scaffold(
         // Todo: replace in SingleChildScrollView with ListWheelScrollView
         body: SingleChildScrollView(
@@ -31,43 +28,43 @@ class BuyPage extends StatelessWidget {
             children: [
               CatagorySection(
                   catagory: _catagoryList[0],
-                  itemList: myGroceryList[0].dairyList),
+                  itemList: myGroceryList.dairyList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[1],
-                  itemList: myGroceryList[0].vegetableList),
+                  itemList: myGroceryList.vegetableList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[2],
-                  itemList: myGroceryList[0].fruitsList),
+                  itemList: myGroceryList.fruitsList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[3],
-                  itemList: myGroceryList[0].breadBakeryList),
+                  itemList: myGroceryList.breadBakeryList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[4],
-                  itemList: myGroceryList[0].dryGoodsList),
+                  itemList: myGroceryList.dryGoodsList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[5],
-                  itemList: myGroceryList[0].frozenFoodsList),
+                  itemList: myGroceryList.frozenFoodsList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[6],
-                  itemList: myGroceryList[0].beveragesList),
+                  itemList: myGroceryList.beveragesList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[7],
-                  itemList: myGroceryList[0].cleanersList),
+                  itemList: myGroceryList.cleanersList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[8],
-                  itemList: myGroceryList[0].personalCareList),
+                  itemList: myGroceryList.personalCareList),
               const Divider(),
               CatagorySection(
                   catagory: _catagoryList[9],
-                  itemList: myGroceryList[0].otherList),
+                  itemList: myGroceryList.otherList),
             ],
           ),
         ),

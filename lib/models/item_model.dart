@@ -199,11 +199,11 @@ class MyGroceryList {
     this.personalCareList,
     this.otherList,
   });
-  factory MyGroceryList.fromJson(Map<String, dynamic> json) {
+  factory MyGroceryList.fromJson(Map<String, dynamic>? json) {
     //--------------------------------------------------------------------------
     List<Catagory>? _innerFromJson(
-        {required String catName, required Map<String, dynamic> json}) {
-      if (json[catName] != null) {
+        {required String catName, required Map<String, dynamic>? json}) {
+      if (json![catName] != null) {
         final v = json[catName];
         final arr0 = <Catagory>[];
         v.forEach((v) {

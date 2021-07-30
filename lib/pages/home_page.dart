@@ -13,9 +13,9 @@ class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<MyGroceryList>>.value(
-      value: DatabaseService().groceryList,
-      initialData: const [],
+    return StreamProvider<MyGroceryList>.value(
+      value: DatabaseService(uid: _auth.auth.currentUser?.uid).currentDocument,
+      initialData: MyGroceryList(),
       child: DefaultTabController(
         length: 2,
         child: Scaffold(

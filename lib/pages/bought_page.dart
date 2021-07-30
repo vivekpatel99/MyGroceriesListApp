@@ -15,7 +15,7 @@ class BoughtPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<List<MyGroceryList>>(context);
+      final myGroceryList = Provider.of<MyGroceryList>(context);
 
       return Scaffold(
         body: SingleChildScrollView(
@@ -23,43 +23,43 @@ class BoughtPage extends StatelessWidget {
             children: [
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[0],
-                  itemList: myGroceryList[0].dairyList),
+                  itemList: myGroceryList.dairyList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[1],
-                  itemList: myGroceryList[0].vegetableList),
+                  itemList: myGroceryList.vegetableList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[2],
-                  itemList: myGroceryList[0].fruitsList),
+                  itemList: myGroceryList.fruitsList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[3],
-                  itemList: myGroceryList[0].breadBakeryList),
+                  itemList: myGroceryList.breadBakeryList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[4],
-                  itemList: myGroceryList[0].dryGoodsList),
+                  itemList: myGroceryList.dryGoodsList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[5],
-                  itemList: myGroceryList[0].frozenFoodsList),
+                  itemList: myGroceryList.frozenFoodsList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[6],
-                  itemList: myGroceryList[0].beveragesList),
+                  itemList: myGroceryList.beveragesList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[7],
-                  itemList: myGroceryList[0].cleanersList),
+                  itemList: myGroceryList.cleanersList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[8],
-                  itemList: myGroceryList[0].personalCareList),
+                  itemList: myGroceryList.personalCareList),
               const Divider(),
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[9],
-                  itemList: myGroceryList[0].otherList),
+                  itemList: myGroceryList.otherList),
             ],
           ),
         ),
@@ -118,10 +118,6 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                   onDismissed: (DismissDirection direction) async {
                     if (direction == DismissDirection.endToStart) {
                       itemListMap[index]['toBuy'] = true;
-                      // _toBuy = false;
-                      // print('_buy $_toBuy');
-                      // print(itemListMap[index]['toBuy']);
-                      // itemListMap[index]['toBuy'] = false;
                       await DatabaseService(uid: userId).moveToBuyBought(
                         catagoryName: catagory.catagoryName,
                         mapList: itemListMap,
