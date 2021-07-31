@@ -4,6 +4,7 @@ import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class BoughtPage extends StatelessWidget {
       return Scaffold(
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _CatagorySectionBoughtpage(
                   catagory: _catagoryList[0],
@@ -105,6 +107,8 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
           ),
           if (_itemList.isEmpty)
             const Text("No Items")
+          else if (itemListMap[0][kToBuy] as bool)
+            const Text("No Items")
           else
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -122,7 +126,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                       msgText: 'Move to Buy'),
                   onDismissed: (DismissDirection direction) async {
                     if (direction == DismissDirection.endToStart) {
-                      itemListMap[index]['toBuy'] = true;
+                      itemListMap[index][kToBuy] = true;
                       await DatabaseService(uid: userId).moveToBuyBought(
                         catagoryName: catagory.catagoryName,
                         mapList: itemListMap,
@@ -135,7 +139,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                     }
                   },
                   child: Card(
-                    child: !(itemListMap[index]['toBuy'] as bool)
+                    child: !(itemListMap[index][kToBuy] as bool)
                         ? ListTile(
                             title: Text(_name),
                           )

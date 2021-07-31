@@ -5,6 +5,7 @@ import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class BuyPage extends StatelessWidget {
         // Todo: replace in SingleChildScrollView with ListWheelScrollView
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CatagorySection(
                   catagory: _catagoryList[0],
@@ -77,7 +79,7 @@ class BuyPage extends StatelessWidget {
 }
 
 class CatagorySection extends StatelessWidget {
-  const CatagorySection({
+  CatagorySection({
     Key? key,
     required this.catagory,
     required this.itemList,
@@ -85,10 +87,11 @@ class CatagorySection extends StatelessWidget {
 
   final CatagoryItem catagory;
   final List<dynamic>? itemList;
-
+  final log = logger(CatagorySection);
   @override
   Widget build(BuildContext context) {
     final _itemList = itemList ?? [];
+    final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -103,10 +106,12 @@ class CatagorySection extends StatelessWidget {
           ),
           if (_itemList.isEmpty)
             const Text("No Items")
+          else if (!(itemListMap[0][kToBuy] as bool))
+            const Text("No Items")
           else
             ItemListView(
               catagoryName: catagory.catagoryName,
-              itemList: _itemList,
+              itemListMap: itemListMap,
             ),
         ],
       ),
@@ -116,23 +121,23 @@ class CatagorySection extends StatelessWidget {
 
 class ItemListView extends StatelessWidget {
   final String catagoryName;
-  final List<dynamic> itemList;
-  const ItemListView({
+  final List<dynamic> itemListMap;
+  ItemListView({
     Key? key,
     required this.catagoryName,
-    required this.itemList,
+    required this.itemListMap,
   }) : super(key: key);
-
+  final log = logger(ItemListView);
   @override
   Widget build(BuildContext context) {
-    final itemListMap = itemList.map((_list) => _list.toJson()).toList();
+    // final itemListMap = itemList.map((_list) => _list.toJson()).toList();
     final user = Provider.of<UserModel?>(context);
     final String userId = user?.uid ?? '';
-    print(itemListMap);
+    log.d(itemListMap);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: itemList.length,
+      itemCount: itemListMap.length,
       itemBuilder: (BuildContext context, index) {
         return Dismissible(
           key: UniqueKey(), //ValueKey(itemList[index].name),
@@ -144,7 +149,7 @@ class ItemListView extends StatelessWidget {
           onDismissed: (DismissDirection direction) async {
             // TODO: add undo snackbar when delete the item
             if (direction == DismissDirection.startToEnd) {
-              itemListMap[index]['toBuy'] = false;
+              itemListMap[index][kToBuy] = false;
               await DatabaseService(uid: userId).moveToBuyBought(
                 catagoryName: catagoryName,
                 mapList: itemListMap,
@@ -157,9 +162,9 @@ class ItemListView extends StatelessWidget {
             }
           },
           child: Card(
-            child: itemListMap[index]['toBuy'] as bool
+            child: itemListMap[index][kToBuy] as bool
                 ? ListTile(
-                    title: Text(itemList[index].name.toString()),
+                    title: Text(itemListMap[index][kName].toString()),
                   )
                 : null,
           ),

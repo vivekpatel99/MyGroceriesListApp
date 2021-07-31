@@ -75,6 +75,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       kSizedBox,
                       TextFormField(
+                        obscureText: true,
                         keyboardType: TextInputType.number,
                         decoration: kTextFormInputDecoration.copyWith(
                           hintText: 'Password',

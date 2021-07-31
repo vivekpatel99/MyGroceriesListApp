@@ -1,4 +1,3 @@
-import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 
 class CatagoryItem {
@@ -44,38 +43,4 @@ class CatagoryItemModel {
     CatagoryItem(id: 9, catagoryName: kPersonalCare, isCheck: false),
     CatagoryItem(id: 10, catagoryName: kOther, isCheck: false),
   ];
-  // static List<ItemModel> dairyProdList = [];
-  // static List<ItemModel> vegetablesList = [];
-  // static List<ItemModel> fruitsList = [];
-  static List<ItemModel> bakeryProdList = [];
-  static List<ItemModel> dryProdList = [];
-  static List<ItemModel> frozenProdList = [];
-  static List<ItemModel> beveragesList = [];
-  static List<ItemModel> cleanersList = [];
-  static List<ItemModel> personalCareProdList = [];
-  static List<ItemModel> otherList = [];
-
-  static List<ItemModel> dairyProdList = [
-    ItemModel(name: 'Milk', catagory: 'Dairy'),
-    ItemModel(name: 'Butter milk', catagory: 'Dairy'),
-    ItemModel(name: 'Cheese', catagory: 'Dairy'),
-  ];
-  static List<ItemModel> vegetablesList = [
-    ItemModel(name: 'Beans', catagory: 'Vegetables'),
-    ItemModel(name: 'Brokoly', catagory: 'Vegetables'),
-    ItemModel(name: 'brinjal', catagory: 'Vegetables'),
-    ItemModel(name: 'Beans', catagory: 'Vegetables'),
-    ItemModel(name: 'Brokoly', catagory: 'Vegetables'),
-    ItemModel(name: 'brinjal', catagory: 'Vegetables'),
-  ];
-  static List<ItemModel> fruitsList = [
-    ItemModel(name: 'Watermelon', catagory: 'Fruits'),
-    ItemModel(name: 'Berries', catagory: 'Fruits'),
-    ItemModel(name: 'Apple', catagory: 'Fruits'),
-    ItemModel(name: 'Banane', catagory: 'Fruits'),
-  ];
-
-  remove({required List<ItemModel> listName, required int index}) {
-    listName.removeAt(index);
-  }
 }

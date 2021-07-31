@@ -66,8 +66,8 @@ class MyItemModel {
 // class Fruits {
 // /*
 // {
-//   "name": "Watermelon",
-//   "toBuy": true
+//   kname: "Watermelon",
+//   kToBuy: true
 // }
 // */
 
@@ -79,13 +79,13 @@ class MyItemModel {
 //     this.toBuy,
 //   });
 //   Fruits.fromJson(Map<String, dynamic> json) {
-//     name = json["name"] as String;
-//     toBuy = json["toBuy"] as bool;
+//     name = json[kname] as String;
+//     toBuy = json[kToBuy] as bool;
 //   }
 //   Map<String, dynamic> toJson() {
 //     final Map<String, dynamic> data = <String, dynamic>{};
-//     data["name"] = name;
-//     data["toBuy"] = toBuy;
+//     data[kname] = name;
+//     data[kToBuy] = toBuy;
 //     return data;
 //   }
 // }
@@ -93,8 +93,8 @@ class MyItemModel {
 // class Vegetables {
 // /*
 // {
-//   "name": "Bringel",
-//   "toBuy": true
+//   kname: "Bringel",
+//   kToBuy: true
 // }
 // */
 
@@ -106,13 +106,13 @@ class MyItemModel {
 //     this.toBuy,
 //   });
 //   Vegetables.fromJson(Map<String, dynamic> json) {
-//     name = json["name"] as String;
-//     toBuy = json["toBuy"] as bool;
+//     name = json[kname] as String;
+//     toBuy = json[kToBuy] as bool;
 //   }
 //   Map<String, dynamic> toJson() {
 //     final Map<String, dynamic> data = <String, dynamic>{};
-//     data["name"] = name;
-//     data["toBuy"] = toBuy;
+//     data[kname] = name;
+//     data[kToBuy] = toBuy;
 //     return data;
 //   }
 // }
@@ -120,8 +120,8 @@ class MyItemModel {
 class Catagory {
 /*
 {
-  "name": "Milk",
-  "toBuy": true
+  kname: "Milk",
+  kToBuy: true
 } 
 */
 
@@ -133,13 +133,13 @@ class Catagory {
     this.toBuy = true,
   });
   Catagory.fromJson(Map<String, dynamic> json) {
-    name = json["name"] as String;
-    toBuy = json["toBuy"] as bool;
+    name = json[kName] as String;
+    toBuy = json[kToBuy] as bool;
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data["name"] = name;
-    data["toBuy"] = toBuy;
+    data[kName] = name;
+    data[kToBuy] = toBuy;
     return data;
   }
 }
@@ -149,20 +149,20 @@ class MyGroceryList {
 {
   "Dairy": [
     {
-      "name": "Milk",
-      "toBuy": true
+      kname: "Milk",
+      kToBuy: true
     }
   ],
   "Vegetable": [
     {
-      "name": "Bringel",
-      "toBuy": true
+      kname: "Bringel",
+      kToBuy: true
     }
   ],
-  "Fruits": [
+  kFruits: [
     {
-      "name": "Watermelon",
-      "toBuy": true
+      kname: "Watermelon",
+      kToBuy: true
     }
   ]
 } 
@@ -226,8 +226,8 @@ class MyGroceryList {
     // }
     final List<Catagory>? _vegetableList =
         _innerFromJson(catName: kVegetables, json: json);
-    // if (json["Vegetables"] != null) {
-    //   final v = json["Vegetables"];
+    // if (json[kVegetables] != null) {
+    //   final v = json[kVegetables];
     //   final arr0 = <Catagory>[];
     //   v.forEach((v) {
     //     arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
@@ -236,8 +236,8 @@ class MyGroceryList {
     // }
     final List<Catagory>? _fruitsList =
         _innerFromJson(catName: kFruits, json: json);
-    // if (json["Fruits"] != null) {
-    //   final v = json["Fruits"];
+    // if (json[kFruits] != null) {
+    //   final v = json[kFruits];
     //   final arr0 = <Catagory>[];
     //   v.forEach((v) {
     //     arr0.add(Catagory.fromJson(v as Map<String, dynamic>));
@@ -290,7 +290,7 @@ class MyGroceryList {
     }
 
     final Map<String, dynamic> data = <String, dynamic>{};
-    data["Dairy"] = _innerToJson(catList: dairyList);
+    data[kDairy] = _innerToJson(catList: dairyList);
     // if (dairyList != null) {
     //   final v = dairyList;
     //   final arr0 = [];
@@ -299,32 +299,32 @@ class MyGroceryList {
     //   });
     //   data["Dairy"] = arr0;
     // }
-    data["Vegetables"] = _innerToJson(catList: vegetableList);
+    data[kVegetables] = _innerToJson(catList: vegetableList);
     // if (vegetableList != null) {
     //   final v = vegetableList;
     //   final arr0 = [];
     //   v!.forEach((v) {
     //     arr0.add(v.toJson());
     //   });
-    //   data["Vegetables"] = arr0;
+    //   data[kVegetables] = arr0;
     // }
-    data["Fruits"] = _innerToJson(catList: fruitsList);
+    data[kFruits] = _innerToJson(catList: fruitsList);
     // if (fruitsList != null) {
     //   final v = fruitsList;
     //   final arr0 = [];
     //   v!.forEach((v) {
     //     arr0.add(v.toJson());
     //   });
-    //   data["Fruits"] = arr0;
+    //   data[kFruits] = arr0;
     // }
 
-    data["Bakery"] = _innerToJson(catList: breadBakeryList);
-    data["Dry/Baking(/Powder) Goods"] = _innerToJson(catList: dryGoodsList);
-    data["Frozen Foods"] = _innerToJson(catList: frozenFoodsList);
-    data["Beverages"] = _innerToJson(catList: beveragesList);
-    data["Cleaners"] = _innerToJson(catList: cleanersList);
-    data["PersonalCare"] = _innerToJson(catList: personalCareList);
-    data["Other"] = _innerToJson(catList: otherList);
+    data[kBakery] = _innerToJson(catList: breadBakeryList);
+    data[kDry] = _innerToJson(catList: dryGoodsList);
+    data[kFrozenFoods] = _innerToJson(catList: frozenFoodsList);
+    data[kBeverages] = _innerToJson(catList: beveragesList);
+    data[kCleaners] = _innerToJson(catList: cleanersList);
+    data[kPersonalCare] = _innerToJson(catList: personalCareList);
+    data[kOther] = _innerToJson(catList: otherList);
 
     return data;
   }
@@ -333,23 +333,23 @@ class MyGroceryList {
 class MyGroceryListList {
 /*
 {
-  "myGroceryList": {
+  kMyGroceryList: {
     "Dairy": [
       {
-        "name": "Milk",
-        "toBuy": true
+        kname: "Milk",
+        kToBuy: true
       }
     ],
     "Vegetable": [
       {
-        "name": "Bringel",
-        "toBuy": true
+        kname: "Bringel",
+        kToBuy: true
       }
     ],
-    "Fruits": [
+    kFruits: [
       {
-        "name": "Watermelon",
-        "toBuy": true
+        kname: "Watermelon",
+        kToBuy: true
       }
     ]
   }
@@ -362,14 +362,14 @@ class MyGroceryListList {
     this.myGroceryList,
   });
   MyGroceryListList.fromJson(Map<String, dynamic> json) {
-    myGroceryList = (json["myGroceryList"] != null)
-        ? MyGroceryList.fromJson(json["myGroceryList"] as Map<String, dynamic>)
+    myGroceryList = (json[kMyGroceryList] != null)
+        ? MyGroceryList.fromJson(json[kMyGroceryList] as Map<String, dynamic>)
         : null;
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (myGroceryList != null) {
-      data["myGroceryList"] = myGroceryList!.toJson();
+      data[kMyGroceryList] = myGroceryList!.toJson();
     }
     return data;
   }

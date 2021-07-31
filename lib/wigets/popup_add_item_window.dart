@@ -16,9 +16,6 @@ class PopUPAddItemWindow extends StatefulWidget {
 //TODO add first letter capital in a name of added item
 class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   final List<CatagoryItem> _catagoryList = CatagoryItemModel.catagoryItemList;
-  List<ItemModel> dairyProdList = CatagoryItemModel.dairyProdList;
-  List<ItemModel> vegetablesList = CatagoryItemModel.vegetablesList;
-  List<ItemModel> fruitsList = CatagoryItemModel.fruitsList;
   String _userEnteredItemName = '';
   String _catagoryName = '';
   bool _validate = false;
