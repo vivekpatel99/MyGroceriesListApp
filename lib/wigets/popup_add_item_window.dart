@@ -3,6 +3,7 @@ import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
@@ -12,6 +13,7 @@ class PopUPAddItemWindow extends StatefulWidget {
   _PopUPAddItemWindowState createState() => _PopUPAddItemWindowState();
 }
 
+//TODO add first letter capital in a name of added item
 class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   final List<CatagoryItem> _catagoryList = CatagoryItemModel.catagoryItemList;
   List<ItemModel> dairyProdList = CatagoryItemModel.dairyProdList;
@@ -25,7 +27,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   bool _addItemTextStatus = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _textFieldController = TextEditingController();
-
+  final log = logger(PopUPAddItemWindow);
   @override
   void dispose() {
     _textFieldController.dispose();
@@ -116,7 +118,8 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                     onPressed: () async {
                       final Catagory _catagory =
                           Catagory(name: _userEnteredItemName);
-                      print('$_catagoryName $_userEnteredItemName');
+                      log.i(
+                          '_catagoryName: $_catagoryName, _userEnteredItemName: $_userEnteredItemName');
                       await DatabaseService(uid: userId).addItem(
                         catagoryName: _catagoryName,
                         catagory: _catagory,

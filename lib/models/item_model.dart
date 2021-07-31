@@ -6,6 +6,7 @@ TODO: add more properites into the model such as
 */
 
 import 'package:flutter/widgets.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 
 class ItemModel {
   final String name; // name of item
@@ -214,7 +215,7 @@ class MyGroceryList {
     }
 
     final List<Catagory>? _dairyList =
-        _innerFromJson(catName: "Dairy", json: json);
+        _innerFromJson(catName: kDairy, json: json);
     // if (json["Dairy"] != null) {
     //   final v = json["Dairy"];
     //   final arr0 = <Catagory>[];
@@ -224,7 +225,7 @@ class MyGroceryList {
     //   _dairyList = arr0;
     // }
     final List<Catagory>? _vegetableList =
-        _innerFromJson(catName: "Vegetables", json: json);
+        _innerFromJson(catName: kVegetables, json: json);
     // if (json["Vegetables"] != null) {
     //   final v = json["Vegetables"];
     //   final arr0 = <Catagory>[];
@@ -234,7 +235,7 @@ class MyGroceryList {
     //   _vegetableList = arr0;
     // }
     final List<Catagory>? _fruitsList =
-        _innerFromJson(catName: "Fruits", json: json);
+        _innerFromJson(catName: kFruits, json: json);
     // if (json["Fruits"] != null) {
     //   final v = json["Fruits"];
     //   final arr0 = <Catagory>[];
@@ -244,25 +245,25 @@ class MyGroceryList {
     //   _fruitsList = arr0;
     // }
     final List<Catagory>? _breadBakeryList =
-        _innerFromJson(catName: "Bakery", json: json);
+        _innerFromJson(catName: kBakery, json: json);
 
     final List<Catagory>? _dryGoodsList =
-        _innerFromJson(catName: "Dry/Baking(/Powder) Goods", json: json);
+        _innerFromJson(catName: kDry, json: json);
 
     final List<Catagory>? _frozenFoodsList =
-        _innerFromJson(catName: "Frozen Foods", json: json);
+        _innerFromJson(catName: kFrozenFoods, json: json);
 
     final List<Catagory>? _beveragesList =
-        _innerFromJson(catName: "Beverages", json: json);
+        _innerFromJson(catName: kBeverages, json: json);
 
     final List<Catagory>? _cleanersList =
-        _innerFromJson(catName: "Cleaners", json: json);
+        _innerFromJson(catName: kCleaners, json: json);
 
     final List<Catagory>? _personalCareList =
-        _innerFromJson(catName: "Personal Care", json: json);
+        _innerFromJson(catName: kPersonalCare, json: json);
 
     final List<Catagory>? _otherList =
-        _innerFromJson(catName: "Other", json: json);
+        _innerFromJson(catName: kOther, json: json);
 
     return MyGroceryList(
         dairyList: _dairyList,

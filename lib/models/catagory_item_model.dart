@@ -1,4 +1,5 @@
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 
 class CatagoryItem {
   final int id;
@@ -32,17 +33,16 @@ class CatagoryItem {
 */
 class CatagoryItemModel {
   static final catagoryItemList = [
-    CatagoryItem(id: 1, catagoryName: 'Dairy', isCheck: false),
-    CatagoryItem(id: 2, catagoryName: 'Vegetables', isCheck: false),
-    CatagoryItem(id: 3, catagoryName: 'Fruits', isCheck: false),
-    CatagoryItem(id: 4, catagoryName: 'Bakery', isCheck: false),
-    CatagoryItem(
-        id: 5, catagoryName: 'Dry/Baking(/Powder) Goods', isCheck: false),
-    CatagoryItem(id: 6, catagoryName: 'Frozen Foods', isCheck: false),
-    CatagoryItem(id: 7, catagoryName: 'Beverages', isCheck: false),
-    CatagoryItem(id: 8, catagoryName: 'Cleaners', isCheck: false),
-    CatagoryItem(id: 9, catagoryName: 'Personal Care', isCheck: false),
-    CatagoryItem(id: 10, catagoryName: 'Other', isCheck: false),
+    CatagoryItem(id: 1, catagoryName: kDairy, isCheck: false),
+    CatagoryItem(id: 2, catagoryName: kVegetables, isCheck: false),
+    CatagoryItem(id: 3, catagoryName: kFruits, isCheck: false),
+    CatagoryItem(id: 4, catagoryName: kBakery, isCheck: false),
+    CatagoryItem(id: 5, catagoryName: kDry, isCheck: false),
+    CatagoryItem(id: 6, catagoryName: kFrozenFoods, isCheck: false),
+    CatagoryItem(id: 7, catagoryName: kBeverages, isCheck: false),
+    CatagoryItem(id: 8, catagoryName: kCleaners, isCheck: false),
+    CatagoryItem(id: 9, catagoryName: kPersonalCare, isCheck: false),
+    CatagoryItem(id: 10, catagoryName: kOther, isCheck: false),
   ];
   // static List<ItemModel> dairyProdList = [];
   // static List<ItemModel> vegetablesList = [];

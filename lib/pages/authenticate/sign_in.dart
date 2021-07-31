@@ -22,6 +22,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+
   // Testfield inputs
   bool loading = false;
   String email = '';

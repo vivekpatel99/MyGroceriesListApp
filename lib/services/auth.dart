@@ -2,23 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late User userInfo;
+  final log = logger(AuthService);
+
 //------------------------------------------------------------------------------
-// create user object based on firebase user
+// * create user object based on firebase user
   UserModel? _userFromFirebaseUser(User? userInfo) {
-    print(userInfo?.uid);
+    log.i('_userFromFirebaseUser starts');
+    log.d('uidd ${userInfo?.uid}');
     return userInfo != null ? UserModel(uid: userInfo.uid) : null;
   }
 
   FirebaseAuth get auth {
+    log.i('auth called');
     return _auth;
   }
 
 //------------------------------------------------------------------------------
   Stream<UserModel?> get user {
+    log.i('user called');
     return _auth
         .authStateChanges()
         .map((User? _user) => _userFromFirebaseUser(_user));
@@ -32,14 +37,16 @@ class AuthService {
   // sign in with email and password
   Future signInWithEmailAndPassord(
       {required String email, required String password}) async {
+    log.i('signInWithEmailAndPassord starts');
     try {
       final UserCredential _result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User _user = _result.user!;
-      await DatabaseService(uid: _user.uid);
+      DatabaseService(uid: _user.uid);
+      log.d('uid of new user ${_user.uid}');
       return _userFromFirebaseUser(_user);
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      log.e(error);
       return null;
     }
   }
@@ -49,7 +56,7 @@ class AuthService {
   Future signupWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
-      // print('$email $password');
+      log.i('signupWithEmailAndPassword starts');
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       final User userInfo = result.user!;
@@ -82,8 +89,8 @@ class AuthService {
 
       //     .updateUserData
       return _userFromFirebaseUser(userInfo);
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      log.e(error);
       return null;
     }
   }
@@ -94,10 +101,11 @@ class AuthService {
 //------------------------------------------------------------------------------
   // sign out
   Future signOut() async {
+    log.i('signOut');
     try {
       return await _auth.signOut();
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      log.e(error);
       return null;
     }
   }

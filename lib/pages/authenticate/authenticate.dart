@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/authenticate/sign_in.dart';
 import 'package:my_grocery_list/pages/authenticate/sign_up.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class Authenticate extends StatefulWidget {
 
 class _AuthenticateState extends State<Authenticate> {
   bool showSignIn = true;
+  final log = logger(Authenticate);
   void toggleView() {
     setState(() {
       showSignIn = !showSignIn;
@@ -20,8 +22,10 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
+      log.i('SignIn page opens');
       return SignIn(toggleView: toggleView);
     } else {
+      log.i('SignUp page opens');
       return SignUp(toggleView: toggleView);
     }
   }

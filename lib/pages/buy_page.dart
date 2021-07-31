@@ -6,20 +6,19 @@ import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 //utANom4HpGWmDKSh4hHEjM0AvLV2
 
 class BuyPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
-
+  final log = logger(BuyPage);
   @override
   Widget build(BuildContext context) {
     try {
       final myGroceryList = Provider.of<MyGroceryList>(context);
-      final myplist = myGroceryList.toJson();
-      print('BBBBBUUUUUUUYYYYYY');
-      print(myplist);
+      log.d('myGroceryList : ${myGroceryList.toJson()}');
 
       return Scaffold(
         // Todo: replace in SingleChildScrollView with ListWheelScrollView
@@ -69,8 +68,9 @@ class BuyPage extends StatelessWidget {
           ),
         ),
       );
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      log.e('$error');
+      log.i('returning to Loading page');
       return const Loading();
     }
   }

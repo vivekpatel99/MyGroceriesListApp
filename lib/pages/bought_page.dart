@@ -5,17 +5,18 @@ import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class BoughtPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
-  final dairyProdList = CatagoryItemModel.dairyProdList;
-  final vegetablesList = CatagoryItemModel.vegetablesList;
-  final fruitsList = CatagoryItemModel.fruitsList;
+  final log = logger(BoughtPage);
   @override
   Widget build(BuildContext context) {
     try {
       final myGroceryList = Provider.of<MyGroceryList>(context);
+      log.d('_catagoryList : $_catagoryList');
+      log.d('myGroceryList : ${myGroceryList.toJson()}');
 
       return Scaffold(
         body: SingleChildScrollView(
@@ -64,8 +65,9 @@ class BoughtPage extends StatelessWidget {
           ),
         ),
       );
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      log.e('$error');
+      log.i('Returning to Loading page');
       return const Loading();
     }
   }
@@ -84,9 +86,12 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
+    final log = logger(_CatagorySectionBoughtpage);
+
     final _itemList = itemList ?? [];
     final String userId = user?.uid ?? '';
     final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
+    log.d('itemListMap : $itemListMap');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

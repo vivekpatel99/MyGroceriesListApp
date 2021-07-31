@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/utils/logging.dart';
 
 class DatabaseService {
   /*
@@ -15,6 +16,7 @@ class DatabaseService {
 
   final String? uid;
   DatabaseService({this.uid});
+  final log = logger(DatabaseService);
 
 //------------------------------------------------------------------------------
   // * update tobuy status
@@ -23,15 +25,16 @@ class DatabaseService {
     required List<dynamic> mapList,
   }) {
     final options = SetOptions(merge: true);
-    print('####### MovetoBuy');
-    print(uid);
+    log.i('moveToBuyBought start');
+    log.d('uid: $uid');
+
     return groceryListsCollection
         .doc(uid)
         .set({
           catagoryName: mapList,
         }, options)
-        .then((value) => print('Done'))
-        .catchError((error) => print(error.toString()));
+        .then((value) => log.i('moveToBuyBought Success'))
+        .catchError((error) => log.e(error));
   }
 
 //------------------------------------------------------------------------------
@@ -40,13 +43,15 @@ class DatabaseService {
     required String catagoryName,
     required dynamic mapList,
   }) {
+    log.i('deleteItemFromCataogry start');
+    log.d('uid: $uid');
     return groceryListsCollection
         .doc(uid)
         .update({
           catagoryName: FieldValue.arrayRemove([mapList]),
         })
-        .then((value) => print('Done'))
-        .catchError((error) => print(error.toString()));
+        .then((value) => log.i('deleteItemFromCataogry Success'))
+        .catchError((error) => log.e(error));
   }
 
   //------------------------------------------------------------------------------
@@ -64,6 +69,8 @@ class DatabaseService {
     },]
 
 */
+    log.i('addItem start');
+    log.d('uid: $uid');
     final options = SetOptions(merge: true);
     // List<dynamic> mapList = {catagoryName: catagory.toJason()};
     // print('$catagoryName : ${catagory.toJson()}');
@@ -79,8 +86,8 @@ class DatabaseService {
         .set({
           catagoryName: FieldValue.arrayUnion([catagory.toJson()])
         }, options)
-        .then((value) => print('Done'))
-        .catchError((error) => print(error.toString()));
+        .then((value) => log.i('addItem Success'))
+        .catchError((error) => log.e(error));
   }
 
   //------------------------------------------------------------------------------
@@ -125,102 +132,47 @@ class DatabaseService {
 }
 }
 */
-    // groceryListsCollection.doc(uid).set(myGroceryList.toJson());
-
-    // print('########## groceryListsCollection');
-    // print('${groceryListsCollection.doc(uid).get()}');
-    return groceryListsCollection.doc(uid).set(myGroceryList.toJson());
+    log.i('updateUserData start');
+    log.d('uid: $uid');
+    return groceryListsCollection
+        .doc(uid)
+        .set(myGroceryList.toJson())
+        .then((value) => log.i('updateUserData Success'))
+        .catchError((error) => log.e(error));
   }
 
 //------------------------------------------------------------------------------
   // * get grocerylist from snapshot
-  List<MyGroceryList> __groceryListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      final data = (doc.data() as Map<String, dynamic>?) ?? {};
-      return MyGroceryList.fromJson(data);
-    }).toList();
-  }
+  // List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
+  //   log.i('_groceryListFromSnapshot start');
+  //   final List<MyGroceryList> _groceryList = snapshot.docs.map((doc) {
+  //     final data = (doc.data() as Map<String, dynamic>?) ?? {};
+  //     return MyGroceryList.fromJson(data);
+  //   }).toList();
+  //   log.d('_groceryList: $_groceryList');
+  //   return _groceryList;
+  // }
 
 //------------------------------------------------------------------------------
   // * Get grocerylist stream
-  Stream<List<MyGroceryList>> get _groceryList {
-    return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
-  }
+  // Stream<List<MyGroceryList>> get groceryList {
+  //   return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
+  // }
 
-//##############################################################################
+//------------------------------------------------------------------------------
   // * get grocerylist from snapshot
-  List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      // if (doc.id == uid) {
-      final data = (doc.data() as Map<String, dynamic>?) ?? {};
-      // print('####');
-      // print('$data');
-      // final MyGroceryList _myGroceryList = MyGroceryList.fromJson(data);
-      return MyGroceryList.fromJson(data);
-    }).toList();
-  }
-
-//------------------------------------------------------------------------------
-  // * Get grocerylist stream
-  Stream<List<MyGroceryList>> get groceryList {
-    // final FirebaseAuth auth = AuthService().auth;
-    // final User? currentuser = auth.currentUser as User;
-    // final String userId = (currentuser?.uid ?? '');
-
-    // Map<String, dynamic>? data;
-    // final docSnapshots = groceryListsCollection.doc(uid);
-    // docSnapshots.snapshots().listen((docSnapshot) {
-    //   data = (docSnapshot.data() as Map<String, dynamic>?) ?? {};
-    //   if ((docSnapshot.exists as bool)) {
-    //     print('####################### docSnapshot');
-    //     print(data);
-    //   } else {
-    //     data = null;
-    //   }
-    // });
-    // print('##########');
-    // Map<String, dynamic>? datamore =
-    // await(docSnapshots.get() as Map<String, dynamic>?) ?? {};
-    // print(datamore);
-
-    // Stream<Map<String, dynamic>> documentStream =
-    //     groceryListsCollection.doc(uid).snapshots().listen((docSnapshot) {
-    //   if (docSnapshot.exists) {
-    //     final Stream<Map<String, dynamic>>? data =
-    //         (docSnapshot.data() as Map<String, dynamic>?);
-    //   }
-    // });
-    // bla.map((event) {
-    //   print('####');
-    //   final Map<String, dynamic> data =
-    //       (event.data() as Map<String, dynamic>?) ?? {};
-    //   print(data['Dairy']);
-    //   return data;
-    // }).toList();
-
-    // print('--------- get groceryList ----- uid');
-    // print(uid);
-    // final Future<DocumentSnapshot<Map<String, dynamic>>>? mylist =
-    //     groceryListsCollection.doc(uid).get();
-    // print(bla);
-
-    return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
-
-    // return groceryListsCollection.snapshots().map((snapShot) => snapShot.docs
-    //     .map((document) => MyGroceryList.fromJson(
-    //         (document.data() as Map<String, dynamic>?) ?? {}))
-    //     .toList());
-
-    // return MyGroceryList.fromJson(data);
-  }
-
   MyGroceryList myGroceryListFromSnapshot(DocumentSnapshot snapshot) {
-    Map<String, dynamic>? data = (snapshot.data() as Map<String, dynamic>?);
-
-    return MyGroceryList.fromJson(data);
+    log.i('myGroceryListFromSnapshot start');
+    final Map<String, dynamic>? myGroceryListJson =
+        snapshot.data() as Map<String, dynamic>?;
+    log.d('myGroceryListJson: $myGroceryListJson');
+    return MyGroceryList.fromJson(myGroceryListJson);
   }
 
-  Stream<MyGroceryList> get currentDocument {
+//------------------------------------------------------------------------------
+  // * get stream of grocerylist
+  Stream<MyGroceryList> get streamMyGroceryList {
+    log.i('streamMyGroceryList start');
     return groceryListsCollection
         .doc(uid)
         .snapshots()
