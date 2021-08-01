@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
+import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
+    as myconst;
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
@@ -119,57 +120,103 @@ class CatagorySection extends StatelessWidget {
   }
 }
 
-class ItemListView extends StatelessWidget {
+class ItemListView extends StatefulWidget {
   final String catagoryName;
   final List<dynamic> itemListMap;
-  ItemListView({
+  const ItemListView({
     Key? key,
     required this.catagoryName,
     required this.itemListMap,
   }) : super(key: key);
+
+  @override
+  _ItemListViewState createState() => _ItemListViewState();
+}
+
+class _ItemListViewState extends State<ItemListView> {
   final log = logger(ItemListView);
+
   @override
   Widget build(BuildContext context) {
     // final itemListMap = itemList.map((_list) => _list.toJson()).toList();
     final user = Provider.of<UserModel?>(context);
     final String userId = user?.uid ?? '';
-    log.d(itemListMap);
+    log.d(widget.itemListMap);
+
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: itemListMap.length,
+      itemCount: widget.itemListMap.length,
       itemBuilder: (BuildContext context, index) {
+        bool undoAction = false;
         return Dismissible(
-          key: UniqueKey(), //ValueKey(itemList[index].name),
-          background: dismissibleBackground(
+          key: UniqueKey(),
+          confirmDismiss: (DismissDirection dismissDirection) async {
+            // https://flutter.dev/docs/cookbook/design/snackbars
+            // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
+            if (dismissDirection == DismissDirection.startToEnd) {
+              myconst.simpleSnackBar(
+                  context: context,
+                  displayMsg: '1 item moved to bought',
+                  onPressed: () {
+                    undoAction = true;
+                    setState(() {});
+                  });
+            } else {
+              myconst.simpleSnackBar(
+                  context: context,
+                  displayMsg: '1 item moved to trash',
+                  onPressed: () {
+                    undoAction = true;
+                    setState(() {});
+                  });
+            }
+            return true;
+          },
+          background: myconst.dismissibleBackground(
               mainAxisAlignment: MainAxisAlignment.start,
               msgText: 'Move to Bought'),
-          secondaryBackground:
-              secondaryBackground(mainAxisAlignment: MainAxisAlignment.end),
+          secondaryBackground: myconst.secondaryBackground(
+              mainAxisAlignment: MainAxisAlignment.end),
           onDismissed: (DismissDirection direction) async {
-            // TODO: add undo snackbar when delete the item
+            // added delay to get updated value of undoAction
+            await Future.delayed(const Duration(seconds: 2));
+
             if (direction == DismissDirection.startToEnd) {
-              itemListMap[index][kToBuy] = false;
-              await DatabaseService(uid: userId).moveToBuyBought(
-                catagoryName: catagoryName,
-                mapList: itemListMap,
-              );
+              if (!undoAction) {
+                widget.itemListMap[index][kToBuy] = false;
+
+                await DatabaseService(uid: userId).moveToBuyBought(
+                  catagoryName: widget.catagoryName,
+                  mapList: widget.itemListMap,
+                );
+              }
             } else {
-              await DatabaseService(uid: userId).deleteItemFromCataogry(
-                catagoryName: catagoryName,
-                mapList: itemListMap[index],
-              );
+              if (undoAction) {
+                await DatabaseService(uid: userId).deleteItemFromCataogry(
+                  catagoryName: widget.catagoryName,
+                  mapList: widget.itemListMap[index],
+                );
+              }
             }
           },
           child: Card(
-            child: itemListMap[index][kToBuy] as bool
+            child: widget.itemListMap[index][kToBuy] as bool
                 ? ListTile(
-                    title: Text(itemListMap[index][kName].toString()),
+                    title: Text(widget.itemListMap[index][kName].toString()),
                   )
-                : null,
+                : const SizedBox(),
           ),
         );
       },
     );
   }
 }
+
+// void simpleSnackBar(
+//     {required BuildContext context, required String displayMsg}) {
+//   final SnackBar _snackBar = SnackBar(
+//     content: Text(displayMsg),
+//   );
+//   ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+// }

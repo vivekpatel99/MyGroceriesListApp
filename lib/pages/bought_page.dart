@@ -75,7 +75,7 @@ class BoughtPage extends StatelessWidget {
   }
 }
 
-class _CatagorySectionBoughtpage extends StatelessWidget {
+class _CatagorySectionBoughtpage extends StatefulWidget {
   const _CatagorySectionBoughtpage({
     Key? key,
     required this.catagory,
@@ -86,11 +86,18 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
   final List<dynamic>? itemList;
 
   @override
+  __CatagorySectionBoughtpageState createState() =>
+      __CatagorySectionBoughtpageState();
+}
+
+class __CatagorySectionBoughtpageState
+    extends State<_CatagorySectionBoughtpage> {
+  @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     final log = logger(_CatagorySectionBoughtpage);
-
-    final _itemList = itemList ?? [];
+    bool undoAction = true;
+    final _itemList = widget.itemList ?? [];
     final String userId = user?.uid ?? '';
     final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
     log.d('itemListMap : $itemListMap');
@@ -100,7 +107,7 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            catagory.catagoryName,
+            widget.catagory.catagoryName,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -124,18 +131,40 @@ class _CatagorySectionBoughtpage extends StatelessWidget {
                   secondaryBackground: dismissibleBackground(
                       mainAxisAlignment: MainAxisAlignment.end,
                       msgText: 'Move to Buy'),
+                  confirmDismiss: (_) async {
+                    // https://flutter.dev/docs/cookbook/design/snackbars
+                    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
+
+                    final SnackBar _snackBar = SnackBar(
+                      content: const Text('too Quick?'),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {
+                          undoAction = false;
+                          setState(() {});
+                        },
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                    return true;
+                  },
                   onDismissed: (DismissDirection direction) async {
                     if (direction == DismissDirection.endToStart) {
-                      itemListMap[index][kToBuy] = true;
-                      await DatabaseService(uid: userId).moveToBuyBought(
-                        catagoryName: catagory.catagoryName,
-                        mapList: itemListMap,
-                      );
+                      if (undoAction) {
+                        itemListMap[index][kToBuy] = true;
+                        await DatabaseService(uid: userId).moveToBuyBought(
+                          catagoryName: widget.catagory.catagoryName,
+                          mapList: itemListMap,
+                        );
+                      }
                     } else {
-                      await DatabaseService(uid: userId).deleteItemFromCataogry(
-                        catagoryName: catagory.catagoryName,
-                        mapList: itemListMap[index],
-                      );
+                      if (undoAction) {
+                        await DatabaseService(uid: userId)
+                            .deleteItemFromCataogry(
+                          catagoryName: widget.catagory.catagoryName,
+                          mapList: itemListMap[index],
+                        );
+                      }
                     }
                   },
                   child: Card(

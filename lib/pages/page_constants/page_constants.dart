@@ -33,3 +33,19 @@ Container secondaryBackground({required MainAxisAlignment mainAxisAlignment}) {
     ),
   );
 }
+
+bool simpleSnackBar(
+    {required BuildContext context,
+    required String displayMsg,
+    required VoidCallback onPressed}) {
+  final SnackBar _snackBar = SnackBar(
+    content: Text(displayMsg),
+    action: SnackBarAction(
+      label: 'Undo',
+      onPressed: onPressed,
+    ),
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+  return true;
+}
