@@ -148,7 +148,7 @@ class _ItemListViewState extends State<ItemListView> {
       shrinkWrap: true,
       itemCount: widget.itemListMap.length,
       itemBuilder: (BuildContext context, index) {
-        bool undoAction = false;
+        bool undoAction = true;
         return Dismissible(
           key: UniqueKey(),
           confirmDismiss: (DismissDirection dismissDirection) async {
@@ -159,7 +159,7 @@ class _ItemListViewState extends State<ItemListView> {
                   context: context,
                   displayMsg: '1 item moved to bought',
                   onPressed: () {
-                    undoAction = true;
+                    undoAction = false;
                     setState(() {});
                   });
             } else {
@@ -167,7 +167,7 @@ class _ItemListViewState extends State<ItemListView> {
                   context: context,
                   displayMsg: '1 item moved to trash',
                   onPressed: () {
-                    undoAction = true;
+                    undoAction = false;
                     setState(() {});
                   });
             }
@@ -183,7 +183,7 @@ class _ItemListViewState extends State<ItemListView> {
             await Future.delayed(const Duration(seconds: 2));
 
             if (direction == DismissDirection.startToEnd) {
-              if (!undoAction) {
+              if (undoAction) {
                 widget.itemListMap[index][kToBuy] = false;
 
                 await DatabaseService(uid: userId).moveToBuyBought(

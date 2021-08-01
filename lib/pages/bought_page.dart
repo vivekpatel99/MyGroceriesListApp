@@ -3,6 +3,8 @@ import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
+import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
+    as myconst;
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
@@ -101,6 +103,7 @@ class __CatagorySectionBoughtpageState
     final String userId = user?.uid ?? '';
     final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
     log.d('itemListMap : $itemListMap');
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -131,24 +134,44 @@ class __CatagorySectionBoughtpageState
                   secondaryBackground: dismissibleBackground(
                       mainAxisAlignment: MainAxisAlignment.end,
                       msgText: 'Move to Buy'),
-                  confirmDismiss: (_) async {
+                  confirmDismiss: (DismissDirection dismissDirection) async {
                     // https://flutter.dev/docs/cookbook/design/snackbars
                     // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
 
-                    final SnackBar _snackBar = SnackBar(
-                      content: const Text('too Quick?'),
-                      action: SnackBarAction(
-                        label: 'Undo',
-                        onPressed: () {
-                          undoAction = false;
-                          setState(() {});
-                        },
-                      ),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                    if (dismissDirection == DismissDirection.endToStart) {
+                      myconst.simpleSnackBar(
+                          context: context,
+                          displayMsg: '1 item moved to buy',
+                          onPressed: () {
+                            undoAction = false;
+                            setState(() {});
+                          });
+                    } else {
+                      myconst.simpleSnackBar(
+                          context: context,
+                          displayMsg: '1 item moved to trash',
+                          onPressed: () {
+                            undoAction = false;
+                            setState(() {});
+                          });
+                    }
+                    // final SnackBar _snackBar = SnackBar(
+                    //   content: const Text('too Quick?'),
+                    //   action: SnackBarAction(
+                    //     label: 'Undo',
+                    //     onPressed: () {
+                    //       undoAction = false;
+                    //       setState(() {});
+                    //     },
+                    //   ),
+                    // );
+                    // ScaffoldMessenger.of(context).showSnackBar(_snackBar);
                     return true;
                   },
                   onDismissed: (DismissDirection direction) async {
+                    // added delay to get updated value of undoAction
+                    await Future.delayed(const Duration(seconds: 2));
+
                     if (direction == DismissDirection.endToStart) {
                       if (undoAction) {
                         itemListMap[index][kToBuy] = true;
