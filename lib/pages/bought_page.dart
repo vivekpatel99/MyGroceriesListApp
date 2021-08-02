@@ -9,6 +9,7 @@ import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class BoughtPage extends StatelessWidget {
@@ -20,6 +21,7 @@ class BoughtPage extends StatelessWidget {
       final myGroceryList = Provider.of<MyGroceryList>(context);
       log.d('_catagoryList : $_catagoryList');
       log.d('myGroceryList : ${myGroceryList.toJson()}');
+      log.d('myGroceryList vegetableList : ${myGroceryList.vegetableList}');
 
       return Scaffold(
         body: SingleChildScrollView(
@@ -99,10 +101,18 @@ class __CatagorySectionBoughtpageState
     final user = Provider.of<UserModel?>(context);
     final log = logger(_CatagorySectionBoughtpage);
     bool undoAction = true;
-    final _itemList = widget.itemList ?? [];
+    final List<dynamic> _itemList = widget.itemList ?? [];
     final String userId = user?.uid ?? '';
     final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
     log.d('itemListMap : $itemListMap');
+    log.d('itemListMap.length : ${itemListMap.length}');
+
+    bool _isAllItemFalse({required List<dynamic> itemlist}) {
+      bool restult = itemListMap.every((e) => e.containsValue(true) as bool);
+      print('#######');
+      print(restult);
+      return restult;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -115,18 +125,16 @@ class __CatagorySectionBoughtpageState
               fontWeight: FontWeight.bold,
             ),
           ),
-          if (_itemList.isEmpty)
+          if (itemListMap.isEmpty)
             const Text("No Items")
-          else if (itemListMap[0][kToBuy] as bool)
-            const Text("No Items")
+          // else if (_isAllItemFalse(itemlist: itemListMap))
+          //   const Text("No Items")
           else
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: _itemList.length,
+              itemCount: itemListMap.length,
               itemBuilder: (BuildContext context, index) {
-                final String _name = _itemList[index].name as String;
-
                 return Dismissible(
                   key: UniqueKey(),
                   background: secondaryBackground(
@@ -146,6 +154,7 @@ class __CatagorySectionBoughtpageState
                             undoAction = false;
                             setState(() {});
                           });
+                      log.i('${itemListMap[index][kName]} moved to buy');
                     } else {
                       myconst.simpleSnackBar(
                           context: context,
@@ -154,25 +163,18 @@ class __CatagorySectionBoughtpageState
                             undoAction = false;
                             setState(() {});
                           });
+                      log.i('${itemListMap[index][kName]} moved to trash');
                     }
-                    // final SnackBar _snackBar = SnackBar(
-                    //   content: const Text('too Quick?'),
-                    //   action: SnackBarAction(
-                    //     label: 'Undo',
-                    //     onPressed: () {
-                    //       undoAction = false;
-                    //       setState(() {});
-                    //     },
-                    //   ),
-                    // );
-                    // ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+
                     return true;
                   },
                   onDismissed: (DismissDirection direction) async {
                     // added delay to get updated value of undoAction
-                    await Future.delayed(const Duration(seconds: 2));
+                    await Future.delayed(const Duration(seconds: 5));
 
                     if (direction == DismissDirection.endToStart) {
+                      print('####');
+                      print(undoAction);
                       if (undoAction) {
                         itemListMap[index][kToBuy] = true;
                         await DatabaseService(uid: userId).moveToBuyBought(
@@ -190,13 +192,9 @@ class __CatagorySectionBoughtpageState
                       }
                     }
                   },
-                  child: Card(
-                    child: !(itemListMap[index][kToBuy] as bool)
-                        ? ListTile(
-                            title: Text(_name),
-                          )
-                        : null,
-                  ),
+                  child: ItemCardListTile(
+                      tobuy: !(itemListMap[index][kToBuy] as bool),
+                      name: itemListMap[index][kName].toString()),
                 );
               },
             ),

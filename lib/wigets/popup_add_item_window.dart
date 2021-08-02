@@ -3,6 +3,7 @@ import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/my_extensions.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
@@ -57,8 +58,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
               TextFormField(
                 controller: _textFieldController,
                 onChanged: (String text) {
-                  _userEnteredItemName = text;
-                  // print(_userEnteredItemName);
+                  _userEnteredItemName = text.capitalize();
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
@@ -132,6 +132,8 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                       if (_textFieldController.text.isNotEmpty &&
                           _selectedIdx.isNotEmpty) {
                         // _textFieldController.
+                        DefaultTabController.of(context)?.animateTo(0);
+
                         Navigator.pop(context);
                       }
                     },

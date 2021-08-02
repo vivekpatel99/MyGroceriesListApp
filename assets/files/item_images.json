@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "name": "broccoli",
+      "path": "assets/images/broccoli.png"
+    },
+    {
+      "name": "cabbage",
+      "path": "assets/images/cabbage.png"
+    },
+    {
+      "name": "capsicum",
+      "path": "assets/images/capsicum.png"
+    },    {
+      "name": "carrot",
+      "path": "assets/images/carrot.png"
+    },
+    {
+      "name": "chocolate",
+      "path": "assets/images/chocolate.png"
+    }
+
+  ]
+}

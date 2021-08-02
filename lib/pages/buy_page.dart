@@ -9,6 +9,7 @@ import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
 import 'package:provider/provider.dart';
 
 //utANom4HpGWmDKSh4hHEjM0AvLV2
@@ -93,7 +94,7 @@ class CatagorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final _itemList = itemList ?? [];
     final itemListMap = _itemList.map((_list) => _list.toJson()).toList();
-
+    log.d(itemListMap);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -149,74 +150,64 @@ class _ItemListViewState extends State<ItemListView> {
       itemCount: widget.itemListMap.length,
       itemBuilder: (BuildContext context, index) {
         bool undoAction = true;
+
         return Dismissible(
-          key: UniqueKey(),
-          confirmDismiss: (DismissDirection dismissDirection) async {
-            // https://flutter.dev/docs/cookbook/design/snackbars
-            // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
-            if (dismissDirection == DismissDirection.startToEnd) {
-              myconst.simpleSnackBar(
-                  context: context,
-                  displayMsg: '1 item moved to bought',
-                  onPressed: () {
-                    undoAction = false;
-                    setState(() {});
-                  });
-            } else {
-              myconst.simpleSnackBar(
-                  context: context,
-                  displayMsg: '1 item moved to trash',
-                  onPressed: () {
-                    undoAction = false;
-                    setState(() {});
-                  });
-            }
-            return true;
-          },
-          background: myconst.dismissibleBackground(
-              mainAxisAlignment: MainAxisAlignment.start,
-              msgText: 'Move to Bought'),
-          secondaryBackground: myconst.secondaryBackground(
-              mainAxisAlignment: MainAxisAlignment.end),
-          onDismissed: (DismissDirection direction) async {
-            // added delay to get updated value of undoAction
-            await Future.delayed(const Duration(seconds: 2));
-
-            if (direction == DismissDirection.startToEnd) {
-              if (undoAction) {
-                widget.itemListMap[index][kToBuy] = false;
-
-                await DatabaseService(uid: userId).moveToBuyBought(
-                  catagoryName: widget.catagoryName,
-                  mapList: widget.itemListMap,
-                );
+            key: UniqueKey(),
+            confirmDismiss: (DismissDirection dismissDirection) async {
+              // https://flutter.dev/docs/cookbook/design/snackbars
+              // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
+              if (dismissDirection == DismissDirection.startToEnd) {
+                myconst.simpleSnackBar(
+                    context: context,
+                    displayMsg: '1 item moved to bought',
+                    onPressed: () {
+                      undoAction = false;
+                      setState(() {});
+                    });
+                log.i('${widget.itemListMap[index][kName]} moved to bought');
+              } else {
+                myconst.simpleSnackBar(
+                    context: context,
+                    displayMsg: '1 item moved to trash',
+                    onPressed: () {
+                      undoAction = false;
+                      setState(() {});
+                    });
+                log.i('${widget.itemListMap[index][kName]} moved to trash');
               }
-            } else {
-              if (undoAction) {
-                await DatabaseService(uid: userId).deleteItemFromCataogry(
-                  catagoryName: widget.catagoryName,
-                  mapList: widget.itemListMap[index],
-                );
+              return true;
+            },
+            background: myconst.dismissibleBackground(
+                mainAxisAlignment: MainAxisAlignment.start,
+                msgText: 'Move to Bought'),
+            secondaryBackground: myconst.secondaryBackground(
+                mainAxisAlignment: MainAxisAlignment.end),
+            onDismissed: (DismissDirection direction) async {
+              // added delay to get updated value of undoAction
+              await Future.delayed(const Duration(seconds: 5));
+
+              if (direction == DismissDirection.startToEnd) {
+                if (undoAction) {
+                  widget.itemListMap[index][kToBuy] = false;
+
+                  await DatabaseService(uid: userId).moveToBuyBought(
+                    catagoryName: widget.catagoryName,
+                    mapList: widget.itemListMap,
+                  );
+                }
+              } else {
+                if (undoAction) {
+                  await DatabaseService(uid: userId).deleteItemFromCataogry(
+                    catagoryName: widget.catagoryName,
+                    mapList: widget.itemListMap[index],
+                  );
+                }
               }
-            }
-          },
-          child: Card(
-            child: widget.itemListMap[index][kToBuy] as bool
-                ? ListTile(
-                    title: Text(widget.itemListMap[index][kName].toString()),
-                  )
-                : const SizedBox(),
-          ),
-        );
+            },
+            child: ItemCardListTile(
+                tobuy: widget.itemListMap[index][kToBuy] as bool,
+                name: widget.itemListMap[index][kName].toString()));
       },
     );
   }
 }
-
-// void simpleSnackBar(
-//     {required BuildContext context, required String displayMsg}) {
-//   final SnackBar _snackBar = SnackBar(
-//     content: Text(displayMsg),
-//   );
-//   ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-// }
