@@ -109,8 +109,6 @@ class __CatagorySectionBoughtpageState
 
     bool _isAllItemFalse({required List<dynamic> itemlist}) {
       bool restult = itemListMap.every((e) => e.containsValue(true) as bool);
-      print('#######');
-      print(restult);
       return restult;
     }
 
@@ -127,8 +125,8 @@ class __CatagorySectionBoughtpageState
           ),
           if (itemListMap.isEmpty)
             const Text("No Items")
-          // else if (_isAllItemFalse(itemlist: itemListMap))
-          //   const Text("No Items")
+          else if (_isAllItemFalse(itemlist: itemListMap))
+            const Text("No Items")
           else
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -152,6 +150,7 @@ class __CatagorySectionBoughtpageState
                           displayMsg: '1 item moved to buy',
                           onPressed: () {
                             undoAction = false;
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             setState(() {});
                           });
                       log.i('${itemListMap[index][kName]} moved to buy');
@@ -161,6 +160,7 @@ class __CatagorySectionBoughtpageState
                           displayMsg: '1 item moved to trash',
                           onPressed: () {
                             undoAction = false;
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             setState(() {});
                           });
                       log.i('${itemListMap[index][kName]} moved to trash');
@@ -173,8 +173,6 @@ class __CatagorySectionBoughtpageState
                     await Future.delayed(const Duration(seconds: 5));
 
                     if (direction == DismissDirection.endToStart) {
-                      print('####');
-                      print(undoAction);
                       if (undoAction) {
                         itemListMap[index][kToBuy] = true;
                         await DatabaseService(uid: userId).moveToBuyBought(

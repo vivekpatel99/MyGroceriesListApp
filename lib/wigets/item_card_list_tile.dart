@@ -21,7 +21,7 @@ class ItemCardListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String firstLettter = name[0];
     // AssetImage? imageAssets;
-    String imagePath = '$assetsPath${name.toLowerCase()}$imageExt';
+    final String imagePath = '$assetsPath${name.toLowerCase()}$imageExt';
     // final String imagePath = 'assets/images/broccoli.png';
 
     Future<AssetImage?> checkImageExist(String imagePath) async {
@@ -29,7 +29,6 @@ class ItemCardListTile extends StatelessWidget {
         await rootBundle.load(imagePath);
         return AssetImage(imagePath);
       } catch (e) {
-        print('xxxxxxxxxxxxx');
         print(e.toString());
         return null;
       }
@@ -38,8 +37,6 @@ class ItemCardListTile extends StatelessWidget {
     return FutureBuilder(
       future: checkImageExist(imagePath),
       builder: (BuildContext context, snapshot) {
-        print('DAAATAAAA ${snapshot.data} $imagePath');
-        print('##########${snapshot.error}');
         return Card(
           child: tobuy
               ? ListTile(

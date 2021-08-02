@@ -90,6 +90,18 @@ class CatagorySection extends StatelessWidget {
   final CatagoryItem catagory;
   final List<dynamic>? itemList;
   final log = logger(CatagorySection);
+
+  bool _isAllItemFalse({required List<dynamic> itemlist}) {
+    final List<dynamic> mylist = itemlist as List<dynamic>;
+    if (mylist.isNotEmpty) {
+      final bool restult = mylist.every((e) => e.containsValue(false) as bool);
+
+      return restult;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _itemList = itemList ?? [];
@@ -108,7 +120,8 @@ class CatagorySection extends StatelessWidget {
           ),
           if (_itemList.isEmpty)
             const Text("No Items")
-          else if (!(itemListMap[0][kToBuy] as bool))
+          else if (_isAllItemFalse(
+              itemlist: itemListMap)) //(!(itemListMap[0][kToBuy] as bool))
             const Text("No Items")
           else
             ItemListView(
@@ -162,20 +175,24 @@ class _ItemListViewState extends State<ItemListView> {
                     displayMsg: '1 item moved to bought',
                     onPressed: () {
                       undoAction = false;
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       setState(() {});
                     });
                 log.i('${widget.itemListMap[index][kName]} moved to bought');
+
+                return true;
               } else {
                 myconst.simpleSnackBar(
                     context: context,
                     displayMsg: '1 item moved to trash',
                     onPressed: () {
                       undoAction = false;
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       setState(() {});
                     });
                 log.i('${widget.itemListMap[index][kName]} moved to trash');
+                return true;
               }
-              return true;
             },
             background: myconst.dismissibleBackground(
                 mainAxisAlignment: MainAxisAlignment.start,
