@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/utils/logging.dart';
+import 'package:package_info/package_info.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({Key? key}) : super(key: key);
@@ -21,6 +22,12 @@ class MyDrawer extends StatelessWidget {
     );
   }
 
+//------------------------------------------------------------------------------
+  Future<String> _myPackageInfo() async {
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,7 +36,7 @@ class MyDrawer extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                const MyDrawerHeader(),
+                MyDrawerHeader(),
                 createDrawerBodyItem(
                   icon: Icons.reset_tv_sharp,
                   title: 'Reset',
@@ -50,13 +57,31 @@ class MyDrawer extends StatelessWidget {
           ),
           Align(
             alignment: FractionalOffset.bottomCenter,
-            child: createDrawerBodyItem(
-              icon: Icons.logout_sharp,
-              title: 'Sign Out',
-              onTap: () async {
-                log.i('Sign Out');
-                await _auth.signOut();
-              },
+            child: Column(
+              children: [
+                createDrawerBodyItem(
+                  icon: Icons.logout_sharp,
+                  title: 'Sign Out',
+                  onTap: () async {
+                    log.i('Sign Out');
+                    await _auth.signOut();
+                  },
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: Theme.of(context).accentColor,
+                  child: Center(
+                    child: FutureBuilder(
+                      future: _myPackageInfo(),
+                      builder: (BuildContext context, snapshot) => Text(
+                        snapshot.hasData
+                            ? 'App Version ${snapshot.data}'
+                            : 'Laoding....',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -65,13 +90,17 @@ class MyDrawer extends StatelessWidget {
   }
 }
 
+//------------------------------------------------------------------------------
 class MyDrawerHeader extends StatelessWidget {
-  const MyDrawerHeader({
+  MyDrawerHeader({
     Key? key,
   }) : super(key: key);
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final String _email = _auth.getemailAdrress;
+
     return DrawerHeader(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,17 +112,17 @@ class MyDrawerHeader extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Vivek Patel',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Text(
-                'VivekPatel99@gmail.com',
-                style: TextStyle(
+                _email,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
                 ),

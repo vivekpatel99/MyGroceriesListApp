@@ -16,9 +16,17 @@ class AuthService {
     return userInfo != null ? UserModel(uid: userInfo.uid) : null;
   }
 
+//------------------------------------------------------------------------------
   FirebaseAuth get auth {
     log.i('auth called');
     return _auth;
+  }
+
+//------------------------------------------------------------------------------
+  String get getemailAdrress {
+    log.i('auth called');
+
+    return auth.currentUser?.email ?? '';
   }
 
 //------------------------------------------------------------------------------
