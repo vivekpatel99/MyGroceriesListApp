@@ -12,6 +12,11 @@ ButtonStyle? kButtonSytle = ButtonStyle(
   ),
 );
 
+const Divider kDivider = Divider(
+  color: Colors.deepPurpleAccent,
+  height: 3,
+);
+const TextStyle kDrawerManuTextStyle = TextStyle(fontSize: 18);
 //------------------------------------------------------------------------------
 const String kDairy = 'Dairy';
 const String kVegetables = 'Vegetables';

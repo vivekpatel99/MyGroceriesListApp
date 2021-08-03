@@ -28,6 +28,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.0.1
   flutter_spinkit: ^5.0.0
+  flutter_zoom_drawer: ^2.1.0
   google_fonts: ^2.1.0
   logger: ^1.0.0
   provider: ^5.0.0
@@ -53,7 +54,6 @@ flutter:
   assets:
     - assets/images/
     - assets/files/
-
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
