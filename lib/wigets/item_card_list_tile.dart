@@ -13,14 +13,14 @@ class ItemCardListTile extends StatelessWidget {
 
   final log = logger(ItemCardListTile);
 
-  String assetsPath = 'assets/images/';
+  static const String assetsPath = 'assets/images/';
 
-  String imageExt = '.png';
+  static const String imageExt = '.png';
 
   @override
   Widget build(BuildContext context) {
     final String firstLettter = name[0];
-    // AssetImage? imageAssets;
+
     final String imagePath = '$assetsPath${name.toLowerCase()}$imageExt';
     // final String imagePath = 'assets/images/broccoli.png';
 
@@ -29,7 +29,7 @@ class ItemCardListTile extends StatelessWidget {
         await rootBundle.load(imagePath);
         return AssetImage(imagePath);
       } catch (e) {
-        print(e.toString());
+        log.e(e.toString());
         return null;
       }
     }

@@ -54,7 +54,17 @@ class DatabaseService {
         .catchError((error) => log.e(error));
   }
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+  // * delete collection
+  Future<void> deletedItemCollection() {
+    return groceryListsCollection
+        .doc(uid)
+        .delete()
+        .then((value) => log.i('Collection delete for $uid'))
+        .catchError((error) => log.e(error));
+  }
+
+  //----------------------------------------------------------------------------
   // * update userdata
   Future addItem({
     required String catagoryName,
@@ -143,24 +153,6 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * get grocerylist from snapshot
-  // List<MyGroceryList> _groceryListFromSnapshot(QuerySnapshot snapshot) {
-  //   log.i('_groceryListFromSnapshot start');
-  //   final List<MyGroceryList> _groceryList = snapshot.docs.map((doc) {
-  //     final data = (doc.data() as Map<String, dynamic>?) ?? {};
-  //     return MyGroceryList.fromJson(data);
-  //   }).toList();
-  //   log.d('_groceryList: $_groceryList');
-  //   return _groceryList;
-  // }
-
-//------------------------------------------------------------------------------
-  // * Get grocerylist stream
-  // Stream<List<MyGroceryList>> get groceryList {
-  //   return groceryListsCollection.snapshots().map(_groceryListFromSnapshot);
-  // }
-
-//------------------------------------------------------------------------------
-  // * get grocerylist from snapshot
   MyGroceryList myGroceryListFromSnapshot(DocumentSnapshot snapshot) {
     log.i('myGroceryListFromSnapshot start');
     final Map<String, dynamic>? myGroceryListJson =
@@ -177,5 +169,34 @@ class DatabaseService {
         .doc(uid)
         .snapshots()
         .map(myGroceryListFromSnapshot);
+  }
+
+  //----------------------------------------------------------------------------
+  // * Setup initial database collection
+  Future? initDatabaseSetup() async {
+    // * create a new document for the user with the uid
+    final List<Catagory> dairyList = [];
+    final List<Catagory> vegetablesList = [];
+    final List<Catagory> fruitsList = [];
+    final List<Catagory> breadBakeryList = [];
+    final List<Catagory> dryGoodsList = [];
+    final List<Catagory> frozenFoodsList = [];
+    final List<Catagory> beveragesList = [];
+    final List<Catagory> cleanersList = [];
+    final List<Catagory> personalCareList = [];
+    final List<Catagory> otherList = [];
+    final MyGroceryList mylist = MyGroceryList(
+        dairyList: dairyList,
+        vegetableList: vegetablesList,
+        fruitsList: fruitsList,
+        breadBakeryList: breadBakeryList,
+        dryGoodsList: dryGoodsList,
+        frozenFoodsList: frozenFoodsList,
+        beveragesList: beveragesList,
+        cleanersList: cleanersList,
+        personalCareList: personalCareList,
+        otherList: otherList);
+
+    await updateUserData(myGroceryList: mylist);
   }
 }

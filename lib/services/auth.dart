@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/utils/logging.dart';
@@ -68,32 +67,32 @@ class AuthService {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       final User userInfo = result.user!;
-
+      await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
       // * create a new document for the user with the uid
-      final List<Catagory> dairyList = [];
-      final List<Catagory> vegetablesList = [];
-      final List<Catagory> fruitsList = [];
-      final List<Catagory> breadBakeryList = [];
-      final List<Catagory> dryGoodsList = [];
-      final List<Catagory> frozenFoodsList = [];
-      final List<Catagory> beveragesList = [];
-      final List<Catagory> cleanersList = [];
-      final List<Catagory> personalCareList = [];
-      final List<Catagory> otherList = [];
-      final MyGroceryList mylist = MyGroceryList(
-          dairyList: dairyList,
-          vegetableList: vegetablesList,
-          fruitsList: fruitsList,
-          breadBakeryList: breadBakeryList,
-          dryGoodsList: dryGoodsList,
-          frozenFoodsList: frozenFoodsList,
-          beveragesList: beveragesList,
-          cleanersList: cleanersList,
-          personalCareList: personalCareList,
-          otherList: otherList);
+      // final List<Catagory> dairyList = [];
+      // final List<Catagory> vegetablesList = [];
+      // final List<Catagory> fruitsList = [];
+      // final List<Catagory> breadBakeryList = [];
+      // final List<Catagory> dryGoodsList = [];
+      // final List<Catagory> frozenFoodsList = [];
+      // final List<Catagory> beveragesList = [];
+      // final List<Catagory> cleanersList = [];
+      // final List<Catagory> personalCareList = [];
+      // final List<Catagory> otherList = [];
+      // final MyGroceryList mylist = MyGroceryList(
+      //     dairyList: dairyList,
+      //     vegetableList: vegetablesList,
+      //     fruitsList: fruitsList,
+      //     breadBakeryList: breadBakeryList,
+      //     dryGoodsList: dryGoodsList,
+      //     frozenFoodsList: frozenFoodsList,
+      //     beveragesList: beveragesList,
+      //     cleanersList: cleanersList,
+      //     personalCareList: personalCareList,
+      //     otherList: otherList);
 
-      await DatabaseService(uid: userInfo.uid)
-          .updateUserData(myGroceryList: mylist);
+      // await DatabaseService(uid: userInfo.uid)
+      //     .updateUserData(myGroceryList: mylist);
 
       //     .updateUserData
       return _userFromFirebaseUser(userInfo);
