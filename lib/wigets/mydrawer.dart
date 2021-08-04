@@ -104,7 +104,7 @@ class MyDrawer extends StatelessWidget {
                       builder: (BuildContext context, snapshot) => Text(
                         snapshot.hasData
                             ? 'App Version ${snapshot.data}'
-                            : 'Laoding....',
+                            : 'Loading....',
                       ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/pages/authenticate/forgot_password.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
@@ -56,15 +57,17 @@ class _SignInState extends State<SignIn> {
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      const Placeholder(
-                        fallbackHeight: 200.0,
-                        fallbackWidth: 20.0,
-                      ),
-                      kSizedBox,
-                      TextFormField(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const Placeholder(
+                      fallbackHeight: 200.0,
+                      fallbackWidth: 20.0,
+                    ),
+                    kSizedBox,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: kTextFormInputDecoration.copyWith(
                           hintText: 'Email',
@@ -77,8 +80,11 @@ class _SignInState extends State<SignIn> {
                           });
                         },
                       ),
-                      kSizedBox,
-                      TextFormField(
+                    ),
+                    kSizedBox,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
                         obscureText: true,
                         keyboardType: TextInputType.number,
                         decoration: kTextFormInputDecoration.copyWith(
@@ -86,7 +92,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         validator: (_enteredPassword) =>
                             _enteredPassword!.length < 3
-                                ? 'Enter  a password with 6+ chars long'
+                                ? 'Enter a password with 6+ chars long'
                                 : null,
                         onChanged: (_enteredPassword) {
                           setState(() {
@@ -94,42 +100,55 @@ class _SignInState extends State<SignIn> {
                           });
                         },
                       ),
-                      kSizedBox,
-                      ElevatedButton.icon(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Colors.deepPurpleAccent,
-                            ),
+                    ),
+                    kSizedBox,
+                    ElevatedButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.deepPurpleAccent,
                           ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                            final dynamic _result =
+                                await _auth.signInWithEmailAndPassord(
+                                    email: email, password: password);
+                            if (_result == null) {
                               setState(() {
-                                loading = true;
+                                error =
+                                    'Could not sign in with those credentials';
+                                loading = false;
                               });
-                              final dynamic _result =
-                                  await _auth.signInWithEmailAndPassord(
-                                      email: email, password: password);
-                              if (_result == null) {
-                                setState(() {
-                                  error =
-                                      'Could not sign in with those credentials';
-                                  loading = false;
-                                });
-                              }
                             }
-                          },
-                          icon: const Icon(CupertinoIcons.signature),
-                          label: const Text(
-                            'Sign In',
-                          )),
-                      kSizedBox,
-                      Text(
-                        error,
-                        style:
-                            const TextStyle(color: Colors.red, fontSize: 14.0),
+                          }
+                        },
+                        icon: const Icon(CupertinoIcons.signature),
+                        label: const Text(
+                          'Sign In',
+                        )),
+                    kSizedBox,
+                    Text(
+                      error,
+                      style: const TextStyle(color: Colors.red, fontSize: 14.0),
+                    ),
+                    kSizedBox,
+                    TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage())),
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                            color: Colors.deepPurpleAccent,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
   }

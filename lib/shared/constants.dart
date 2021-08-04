@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-const kTextFormInputDecoration = InputDecoration(fillColor: Colors.white);
+const kTextFormInputDecoration = InputDecoration(
+  fillColor: Colors.white,
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.deepPurpleAccent),
+  ),
+);
 
 const kSizedBox = SizedBox(
   height: 20.0,

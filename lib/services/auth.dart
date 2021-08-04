@@ -41,7 +41,7 @@ class AuthService {
   // }
 
 //------------------------------------------------------------------------------
-  // sign in with email and password
+  // * sign in with email and password
   Future signInWithEmailAndPassord(
       {required String email, required String password}) async {
     log.i('signInWithEmailAndPassord starts');
@@ -56,6 +56,17 @@ class AuthService {
       log.e(error);
       return null;
     }
+  }
+
+//------------------------------------------------------------------------------
+  // * sign in with email and password
+  Future resetPassword({required String email}) async {
+    log.i('resetPassword starts');
+
+    await _auth
+        .sendPasswordResetEmail(email: email)
+        .then((value) => log.i('Password is reset'))
+        .catchError((error) => log.e(error));
   }
 
 //------------------------------------------------------------------------------
