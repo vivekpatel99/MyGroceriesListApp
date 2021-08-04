@@ -92,7 +92,7 @@ class CatagorySection extends StatelessWidget {
   final log = logger(CatagorySection);
 
   bool _isAllItemFalse({required List<dynamic> itemlist}) {
-    final List<dynamic> mylist = itemlist as List<dynamic>;
+    final List<dynamic> mylist = itemlist;
     if (mylist.isNotEmpty) {
       final bool restult = mylist.every((e) => e.containsValue(false) as bool);
 

@@ -22,6 +22,25 @@ class HomePage extends StatelessWidget {
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
+              actions: [
+                PopupMenuButton<int>(
+                    onSelected: (item) =>
+                        onSelected(context: context, item: item),
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 0,
+                            child: Row(
+                              children: const [
+                                Icon(Icons.cleaning_services_rounded),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text('Erase All'),
+                              ],
+                            ),
+                          ),
+                        ])
+              ],
               bottom: const TabBar(
                 tabs: [
                   Tab(
@@ -45,5 +64,40 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onSelected({required BuildContext context, required int item}) {
+    final String? userId = _auth.auth.currentUser?.uid;
+    final DatabaseService databaseService = DatabaseService(uid: userId);
+
+    switch (item) {
+      case 0:
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Delete All Data!!'),
+                content: const Text('Are you sure to delete?'),
+                actions: [
+                  AlertDialogButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      databaseService.deletedItemCollection();
+                      databaseService.initDatabaseSetup();
+                    },
+                    child: const Text('Yes'),
+                  ),
+                  AlertDialogButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('No'),
+                  ),
+                ],
+              );
+            });
+        break;
+      default:
+    }
   }
 }

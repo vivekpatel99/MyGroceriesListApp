@@ -60,6 +60,14 @@ class _SignInState extends State<SignIn> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    // Container(
+                    //   height: 200.0,
+                    //   width: 20.0,
+                    //   decoration: const BoxDecoration(
+                    //       image: DecorationImage(
+                    //           image:
+                    //               AssetImage('assets/images/background.png'))),
+                    // ),
                     const Placeholder(
                       fallbackHeight: 200.0,
                       fallbackWidth: 20.0,

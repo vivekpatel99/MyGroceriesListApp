@@ -43,34 +43,6 @@ class MyDrawer extends StatelessWidget {
               children: [
                 MyDrawerHeader(),
                 createDrawerBodyItem(
-                  icon: Icons.reset_tv_sharp,
-                  title: 'Reset',
-                  onTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Delete All Data!!'),
-                          content: const Text('Are you sure to delete?'),
-                          actions: [
-                            AlertDialogButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                databaseService.deletedItemCollection();
-                                databaseService.initDatabaseSetup();
-                              },
-                              child: const Text('Yes'),
-                            ),
-                            AlertDialogButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('No'),
-                            ),
-                          ],
-                        );
-                      }),
-                ),
-                createDrawerBodyItem(
                   icon: Icons.email_sharp,
                   title: 'Contact',
                   onTap: () {},

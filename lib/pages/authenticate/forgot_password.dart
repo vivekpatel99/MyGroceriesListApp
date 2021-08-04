@@ -5,14 +5,16 @@ import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
+  ForgotPasswordPage({
+    Key? key,
+  }) : super(key: key);
+
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
-
   bool loading = false;
-
   @override
   Widget build(BuildContext context) {
-    // Testfield inputs
+    //* Testfield inputs
     String email = '';
     String error = '';
 
