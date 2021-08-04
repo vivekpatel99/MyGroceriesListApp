@@ -7,7 +7,9 @@ import 'package:package_info/package_info.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({Key? key}) : super(key: key);
+
   final AuthService _auth = AuthService();
+
   final log = logger(MyDrawer);
   Widget createDrawerBodyItem(
       {required IconData icon,
@@ -31,6 +33,8 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? userId = _auth.auth.currentUser?.uid;
+    final DatabaseService databaseService = DatabaseService(uid: userId);
     return Drawer(
       child: Column(
         children: [
@@ -51,7 +55,8 @@ class MyDrawer extends StatelessWidget {
                             AlertDialogButton(
                               onPressed: () {
                                 Navigator.pop(context);
-                                DatabaseService().deletedItemCollection();
+                                databaseService.deletedItemCollection();
+                                databaseService.initDatabaseSetup();
                               },
                               child: const Text('Yes'),
                             ),
