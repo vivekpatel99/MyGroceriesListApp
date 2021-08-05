@@ -43,9 +43,10 @@ class _SignUpState extends State<SignUp> {
                   },
                   icon: const Icon(Icons.person),
                   label: const Text('Sign In'),
-                  // style: ButtonStyle(
-                  //     foregroundColor: MaterialStateProperty.all(Colors.black),
-                  //     ),
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  ),
                 )
               ],
             ),
@@ -60,35 +61,42 @@ class _SignUpState extends State<SignUp> {
                         fallbackWidth: 20.0,
                       ),
                       kSizedBox,
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: kTextFormInputDecoration.copyWith(
-                          hintText: 'Email',
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: kTextFormInputDecoration.copyWith(
+                            hintText: 'Email',
+                          ),
+                          validator: (_enteredEmail) =>
+                              _enteredEmail!.isEmpty ? 'Enter an Email' : null,
+                          onChanged: (value) {
+                            setState(() {
+                              _email = value;
+                            });
+                          },
                         ),
-                        validator: (_enteredEmail) =>
-                            _enteredEmail!.isEmpty ? 'Enter an Email' : null,
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value;
-                          });
-                        },
                       ),
                       kSizedBox,
-                      TextFormField(
-                        obscureText: true,
-                        keyboardType: TextInputType.number,
-                        decoration: kTextFormInputDecoration.copyWith(
-                          hintText: 'Password',
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16.0, left: 16.0, right: 16.0),
+                        child: TextFormField(
+                          obscureText: true,
+                          keyboardType: TextInputType.number,
+                          decoration: kTextFormInputDecoration.copyWith(
+                            hintText: 'Password',
+                          ),
+                          validator: (_enteredPassword) =>
+                              _enteredPassword!.length < 6
+                                  ? 'Enter  a password with 6+ chars long'
+                                  : null,
+                          onChanged: (_enteredPassword) {
+                            setState(() {
+                              _password = _enteredPassword;
+                            });
+                          },
                         ),
-                        validator: (_enteredPassword) =>
-                            _enteredPassword!.length < 6
-                                ? 'Enter  a password with 6+ chars long'
-                                : null,
-                        onChanged: (_enteredPassword) {
-                          setState(() {
-                            _password = _enteredPassword;
-                          });
-                        },
                       ),
                       kSizedBox,
                       ElevatedButton.icon(

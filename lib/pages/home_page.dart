@@ -20,47 +20,52 @@ class HomePage extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              actions: [
-                PopupMenuButton<int>(
+          child: Builder(builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                actions: [
+                  PopupMenuButton<int>(
                     onSelected: (item) =>
                         onSelected(context: context, item: item),
                     itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 0,
-                            child: Row(
-                              children: const [
-                                Icon(Icons.cleaning_services_rounded),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Text('Erase All'),
-                              ],
+                      PopupMenuItem(
+                        value: 0,
+                        child: Row(
+                          children: const [
+                            Icon(Icons.cleaning_services_rounded),
+                            SizedBox(
+                              width: 15,
                             ),
-                          ),
-                        ])
-              ],
-              bottom: const TabBar(
-                tabs: [
-                  Tab(
-                    text: "Buy",
-                  ),
-                  Tab(
-                    text: "Bought",
-                  ),
+                            Text('Erase All'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+                bottom: const TabBar(
+                  tabs: [
+                    Tab(
+                      text: "Buy",
+                    ),
+                    Tab(
+                      text: "Bought",
+                    ),
+                  ],
+                ),
+              ),
+              drawer: MyDrawer(),
+              body: TabBarView(
+                children: [
+                  BuyPage(), BoughtPage(),
+                  //  InventoryPage(),
                 ],
               ),
-            ),
-            drawer: MyDrawer(),
-            body: TabBarView(
-              children: [
-                BuyPage(), BoughtPage(),
-                //  InventoryPage(),
-              ],
-            ),
-            floatingActionButton: AddItemButton(),
-          ),
+              floatingActionButton: AddItemButton(
+                context: context,
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -8,7 +8,7 @@ import 'package:my_grocery_list/shared/loading.dart';
 // TODO Beautification needed
 // TODO filter firebase error and dispaly it on page
 // TODO add more checks on user input
-// TODO add forget password
+
 class SignIn extends StatefulWidget {
   final Function toggleView;
   const SignIn({
@@ -74,7 +74,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     kSizedBox,
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: kTextFormInputDecoration.copyWith(
@@ -89,9 +89,10 @@ class _SignInState extends State<SignIn> {
                         },
                       ),
                     ),
-                    kSizedBox,
+
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(
+                          top: 16.0, left: 16.0, right: 16.0),
                       child: TextFormField(
                         obscureText: true,
                         keyboardType: TextInputType.number,

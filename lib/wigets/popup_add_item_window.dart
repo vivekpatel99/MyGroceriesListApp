@@ -3,18 +3,22 @@ import 'package:my_grocery_list/models/catagory_item_model.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
-  const PopUPAddItemWindow({Key? key}) : super(key: key);
+  BuildContext context;
+  PopUPAddItemWindow({
+    Key? key,
+    required this.context,
+  }) : super(key: key);
 
   @override
   _PopUPAddItemWindowState createState() => _PopUPAddItemWindowState();
 }
 
-//TODO add first letter capital in a name of added item
 class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   final List<CatagoryItem> _catagoryList = CatagoryItemModel.catagoryItemList;
   String _userEnteredItemName = '';
@@ -72,9 +76,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                   errorText: _validate ? 'Please Enter Item Name' : null,
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
-              ),
+              kSizedBox,
               SizedBox(
                 height: 300.0,
                 width: 400.0,
@@ -105,9 +107,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
-              ),
+              kSizedBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -132,6 +132,8 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                       if (_textFieldController.text.isNotEmpty &&
                           _selectedIdx.isNotEmpty) {
                         // _textFieldController.
+                        print(
+                            'current tab ${DefaultTabController.of(context)?.index}');
                         DefaultTabController.of(context)?.animateTo(0);
 
                         Navigator.pop(context);

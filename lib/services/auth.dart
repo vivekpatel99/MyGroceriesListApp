@@ -45,17 +45,19 @@ class AuthService {
   Future signInWithEmailAndPassord(
       {required String email, required String password}) async {
     log.i('signInWithEmailAndPassord starts');
-    try {
-      final UserCredential _result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+
+    _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      log.i('Success Signin');
+      final UserCredential _result = value;
       final User _user = _result.user!;
       DatabaseService(uid: _user.uid);
       log.d('uid of new user ${_user.uid}');
       return _userFromFirebaseUser(_user);
-    } catch (error) {
+    }).catchError((error) {
       log.e(error);
-      return null;
-    }
+    });
   }
 
 //------------------------------------------------------------------------------
@@ -73,44 +75,16 @@ class AuthService {
   // register with email and password
   Future signupWithEmailAndPassword(
       {required String email, required String password}) async {
-    try {
-      log.i('signupWithEmailAndPassword starts');
-      final UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+    log.i('signupWithEmailAndPassword starts');
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((result) async {
       final User userInfo = result.user!;
       await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
-      // * create a new document for the user with the uid
-      // final List<Catagory> dairyList = [];
-      // final List<Catagory> vegetablesList = [];
-      // final List<Catagory> fruitsList = [];
-      // final List<Catagory> breadBakeryList = [];
-      // final List<Catagory> dryGoodsList = [];
-      // final List<Catagory> frozenFoodsList = [];
-      // final List<Catagory> beveragesList = [];
-      // final List<Catagory> cleanersList = [];
-      // final List<Catagory> personalCareList = [];
-      // final List<Catagory> otherList = [];
-      // final MyGroceryList mylist = MyGroceryList(
-      //     dairyList: dairyList,
-      //     vegetableList: vegetablesList,
-      //     fruitsList: fruitsList,
-      //     breadBakeryList: breadBakeryList,
-      //     dryGoodsList: dryGoodsList,
-      //     frozenFoodsList: frozenFoodsList,
-      //     beveragesList: beveragesList,
-      //     cleanersList: cleanersList,
-      //     personalCareList: personalCareList,
-      //     otherList: otherList);
-
-      // await DatabaseService(uid: userInfo.uid)
-      //     .updateUserData(myGroceryList: mylist);
-
-      //     .updateUserData
       return _userFromFirebaseUser(userInfo);
-    } catch (error) {
+    }).catchError((error) {
       log.e(error);
-      return null;
-    }
+    });
   }
 
 //------------------------------------------------------------------------------
@@ -120,11 +94,9 @@ class AuthService {
   // sign out
   Future signOut() async {
     log.i('signOut');
-    try {
-      return await _auth.signOut();
-    } catch (error) {
-      log.e(error);
-      return null;
-    }
+    _auth
+        .signOut()
+        .then((_) => log.i('Sign out Successful'))
+        .catchError((error) => log.e(error));
   }
 }
