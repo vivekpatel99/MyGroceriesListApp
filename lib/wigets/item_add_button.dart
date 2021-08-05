@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
 
 class AddItemButton extends StatelessWidget {
-  BuildContext context;
-  AddItemButton({
+  final BuildContext context;
+  const AddItemButton({
     Key? key,
     required this.context,
   }) : super(key: key);

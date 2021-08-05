@@ -23,7 +23,7 @@ class AuthService {
 
 //------------------------------------------------------------------------------
   String get getemailAdrress {
-    log.i('auth called');
+    log.i('auth getemailAdrress');
 
     return auth.currentUser?.email ?? '';
   }
@@ -57,6 +57,7 @@ class AuthService {
       return _userFromFirebaseUser(_user);
     }).catchError((error) {
       log.e(error);
+      return null;
     });
   }
 
@@ -76,15 +77,28 @@ class AuthService {
   Future signupWithEmailAndPassword(
       {required String email, required String password}) async {
     log.i('signupWithEmailAndPassword starts');
-    await _auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((result) async {
+    // await _auth
+    //     .createUserWithEmailAndPassword(email: email, password: password)
+    //     .then((result) async {
+    //   final User userInfo = result.user!;
+    //   await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
+    //   return _userFromFirebaseUser(userInfo);
+    // }).catchError((error) {
+    //   log.e(error);
+    //   return null;
+    // });
+    // return null;
+    try {
+      final UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       final User userInfo = result.user!;
       await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
+      log.i('User Sign in successful');
       return _userFromFirebaseUser(userInfo);
-    }).catchError((error) {
+    } catch (error) {
       log.e(error);
-    });
+      return null;
+    }
   }
 
 //------------------------------------------------------------------------------
