@@ -49,18 +49,21 @@ class ItemCardListTile extends StatelessWidget {
                           (_data != null) ? AssetImage(imagePath) : null,
                       child: (_data != null) ? null : Text(firstLettter),
                     ),
-                    title: Row(
-                      children: [
-                        Text(name),
-                        Spacer(),
-                        Text('€2.99'),
-                      ],
-                    ),
+                    title: Text(name),
                     subtitle: const Text('Quantity'),
-                    trailing: IconButton(
-                      // color: Colors.deepPurpleAccent,
-                      onPressed: () {},
-                      icon: const Icon(Icons.edit),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('€2.99'),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        IconButton(
+                          // color: Colors.deepPurpleAccent,
+                          onPressed: () {},
+                          icon: const Icon(Icons.edit),
+                        ),
+                      ],
                     ))
                 : const SizedBox(),
           ),

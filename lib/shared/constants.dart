@@ -22,6 +22,7 @@ const Divider kDivider = Divider(
   height: 3,
 );
 const TextStyle kDrawerManuTextStyle = TextStyle(fontSize: 18);
+
 //------------------------------------------------------------------------------
 const String kDairy = 'Dairy';
 const String kVegetables = 'Vegetables';

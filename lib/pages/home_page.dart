@@ -21,47 +21,70 @@ class HomePage extends StatelessWidget {
         child: SafeArea(
           child: Builder(builder: (BuildContext context) {
             return Scaffold(
-              appBar: AppBar(
-                actions: [
-                  PopupMenuButton<int>(
-                    onSelected: (item) =>
-                        onSelected(context: context, item: item),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 0,
-                        child: Row(
-                          children: const [
-                            Icon(Icons.cleaning_services_rounded),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text('Erase All'),
-                          ],
+                appBar: AppBar(
+                  actions: [
+                    PopupMenuButton<int>(
+                      onSelected: (item) =>
+                          onSelected(context: context, item: item),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 0,
+                          child: Row(
+                            children: const [
+                              Icon(Icons.cleaning_services_rounded),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text('Erase All'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                  bottom: const TabBar(
+                    tabs: [
+                      Tab(
+                        text: "Buy",
+                      ),
+                      Tab(
+                        text: "Bought",
+                      ),
+                    ],
+                  ),
+                ),
+                drawer: MyDrawer(),
+                body: TabBarView(
+                  children: [
+                    BuyPage(), BoughtPage(),
+                    //  InventoryPage(),
+                  ],
+                ),
+                floatingActionButton: const AddItemButton(),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                bottomNavigationBar: BottomAppBar(
+                  shape: CircularNotchedRectangle(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text(
+                        'Total',
+                        style: TextStyle(
+                            fontSize: 25.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        '€ 2.99',
+                        style: TextStyle(
+                          fontSize: 25.0,
                         ),
                       ),
                     ],
-                  )
-                ],
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(
-                      text: "Buy",
-                    ),
-                    Tab(
-                      text: "Bought",
-                    ),
-                  ],
-                ),
-              ),
-              drawer: MyDrawer(),
-              body: TabBarView(
-                children: [
-                  BuyPage(), BoughtPage(),
-                  //  InventoryPage(),
-                ],
-              ),
-              floatingActionButton: const AddItemButton(),
-            );
+                  ),
+                ));
           }),
         ),
       ),
