@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/services/auth.dart';
@@ -13,10 +12,10 @@ class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<MyGroceryList>.value(
+    return StreamProvider<Map<String, dynamic>?>.value(
       value:
           DatabaseService(uid: _auth.auth.currentUser?.uid).streamMyGroceryList,
-      initialData: MyGroceryList(),
+      initialData: {},
       child: DefaultTabController(
         length: 2,
         child: SafeArea(
@@ -61,9 +60,7 @@ class HomePage extends StatelessWidget {
                   //  InventoryPage(),
                 ],
               ),
-              floatingActionButton: AddItemButton(
-                context: context,
-              ),
+              floatingActionButton: const AddItemButton(),
             );
           }),
         ),

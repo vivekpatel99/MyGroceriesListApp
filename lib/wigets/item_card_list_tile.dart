@@ -37,17 +37,33 @@ class ItemCardListTile extends StatelessWidget {
     return FutureBuilder(
       future: checkImageExist(imagePath),
       builder: (BuildContext context, snapshot) {
-        return Card(
-          child: tobuy
-              ? ListTile(
-                  leading: CircleAvatar(
-                    foregroundImage:
-                        (snapshot.data != null) ? AssetImage(imagePath) : null,
-                    child: Text(firstLettter),
-                  ),
-                  title: Text(name),
-                )
-              : const SizedBox(),
+        final _data = snapshot.data;
+        return SizedBox(
+          height: 70,
+          child: Card(
+            child: tobuy
+                ? ListTile(
+                    // dense: true,
+                    leading: CircleAvatar(
+                      foregroundImage:
+                          (_data != null) ? AssetImage(imagePath) : null,
+                      child: (_data != null) ? null : Text(firstLettter),
+                    ),
+                    title: Row(
+                      children: [
+                        Text(name),
+                        Spacer(),
+                        Text('€2.99'),
+                      ],
+                    ),
+                    subtitle: const Text('Quantity'),
+                    trailing: IconButton(
+                      // color: Colors.deepPurpleAccent,
+                      onPressed: () {},
+                      icon: const Icon(Icons.edit),
+                    ))
+                : const SizedBox(),
+          ),
         );
       },
     );

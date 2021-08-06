@@ -100,6 +100,39 @@ class DatabaseService {
         .catchError((error) => log.e(error));
   }
 
+  //----------------------------------------------------------------------------
+  // * update userdata
+  Future addCatagory({
+    required String catagoryName,
+  }) async {
+/* 
+{
+  "Dairy": [
+    {
+      "name": "Milk",
+      "toBuy": true
+    },]
+
+*/
+    log.i('addCatagory start');
+    log.d('uid: $uid');
+    final options = SetOptions(merge: true);
+    // List<dynamic> mapList = {catagoryName: catagory.toJason()};
+    // print('$catagoryName : ${catagory.toJson()}');
+
+    // {
+    //       // catagoryName: catagory.toJson(),
+    //       'Dairy': FieldValue.arrayUnion([
+    //         {'name': 'Cheese', 'toBuy': true}
+    //       ])
+    //     }
+    return groceryListsCollection
+        .doc(uid)
+        .set({catagoryName: []}, options)
+        .then((value) => log.i('addItem Success'))
+        .catchError((error) => log.e(error));
+  }
+
   //------------------------------------------------------------------------------
   // * update userdata
   Future updateUserData({required MyGroceryList myGroceryList}) async {
@@ -153,17 +186,25 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * get grocerylist from snapshot
-  MyGroceryList myGroceryListFromSnapshot(DocumentSnapshot snapshot) {
+  Map<String, dynamic>? myGroceryListFromSnapshot(DocumentSnapshot snapshot) {
     log.i('myGroceryListFromSnapshot start');
     final Map<String, dynamic>? myGroceryListJson =
         snapshot.data() as Map<String, dynamic>?;
+    print('xxxxxxxxxxxxxxxxxxxxxxxxx');
     log.d('myGroceryListJson: $myGroceryListJson');
-    return MyGroceryList.fromJson(myGroceryListJson);
+    return myGroceryListJson;
   }
 
 //------------------------------------------------------------------------------
   // * get stream of grocerylist
-  Stream<MyGroceryList> get streamMyGroceryList {
+  // Stream<MyGroceryList> get streamMyGroceryList {
+  //   log.i('streamMyGroceryList start');
+  //   return groceryListsCollection
+  //       .doc(uid)
+  //       .snapshots()
+  //       .map(myGroceryListFromSnapshot);
+  // }
+  Stream<Map<String, dynamic>?> get streamMyGroceryList {
     log.i('streamMyGroceryList start');
     return groceryListsCollection
         .doc(uid)

@@ -9,10 +9,8 @@ import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
-  BuildContext context;
   PopUPAddItemWindow({
     Key? key,
-    required this.context,
   }) : super(key: key);
 
   @override
@@ -121,6 +119,8 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                         catagoryName: _catagoryName,
                         catagory: _catagory,
                       );
+                      await DatabaseService(uid: userId)
+                          .addCatagory(catagoryName: 'Chatni');
                       _textFieldController.text.isEmpty
                           ? _validate = true
                           : _validate = false;
@@ -134,7 +134,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                         // _textFieldController.
                         print(
                             'current tab ${DefaultTabController.of(context)?.index}');
-                        DefaultTabController.of(context)?.animateTo(0);
+                        // DefaultTabController.of(context)?.animateTo(0);
 
                         Navigator.pop(context);
                       }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
@@ -17,58 +16,116 @@ import 'package:provider/provider.dart';
 class BuyPage extends StatelessWidget {
   final _catagoryList = CatagoryItemModel.catagoryItemList;
   final log = logger(BuyPage);
+
+  dummy(Map myGroceryListMap) {
+    return myGroceryListMap.forEach(
+      (key, value) => DummyCatagorySection(
+          catagory: key as String, itemList: value as Map<String, dynamic>),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<MyGroceryList>(context);
-      log.d('myGroceryList : ${myGroceryList.toJson()}');
+      final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
+      return SafeArea(
+        child: Scaffold(
+          body: SizedBox(
+            // Todo: replace in SingleChildScrollView with ListWheelScrollView
+            height: MediaQuery.of(context).size.height - 100,
+            width: MediaQuery.of(context).size.width - 10,
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: myGroceryList?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  final String catagory =
+                      myGroceryList?.keys.elementAt(index) as String;
+                  final itemsListLen =
+                      myGroceryList?.values.elementAt(index)?.length as int;
+                  print('-------------------');
+                  print(itemsListLen);
+                  final items = myGroceryList?.values.elementAt(index);
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          catagory,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        if (itemsListLen == 0)
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('No item'),
+                          )
+                        else
+                          Flexible(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                itemCount: itemsListLen,
+                                itemBuilder: (BuildContext context, int idx) {
+                                  final itemName =
+                                      items.elementAt(idx)[kName] as String;
+                                  final toBuy =
+                                      items.elementAt(idx)[kToBuy] as bool;
 
-      return Scaffold(
-        // Todo: replace in SingleChildScrollView with ListWheelScrollView
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CatagorySection(
-                  catagory: _catagoryList[0],
-                  itemList: myGroceryList.dairyList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[1],
-                  itemList: myGroceryList.vegetableList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[2],
-                  itemList: myGroceryList.fruitsList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[3],
-                  itemList: myGroceryList.breadBakeryList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[4],
-                  itemList: myGroceryList.dryGoodsList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[5],
-                  itemList: myGroceryList.frozenFoodsList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[6],
-                  itemList: myGroceryList.beveragesList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[7],
-                  itemList: myGroceryList.cleanersList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[8],
-                  itemList: myGroceryList.personalCareList),
-              const Divider(),
-              CatagorySection(
-                  catagory: _catagoryList[9],
-                  itemList: myGroceryList.otherList),
-            ],
+                                  final item =
+                                      myGroceryList?.values.elementAt(idx);
+                                  print(item);
+                                  return ItemCardListTile(
+                                    name: itemName,
+                                    tobuy: toBuy,
+                                  );
+                                }),
+                          ),
+                        kDivider,
+                      ],
+                    ),
+                  );
+                }),
+
+            //   CatagorySection(
+            //       catagory: _catagoryList[0],
+            //       itemList: myGroceryList.dairyList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[1],
+            //     itemList: myGroceryList.vegetableList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[2],
+            //     itemList: myGroceryList.fruitsList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[3],
+            //     itemList: myGroceryList.breadBakeryList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[4],
+            //     itemList: myGroceryList.dryGoodsList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[5],
+            //     itemList: myGroceryList.frozenFoodsList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[6],
+            //     itemList: myGroceryList.beveragesList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[7],
+            //     itemList: myGroceryList.cleanersList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[8],
+            //     itemList: myGroceryList.personalCareList),
+            // const Divider(),
+            // CatagorySection(
+            //     catagory: _catagoryList[9],
+            //     itemList: myGroceryList.otherList),
           ),
         ),
       );
@@ -77,6 +134,59 @@ class BuyPage extends StatelessWidget {
       log.i('returning to Loading page');
       return const Loading();
     }
+  }
+}
+
+class DummyCatagorySection extends StatelessWidget {
+  DummyCatagorySection({
+    Key? key,
+    required this.catagory,
+    required this.itemList,
+  }) : super(key: key);
+
+  final String catagory;
+  final Map<String, dynamic>? itemList;
+  final log = logger(CatagorySection);
+
+  bool _isAllItemFalse({required List<dynamic> itemlist}) {
+    final List<dynamic> mylist = itemlist;
+    if (mylist.isNotEmpty) {
+      final bool restult = mylist.every((e) => e.containsValue(false) as bool);
+
+      return restult;
+    } else {
+      return true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _itemList = itemList ?? [];
+    final itemListMap = [_itemList];
+    log.d(itemListMap);
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            catagory,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (itemListMap.isEmpty) Text("itemListMap")
+          // else if (_isAllItemFalse(
+          //     itemlist: itemListMap)) //(!(itemListMap[0][kToBuy] as bool))
+          //   const Text("No Items")
+          // else
+          //   ItemListView(
+          //     catagoryName: catagory.catagoryName,
+          //     itemListMap: itemListMap,
+          //   ),
+        ],
+      ),
+    );
   }
 }
 
