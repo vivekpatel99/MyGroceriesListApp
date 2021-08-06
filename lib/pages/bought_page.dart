@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/catagory_item_model.dart';
-import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
+import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
@@ -13,64 +13,15 @@ import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class BoughtPage extends StatelessWidget {
-  final _catagoryList = CatagoryItemModel.catagoryItemList;
   final log = logger(BoughtPage);
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<MyGroceryList>(context);
-      log.d('_catagoryList : $_catagoryList');
-      log.d('myGroceryList : ${myGroceryList.toJson()}');
-      log.d('myGroceryList vegetableList : ${myGroceryList.vegetableList}');
+      final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
+      log.d('myGroceryList : $myGroceryList');
 
-      return Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[0],
-                  itemList: myGroceryList.dairyList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[1],
-                  itemList: myGroceryList.vegetableList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[2],
-                  itemList: myGroceryList.fruitsList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[3],
-                  itemList: myGroceryList.breadBakeryList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[4],
-                  itemList: myGroceryList.dryGoodsList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[5],
-                  itemList: myGroceryList.frozenFoodsList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[6],
-                  itemList: myGroceryList.beveragesList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[7],
-                  itemList: myGroceryList.cleanersList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[8],
-                  itemList: myGroceryList.personalCareList),
-              const Divider(),
-              _CatagorySectionBoughtpage(
-                  catagory: _catagoryList[9],
-                  itemList: myGroceryList.otherList),
-            ],
-          ),
-        ),
-      );
+      return DisplayNestedListView(
+          myGroceryList: myGroceryList, onBuyPage: false);
     } catch (error) {
       log.e('$error');
       log.i('Returning to Loading page');

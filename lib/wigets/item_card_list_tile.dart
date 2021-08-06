@@ -41,32 +41,29 @@ class ItemCardListTile extends StatelessWidget {
         return SizedBox(
           height: 70,
           child: Card(
-            child: tobuy
-                ? ListTile(
-                    // dense: true,
-                    leading: CircleAvatar(
-                      foregroundImage:
-                          (_data != null) ? AssetImage(imagePath) : null,
-                      child: (_data != null) ? null : Text(firstLettter),
-                    ),
-                    title: Text(name),
-                    subtitle: const Text('Quantity'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('€2.99'),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                          // color: Colors.deepPurpleAccent,
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                      ],
-                    ))
-                : const SizedBox(),
-          ),
+              child: ListTile(
+                  // dense: true,
+                  leading: CircleAvatar(
+                    foregroundImage:
+                        (_data != null) ? AssetImage(imagePath) : null,
+                    child: (_data != null) ? null : Text(firstLettter),
+                  ),
+                  title: Text(name),
+                  subtitle: const Text('Quantity'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('€2.99'),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        // color: Colors.deepPurpleAccent,
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit),
+                      ),
+                    ],
+                  ))),
         );
       },
     );

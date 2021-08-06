@@ -18,7 +18,7 @@ ButtonStyle? kButtonSytle = ButtonStyle(
 );
 
 const Divider kDivider = Divider(
-  color: Colors.deepPurpleAccent,
+  // color: Colors.deepPurpleAccent,
   height: 3,
 );
 const TextStyle kDrawerManuTextStyle = TextStyle(fontSize: 18);
@@ -37,4 +37,6 @@ const String kOther = 'Other';
 
 const String kName = 'name';
 const String kToBuy = 'toBuy';
+const String kPrice = 'price';
+const String kQuantity = 'quantity';
 const String kMyGroceryList = 'myGroceryList';

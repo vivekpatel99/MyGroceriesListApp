@@ -127,6 +127,8 @@ class Catagory {
 
   late String name;
   late bool toBuy;
+  late double price;
+  late String quantity;
 
   Catagory({
     required this.name,
@@ -135,11 +137,15 @@ class Catagory {
   Catagory.fromJson(Map<String, dynamic> json) {
     name = json[kName] as String;
     toBuy = json[kToBuy] as bool;
+    price = json[kPrice] as double;
+    quantity = json[kQuantity] as String;
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data[kName] = name;
     data[kToBuy] = toBuy;
+    data[kPrice] = price;
+    data[kQuantity] = quantity;
     return data;
   }
 }
