@@ -9,7 +9,7 @@ import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
-  PopUPAddItemWindow({
+  const PopUPAddItemWindow({
     Key? key,
   }) : super(key: key);
 
@@ -24,6 +24,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   bool _validate = false;
   int _itemIdx = -1;
   final List<int> _selectedIdx = [];
+  final List<String> userChecked = [];
   bool _addItemTextStatus = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _textFieldController = TextEditingController();
@@ -46,6 +47,9 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
+    Map<String, dynamic> myGroceryList =
+        Provider.of<Map<String, dynamic>>(context);
+
     final String userId = user?.uid ?? '';
     return AlertDialog(
       scrollable: true,
@@ -79,21 +83,26 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                 height: 300.0,
                 width: 400.0,
                 child: ListView.builder(
-                  itemCount: _catagoryList.length,
+                  itemCount: myGroceryList.length,
                   itemBuilder: (BuildContext context, index) {
+                    final String catagoryTitle =
+                        myGroceryList.keys.elementAt(index);
+
                     return Column(
                       children: [
                         CheckboxListTile(
-                          title: Text(_catagoryList[index].catagoryName),
-                          value: _catagoryList[index].isCheck,
+                          title: Text(catagoryTitle),
+                          value: userChecked.contains(catagoryTitle),
                           onChanged: (bool? value) {
-                            _itemIdx = index;
-                            _selectedIdx.add(index);
-                            if (_selectedIdx.length > 1) {
-                              _catagoryList[_selectedIdx.elementAt(0)].isCheck =
-                                  false;
-                              _selectedIdx.removeAt(0);
-                            }
+                            _onSelected(
+                                selected: value ?? false, name: catagoryTitle);
+                            // _itemIdx = index;
+                            // _selectedIdx.add(index);
+                            // if (_selectedIdx.length > 1) {
+                            //   _catagoryList[_selectedIdx.elementAt(0)].isCheck =
+                            //       false;
+                            //   _selectedIdx.removeAt(0);
+                            // }
                             _catagoryList[index].isCheck = value!;
                             _catagoryName = _catagoryList[index].catagoryName;
 
@@ -155,4 +164,32 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
       ),
     );
   }
+
+  void _onSelected({required bool selected, required String name}) {
+    if (selected) {
+      setState(() {
+        userChecked.add(name);
+      });
+    } else {
+      setState(() {
+        userChecked.remove(name);
+      });
+    }
+  }
 }
+
+                          // title: Text(_catagoryList[index].catagoryName),
+                          // value: _catagoryList[index].isCheck,
+                          // onChanged: (bool? value) {
+                          //   _itemIdx = index;
+                          //   _selectedIdx.add(index);
+                          //   if (_selectedIdx.length > 1) {
+                          //     _catagoryList[_selectedIdx.elementAt(0)].isCheck =
+                          //         false;
+                          //     _selectedIdx.removeAt(0);
+                          //   }
+                          //   _catagoryList[index].isCheck = value!;
+                          //   _catagoryName = _catagoryList[index].catagoryName;
+
+                          //   setState(() {});
+                          // },

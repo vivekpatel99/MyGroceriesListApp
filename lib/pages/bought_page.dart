@@ -19,10 +19,11 @@ class BoughtPage extends StatelessWidget {
     try {
       final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
       log.d('myGroceryList : $myGroceryList');
-      final Map<String, dynamic> sortedMyGroceryList =
+      final Map<String, dynamic>? sortedMyGroceryList =
           myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
+
       return DisplayNestedListView(
-          myGroceryList: sortedMyGroceryList, onBuyPage: false);
+          myGroceryList: sortedMyGroceryList ?? {}, onBuyPage: false);
     } catch (error) {
       log.e('$error');
       log.i('Returning to Loading page');

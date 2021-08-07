@@ -6,6 +6,7 @@ class AddItemButton extends StatelessWidget {
   const AddItemButton({
     Key? key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -13,7 +14,7 @@ class AddItemButton extends StatelessWidget {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return PopUPAddItemWindow();
+              return const PopUPAddItemWindow();
             });
       },
       child: const Icon(CupertinoIcons.add),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
+    as myconst;
 import 'package:my_grocery_list/utils/logging.dart';
 
 class DatabaseService {
@@ -192,7 +194,9 @@ class DatabaseService {
         snapshot.data() as Map<String, dynamic>?;
 
     log.d('myGroceryListJson: $myGroceryListJson');
-    return myGroceryListJson;
+    final Map<String, dynamic>? sortedMyGroceryList =
+        myconst.shortedMyGroceryList(myGroceryList: myGroceryListJson);
+    return sortedMyGroceryList;
   }
 
 //------------------------------------------------------------------------------
@@ -206,7 +210,6 @@ class DatabaseService {
   // }
   Stream<Map<String, dynamic>?> get streamMyGroceryList {
     log.i('streamMyGroceryList start');
-    print('####');
 
     return groceryListsCollection
         .doc(uid)

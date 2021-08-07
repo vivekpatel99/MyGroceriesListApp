@@ -50,9 +50,9 @@ bool simpleSnackBar(
   return true;
 }
 
-Map<String, dynamic> shortedMyGroceryList(
+Map<String, dynamic>? shortedMyGroceryList(
     {@required Map<String, dynamic>? myGroceryList}) {
-  late Map<String, dynamic> sortedMyGroceryList;
+  late Map<String, dynamic>? sortedMyGroceryList;
   if (myGroceryList != null) {
     return sortedMyGroceryList = Map.fromEntries(myGroceryList.entries.toList()
       ..sort((e1, e2) => e1.key.compareTo(e2.key)));

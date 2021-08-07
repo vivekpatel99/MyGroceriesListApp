@@ -21,16 +21,9 @@ class BuyPage extends StatelessWidget {
     try {
       Map<String, dynamic>? myGroceryList =
           Provider.of<Map<String, dynamic>?>(context);
-      // Map<String, dynamic> sortedMyGroceryList;
-      // if (myGroceryList != null) {
-      //   sortedMyGroceryList = Map.fromEntries(myGroceryList.entries.toList()
-      //     ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-      // } else
-      //   sortedMyGroceryList = {};
-      final Map<String, dynamic> sortedMyGroceryList =
-          myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
+
       return DisplayNestedListView(
-          myGroceryList: sortedMyGroceryList, onBuyPage: true);
+          myGroceryList: myGroceryList ?? {}, onBuyPage: true);
     } catch (error) {
       log.e('$error');
       log.i('returning to Loading page');
@@ -50,22 +43,24 @@ class DisplayNestedListView extends StatelessWidget {
   final Logger log = logger(DisplayNestedListView);
   final bool onBuyPage;
 
-  bool _displayOnBuyPage(List<Catagory> items) {
-    bool showItemOnPage = false;
-    for (int i = 0; i < items.length; i++) {
-      if (items[i].toBuy) print('################${items[i].toBuy}');
-      return showItemOnPage = true;
-    }
-    return showItemOnPage;
-  }
+  // bool _displayOnBuyPage(List<Catagory> items) {
+  //   bool showItemOnPage = false;
+  //   for (int i = 0; i < items.length; i++) {
+  //     if (items[i].toBuy)
+  //       print('################ _displayOnBuyPage ${items[i].toBuy}');
+  //     return showItemOnPage = true;
+  //   }
+  //   return showItemOnPage;
+  // }
 
-  bool _displayOnBoughtPage(List<Catagory> items) {
-    bool showItemOnPage = false;
-    for (int i = 0; i < items.length; i++) {
-      if (!items[i].toBuy) return showItemOnPage = true;
-    }
-    return showItemOnPage;
-  }
+  // bool _displayOnBoughtPage(List<Catagory> items) {
+  //   bool showItemOnPage = false;
+  //   for (int i = 0; i < items.length; i++) {
+  //     if (!items[i].toBuy) print('################${items[i].toBuy}');
+  //     return showItemOnPage = true;
+  //   }
+  //   return showItemOnPage;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +73,7 @@ class DisplayNestedListView extends StatelessWidget {
               shrinkWrap: true,
               itemCount: myGroceryList.length,
               itemBuilder: (BuildContext context, int index) {
-                final String? catagoryTitle =
+                final String catagoryTitle =
                     myGroceryList.keys.elementAt(index);
                 final itemsListLen =
                     myGroceryList.values.elementAt(index)?.length as int;
@@ -103,14 +98,17 @@ class DisplayNestedListView extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 12.0),
                         ),
-                      if ((itemsListLen == 0) ||
-                          (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
-                                  true &&
-                              onBuyPage) ||
-                          (_displayOnBoughtPage(
-                                      catagoryItems as List<Catagory>) ==
-                                  true &&
-                              !onBuyPage))
+                      if (itemsListLen == 0)
+                        // ||
+                        //     (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
+                        //             true &&
+                        //         !onBuyPage)
+                        // ||
+                        // (_displayOnBoughtPage(
+                        //             catagoryItems as List<Catagory>) ==
+                        //         true &&
+                        //     onBuyPage)
+                        // )
                         const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
