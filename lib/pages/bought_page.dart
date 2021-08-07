@@ -19,9 +19,10 @@ class BoughtPage extends StatelessWidget {
     try {
       final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
       log.d('myGroceryList : $myGroceryList');
-
+      final Map<String, dynamic> sortedMyGroceryList =
+          myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
       return DisplayNestedListView(
-          myGroceryList: myGroceryList, onBuyPage: false);
+          myGroceryList: sortedMyGroceryList, onBuyPage: false);
     } catch (error) {
       log.e('$error');
       log.i('Returning to Loading page');
@@ -59,7 +60,8 @@ class __CatagorySectionBoughtpageState
     log.d('itemListMap.length : ${itemListMap.length}');
 
     bool _isAllItemFalse({required List<dynamic> itemlist}) {
-      bool restult = itemListMap.every((e) => e.containsValue(true) as bool);
+      final bool restult =
+          itemListMap.every((e) => e.containsValue(true) as bool);
       return restult;
     }
 

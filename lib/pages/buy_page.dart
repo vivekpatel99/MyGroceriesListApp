@@ -19,9 +19,18 @@ class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
+      Map<String, dynamic>? myGroceryList =
+          Provider.of<Map<String, dynamic>?>(context);
+      // Map<String, dynamic> sortedMyGroceryList;
+      // if (myGroceryList != null) {
+      //   sortedMyGroceryList = Map.fromEntries(myGroceryList.entries.toList()
+      //     ..sort((e1, e2) => e1.key.compareTo(e2.key)));
+      // } else
+      //   sortedMyGroceryList = {};
+      final Map<String, dynamic> sortedMyGroceryList =
+          myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
       return DisplayNestedListView(
-          myGroceryList: myGroceryList, onBuyPage: true);
+          myGroceryList: sortedMyGroceryList, onBuyPage: true);
     } catch (error) {
       log.e('$error');
       log.i('returning to Loading page');
@@ -37,14 +46,15 @@ class DisplayNestedListView extends StatelessWidget {
     required this.onBuyPage,
   }) : super(key: key);
 
-  final Map<String, dynamic>? myGroceryList;
+  final Map<String, dynamic> myGroceryList;
   final Logger log = logger(DisplayNestedListView);
   final bool onBuyPage;
 
   bool _displayOnBuyPage(List<Catagory> items) {
     bool showItemOnPage = false;
     for (int i = 0; i < items.length; i++) {
-      if (items[i].toBuy) return showItemOnPage = true;
+      if (items[i].toBuy) print('################${items[i].toBuy}');
+      return showItemOnPage = true;
     }
     return showItemOnPage;
   }
@@ -66,13 +76,14 @@ class DisplayNestedListView extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
               shrinkWrap: true,
-              itemCount: myGroceryList?.length ?? 0,
+              itemCount: myGroceryList.length,
               itemBuilder: (BuildContext context, int index) {
-                final String? catagory = myGroceryList?.keys.elementAt(index);
+                final String? catagoryTitle =
+                    myGroceryList.keys.elementAt(index);
                 final itemsListLen =
-                    myGroceryList?.values.elementAt(index)?.length as int;
+                    myGroceryList.values.elementAt(index)?.length as int;
 
-                final items = myGroceryList?.values.elementAt(index);
+                final items = myGroceryList.values.elementAt(index);
                 final catagoryItems = items
                     .map<Catagory>((json) =>
                         Catagory.fromJson(json as Map<String, dynamic>))
@@ -84,19 +95,28 @@ class DisplayNestedListView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (catagory == null)
+                      if (catagoryTitle == null)
                         const SizedBox()
                       else
                         Text(
-                          catagory,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          catagoryTitle,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12.0),
                         ),
                       if ((itemsListLen == 0) ||
-                          (_displayOnBuyPage == true && onBuyPage) ||
-                          (_displayOnBoughtPage == true && onBuyPage))
+                          (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
+                                  true &&
+                              onBuyPage) ||
+                          (_displayOnBoughtPage(
+                                      catagoryItems as List<Catagory>) ==
+                                  true &&
+                              !onBuyPage))
                         const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('No item'),
+                          child: Text(
+                            'No item',
+                            style: TextStyle(fontSize: 10.0),
+                          ),
                         )
                       else
                         Flexible(
@@ -128,7 +148,7 @@ class DisplayNestedListView extends StatelessWidget {
                                 }
                               }),
                         ),
-                      kDivider,
+                      // kDivider,
                     ],
                   ),
                 );

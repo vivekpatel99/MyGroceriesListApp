@@ -48,8 +48,14 @@ class ItemCardListTile extends StatelessWidget {
                         (_data != null) ? AssetImage(imagePath) : null,
                     child: (_data != null) ? null : Text(firstLettter),
                   ),
-                  title: Text(name),
-                  subtitle: const Text('Quantity'),
+                  title: Text(
+                    name,
+                    style: const TextStyle(fontSize: 14.0),
+                  ),
+                  subtitle: const Text(
+                    'Quantity',
+                    style: TextStyle(fontSize: 12.0),
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

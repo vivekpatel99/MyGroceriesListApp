@@ -49,3 +49,14 @@ bool simpleSnackBar(
   ScaffoldMessenger.of(context).showSnackBar(_snackBar);
   return true;
 }
+
+Map<String, dynamic> shortedMyGroceryList(
+    {@required Map<String, dynamic>? myGroceryList}) {
+  late Map<String, dynamic> sortedMyGroceryList;
+  if (myGroceryList != null) {
+    return sortedMyGroceryList = Map.fromEntries(myGroceryList.entries.toList()
+      ..sort((e1, e2) => e1.key.compareTo(e2.key)));
+  } else {
+    return sortedMyGroceryList = {};
+  }
+}

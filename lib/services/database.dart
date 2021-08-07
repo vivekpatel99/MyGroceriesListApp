@@ -190,7 +190,7 @@ class DatabaseService {
     log.i('myGroceryListFromSnapshot start');
     final Map<String, dynamic>? myGroceryListJson =
         snapshot.data() as Map<String, dynamic>?;
-    print('xxxxxxxxxxxxxxxxxxxxxxxxx');
+
     log.d('myGroceryListJson: $myGroceryListJson');
     return myGroceryListJson;
   }
@@ -206,6 +206,8 @@ class DatabaseService {
   // }
   Stream<Map<String, dynamic>?> get streamMyGroceryList {
     log.i('streamMyGroceryList start');
+    print('####');
+
     return groceryListsCollection
         .doc(uid)
         .snapshots()
