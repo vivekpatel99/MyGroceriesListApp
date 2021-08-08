@@ -13,7 +13,7 @@ class PopUPAddItemWindow extends StatefulWidget {
   final String catagoryName;
   String itemName;
   String quantity;
-  double price;
+  num price;
   PopUPAddItemWindow({
     Key? key,
     required this.onBuyPage,
@@ -65,7 +65,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
     final user = Provider.of<UserModel?>(context);
     String _itemName = '';
     String _quantity = '';
-    String _currencySymbol = '';
+
     double _price = 0.00;
     final String userId = user?.uid ?? '';
     _itemNametextFieldController.text = widget.itemName;

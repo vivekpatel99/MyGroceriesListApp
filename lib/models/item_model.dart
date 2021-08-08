@@ -127,7 +127,7 @@ class Catagory {
 
   late String name;
   late bool toBuy;
-  late double price;
+  late num price;
   late String quantity;
 
   Catagory({
@@ -139,7 +139,7 @@ class Catagory {
   Catagory.fromJson(Map<String, dynamic> json) {
     name = json[kName] as String;
     toBuy = json[kToBuy] as bool;
-    price = json[kPrice] as double;
+    price = json[kPrice] as num;
     quantity = json[kQuantity] as String;
   }
   Map<String, dynamic> toJson() {

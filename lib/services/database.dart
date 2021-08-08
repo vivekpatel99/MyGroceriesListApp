@@ -43,7 +43,7 @@ class DatabaseService {
   // * delete items
   Future<void> deleteItemFromCataogry({
     required String catagoryName,
-    required dynamic mapList,
+    required Map<String, dynamic> mapList,
   }) {
     log.i('deleteItemFromCataogry start');
     log.d('uid: $uid');

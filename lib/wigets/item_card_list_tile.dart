@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
+import 'package:my_grocery_list/services/database.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class ItemCardListTile extends StatefulWidget {
   final bool tobuy;
   final String itemName;
   final String quantity;
-  final double price;
+  final num price;
   const ItemCardListTile({
     Key? key,
     required this.onBuyPage,
@@ -38,6 +40,7 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
+    final String userId = user?.uid ?? '';
     final String firstLettter = widget.itemName[0];
 
     final String imagePath =
@@ -70,9 +73,20 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
                   mainAxisAlignment: MainAxisAlignment.end)
               : myconst.dismissibleBackground(
                   mainAxisAlignment: MainAxisAlignment.end, msgText: 'Buy'),
-          confirmDismiss: widget.onBuyPage
-              ? _confirmDismissForBuyPage
-              : _confirmDismissForBoughtPage,
+          confirmDismiss: (DismissDirection dismissDirection) {
+            return widget.onBuyPage
+                ? _confirmDismissForBuyPage(
+                    dismissDirection: dismissDirection, uid: userId)
+                : _confirmDismissForBoughtPage(
+                    dismissDirection: dismissDirection, uid: userId);
+          },
+          onDismissed: (DismissDirection dismissDirection) {
+            widget.onBuyPage
+                ? _onDismissedForBuyPage(
+                    dismissDirection: dismissDirection, uid: userId)
+                : _onDismissedForBoughtPage(
+                    dismissDirection: dismissDirection, uid: userId);
+          },
           child: ListTileCard(
             snapshotData: _snapshotData,
             imagePath: imagePath,
@@ -88,46 +102,87 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
   }
 
   Future<bool?> _confirmDismissForBuyPage(
-      DismissDirection dismissDirection) async {
+      {required DismissDirection dismissDirection, required String uid}) async {
     // https://flutter.dev/docs/cookbook/design/snackbars
     // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.endToStart) {
       log.i('${widget.itemName} moved to bought');
 
-      return _conformDeleteShowDialog();
-    } else if (dismissDirection == DismissDirection.startToEnd) {
+      return _conformDeleteShowDialog(uid: uid);
+    }
+    return true;
+  }
+
+  Future<bool?> _onDismissedForBuyPage(
+      {required DismissDirection dismissDirection, required String uid}) async {
+    // https://flutter.dev/docs/cookbook/design/snackbars
+    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
+    if (dismissDirection == DismissDirection.startToEnd) {
       log.i('${widget.itemName} move to bought');
+
+      final Map<String, dynamic> _itemListMap = {
+        kName: widget.itemName,
+        kPrice: widget.price,
+        kQuantity: widget.quantity,
+        kToBuy: false
+      };
+
+      setState(() async {
+        await DatabaseService(uid: uid).moveToBuyBought(
+          catagoryName: widget.catagoryTitle,
+          mapList: [_itemListMap],
+        );
+      });
+
       final SnackBar _snackBar = SnackBar(
         content: Text('${widget.itemName} moved to bought'),
       );
-
       ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-      // * add Move to bought code
-      return true;
     }
   }
 
   Future<bool?> _confirmDismissForBoughtPage(
-      DismissDirection dismissDirection) async {
+      {required DismissDirection dismissDirection, required String uid}) async {
     // https://flutter.dev/docs/cookbook/design/snackbars
     // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.startToEnd) {
       log.i('${widget.itemName} deteled');
 
-      return _conformDeleteShowDialog();
-    } else if (dismissDirection == DismissDirection.endToStart) {
+      return _conformDeleteShowDialog(uid: uid);
+    }
+    return true;
+  }
+
+  Future<bool?> _onDismissedForBoughtPage(
+      {required DismissDirection dismissDirection, required String uid}) async {
+    // https://flutter.dev/docs/cookbook/design/snackbars
+    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
+    if (dismissDirection == DismissDirection.endToStart) {
       log.i('${widget.itemName} move to buy');
+
+      final Map<String, dynamic> itemListMap = {
+        kName: widget.itemName,
+        kPrice: widget.price,
+        kQuantity: widget.quantity,
+        kToBuy: true
+      };
+
+      setState(() async {
+        await DatabaseService(uid: uid).moveToBuyBought(
+          catagoryName: widget.catagoryTitle,
+          mapList: [itemListMap],
+        );
+      });
+
       final SnackBar _snackBar = SnackBar(
         content: Text('${widget.itemName} Item moved to buy'),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-      // * add Move to bought code
-      return true;
     }
   }
 
-  Future<bool?> _conformDeleteShowDialog() {
+  Future<bool?> _conformDeleteShowDialog({required String uid}) async {
     return showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -138,15 +193,16 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
             TextButton(
               onPressed: () {
                 setState(() {});
-                return Navigator.of(context).pop(true);
+                return Navigator.of(context).pop(false);
               },
               child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 // * delete the item
+                _deleteItemsFromCatagory(uid: uid);
                 setState(() {});
-                return Navigator.of(context).pop(false);
+                return Navigator.of(context).pop(true);
               },
               child: const Text(
                 'Delete',
@@ -156,6 +212,22 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
           ],
         );
       },
+    );
+  }
+
+  Future _deleteItemsFromCatagory({required String uid}) async {
+    final Map<String, dynamic> itemListMap = {
+      kName: widget.itemName,
+      kPrice: widget.price,
+      kQuantity: widget.quantity,
+      kToBuy: widget.tobuy
+    };
+    print('#####');
+    print(widget.catagoryTitle);
+    print(itemListMap);
+    await DatabaseService(uid: uid).deleteItemFromCataogry(
+      catagoryName: widget.catagoryTitle,
+      mapList: itemListMap,
     );
   }
 }
@@ -178,7 +250,7 @@ class ListTileCard extends StatelessWidget {
   final String firstLettter;
   final String itemName;
   final String quantity;
-  final double price;
+  final num price;
   final String catagoryTitle;
 
   @override
@@ -186,46 +258,48 @@ class ListTileCard extends StatelessWidget {
     return SizedBox(
       height: 70,
       child: Card(
-          child: ListTile(
-              // dense: true,
-              leading: CircleAvatar(
-                foregroundImage: (_data != null) ? AssetImage(imagePath) : null,
-                child: (_data != null) ? null : Text(firstLettter),
+        child: ListTile(
+          // dense: true,
+          leading: CircleAvatar(
+            foregroundImage: (_data != null) ? AssetImage(imagePath) : null,
+            child: (_data != null) ? null : Text(firstLettter),
+          ),
+          title: Text(
+            itemName,
+            style: const TextStyle(fontSize: 14.0),
+          ),
+          subtitle: Text(
+            quantity,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(price.toString()),
+              const SizedBox(
+                width: 20,
               ),
-              title: Text(
-                itemName,
-                style: const TextStyle(fontSize: 14.0),
+              IconButton(
+                // color: Colors.deepPurpleAccent,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PopUPAddItemWindow(
+                          onBuyPage: true,
+                          catagoryName: catagoryTitle,
+                          itemName: itemName,
+                          quantity: quantity,
+                          price: price,
+                        );
+                      });
+                },
+                icon: const Icon(Icons.edit),
               ),
-              subtitle: Text(
-                quantity,
-                style: const TextStyle(fontSize: 12.0),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(price.toString()),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  IconButton(
-                    // color: Colors.deepPurpleAccent,
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return PopUPAddItemWindow(
-                              onBuyPage: true,
-                              catagoryName: catagoryTitle,
-                              itemName: itemName,
-                              quantity: quantity,
-                              price: price,
-                            );
-                          });
-                    },
-                    icon: const Icon(Icons.edit),
-                  ),
-                ],
-              ))),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

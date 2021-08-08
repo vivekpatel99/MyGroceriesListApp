@@ -156,8 +156,8 @@ class DisplayNestedListView extends StatelessWidget {
                                     catagoryItems[idx].toBuy as bool;
                                 final String quantity =
                                     catagoryItems[idx].quantity as String;
-                                final double price =
-                                    catagoryItems[idx].price as double;
+                                final num price =
+                                    catagoryItems[idx].price as num;
                                 log.i('ItemName $itemName & toBuy $toBuy');
 
                                 if (onBuyPage && toBuy) {
