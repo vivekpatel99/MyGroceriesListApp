@@ -24,10 +24,6 @@ Container secondaryBackground({required MainAxisAlignment mainAxisAlignment}) {
         mainAxisAlignment: mainAxisAlignment,
         children: const [
           Icon(Icons.delete),
-          Text(
-            'Move to Trash',
-            style: TextStyle(color: Colors.white),
-          )
         ],
       ),
     ),

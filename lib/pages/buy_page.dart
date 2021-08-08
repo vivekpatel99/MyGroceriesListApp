@@ -162,6 +162,7 @@ class DisplayNestedListView extends StatelessWidget {
 
                                 if (onBuyPage && toBuy) {
                                   return ItemCardListTile(
+                                    onBuyPage: onBuyPage,
                                     catagoryTitle: catagoryTitle,
                                     itemName: itemName,
                                     tobuy: toBuy,
@@ -171,6 +172,7 @@ class DisplayNestedListView extends StatelessWidget {
                                 } else if (!onBuyPage && !toBuy) {
                                   log.i('toBuy $toBuy');
                                   return ItemCardListTile(
+                                    onBuyPage: onBuyPage,
                                     catagoryTitle: catagoryTitle,
                                     itemName: itemName,
                                     tobuy: toBuy,
@@ -192,98 +194,3 @@ class DisplayNestedListView extends StatelessWidget {
     );
   }
 }
-
-// class ItemListView extends StatefulWidget {
-//   final String catagoryName;
-//   final List<dynamic> itemListMap;
-//   const ItemListView({
-//     Key? key,
-//     required this.catagoryName,
-//     required this.itemListMap,
-//   }) : super(key: key);
-
-//   @override
-//   _ItemListViewState createState() => _ItemListViewState();
-// }
-
-// class _ItemListViewState extends State<ItemListView> {
-//   final log = logger(ItemListView);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final itemListMap = itemList.map((_list) => _list.toJson()).toList();
-//     final user = Provider.of<UserModel?>(context);
-//     final String userId = user?.uid ?? '';
-//     log.d(widget.itemListMap);
-
-//     return ListView.builder(
-//       physics: const NeverScrollableScrollPhysics(),
-//       shrinkWrap: true,
-//       itemCount: widget.itemListMap.length,
-//       itemBuilder: (BuildContext context, index) {
-//         bool undoAction = true;
-
-//         return Dismissible(
-//             key: UniqueKey(),
-//             confirmDismiss: (DismissDirection dismissDirection) async {
-//               // https://flutter.dev/docs/cookbook/design/snackbars
-//               // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
-//               if (dismissDirection == DismissDirection.startToEnd) {
-//                 myconst.simpleSnackBar(
-//                     context: context,
-//                     displayMsg: '1 item moved to bought',
-//                     onPressed: () {
-//                       undoAction = false;
-//                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//                       setState(() {});
-//                     });
-//                 log.i('${widget.itemListMap[index][kName]} moved to bought');
-
-//                 return true;
-//               } else {
-//                 myconst.simpleSnackBar(
-//                     context: context,
-//                     displayMsg: '1 item moved to trash',
-//                     onPressed: () {
-//                       undoAction = false;
-//                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//                       setState(() {});
-//                     });
-//                 log.i('${widget.itemListMap[index][kName]} moved to trash');
-//                 return true;
-//               }
-//             },
-//             background: myconst.dismissibleBackground(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 msgText: 'Move to Bought'),
-//             secondaryBackground: myconst.secondaryBackground(
-//                 mainAxisAlignment: MainAxisAlignment.end),
-//             onDismissed: (DismissDirection direction) async {
-//               // added delay to get updated value of undoAction
-//               await Future.delayed(const Duration(seconds: 5));
-
-//               if (direction == DismissDirection.startToEnd) {
-//                 if (undoAction) {
-//                   widget.itemListMap[index][kToBuy] = false;
-
-//                   await DatabaseService(uid: userId).moveToBuyBought(
-//                     catagoryName: widget.catagoryName,
-//                     mapList: widget.itemListMap,
-//                   );
-//                 }
-//               } else {
-//                 if (undoAction) {
-//                   await DatabaseService(uid: userId).deleteItemFromCataogry(
-//                     catagoryName: widget.catagoryName,
-//                     mapList: widget.itemListMap[index],
-//                   );
-//                 }
-//               }
-//             },
-//             child: ItemCardListTile(
-//                 tobuy: widget.itemListMap[index][kToBuy] as bool,
-//                 itemName: widget.itemListMap[index][kName].toString()));
-//       },
-//     );
-//   }
-// }
