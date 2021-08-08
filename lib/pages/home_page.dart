@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 resizeToAvoidBottomInset: false,
-                floatingActionButton: AddItemButton(),
+                floatingActionButton: const AddItemButton(),
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 bottomNavigationBar: BottomAppBar(

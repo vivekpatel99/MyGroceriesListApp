@@ -133,6 +133,8 @@ class Catagory {
   Catagory({
     required this.name,
     this.toBuy = true,
+    required this.price,
+    required this.quantity,
   });
   Catagory.fromJson(Map<String, dynamic> json) {
     name = json[kName] as String;

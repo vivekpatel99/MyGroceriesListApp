@@ -145,8 +145,11 @@ class __CatagorySectionBoughtpageState
                     }
                   },
                   child: ItemCardListTile(
-                      tobuy: !(itemListMap[index][kToBuy] as bool),
-                      name: itemListMap[index][kName].toString()),
+                    tobuy: !(itemListMap[index][kToBuy] as bool),
+                    itemName: itemListMap[index][kName].toString(),
+                    price: 1.99,
+                    quantity: '',
+                  ),
                 );
               },
             ),
