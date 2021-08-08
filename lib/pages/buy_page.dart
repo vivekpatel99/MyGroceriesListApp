@@ -109,8 +109,9 @@ class DisplayNestedListView extends StatelessWidget {
                               child: Text(
                                 catagoryTitle,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
                               ),
                             ),
                             IconButton(
