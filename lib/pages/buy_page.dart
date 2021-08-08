@@ -19,7 +19,7 @@ class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      Map<String, dynamic>? myGroceryList =
+      final Map<String, dynamic>? myGroceryList =
           Provider.of<Map<String, dynamic>?>(context);
 
       return DisplayNestedListView(

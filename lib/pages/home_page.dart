@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
   final log = logger(HomePage);
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Map<String, dynamic>?>.value(
@@ -87,7 +88,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 resizeToAvoidBottomInset: false,
-                floatingActionButton: const AddItemButton(),
+                floatingActionButton: AddItemButton(),
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 bottomNavigationBar: BottomAppBar(
