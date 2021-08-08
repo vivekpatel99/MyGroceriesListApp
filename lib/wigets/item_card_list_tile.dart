@@ -103,8 +103,6 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
 
   Future<bool?> _confirmDismissForBuyPage(
       {required DismissDirection dismissDirection, required String uid}) async {
-    // https://flutter.dev/docs/cookbook/design/snackbars
-    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.endToStart) {
       log.i('${widget.itemName} moved to bought');
 
@@ -115,8 +113,6 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
 
   Future<bool?> _onDismissedForBuyPage(
       {required DismissDirection dismissDirection, required String uid}) async {
-    // https://flutter.dev/docs/cookbook/design/snackbars
-    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.startToEnd) {
       log.i('${widget.itemName} move to bought');
 
@@ -143,8 +139,6 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
 
   Future<bool?> _confirmDismissForBoughtPage(
       {required DismissDirection dismissDirection, required String uid}) async {
-    // https://flutter.dev/docs/cookbook/design/snackbars
-    // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.startToEnd) {
       log.i('${widget.itemName} deteled');
 
@@ -222,9 +216,7 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
       kQuantity: widget.quantity,
       kToBuy: widget.tobuy
     };
-    print('#####');
-    print(widget.catagoryTitle);
-    print(itemListMap);
+
     await DatabaseService(uid: uid).deleteItemFromCataogry(
       catagoryName: widget.catagoryTitle,
       mapList: itemListMap,

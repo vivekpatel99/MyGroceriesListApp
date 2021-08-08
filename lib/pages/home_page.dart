@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
+import 'package:my_grocery_list/providers/total_total_counter.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/utils/logging.dart';
@@ -76,21 +77,16 @@ class HomePage extends StatelessWidget {
                   shape: const CircularNotchedRectangle(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Total',
                         style: TextStyle(
                             fontSize: 25.0, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 40,
                       ),
-                      Text(
-                        '€ 2.99',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                        ),
-                      ),
+                      TotalPrice(),
                     ],
                   ),
                 ),
@@ -137,5 +133,18 @@ class HomePage extends StatelessWidget {
 
       default:
     }
+  }
+}
+
+class TotalPrice extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final num totalprice = context.watch<TotalPriceCounter>().count;
+    return Text(
+      '€ ${totalprice.toString()}',
+      style: const TextStyle(
+        fontSize: 20.0,
+      ),
+    );
   }
 }
