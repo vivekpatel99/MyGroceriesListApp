@@ -11,10 +11,16 @@ import 'package:provider/provider.dart';
 class PopUPAddItemWindow extends StatefulWidget {
   final bool onBuyPage;
   final String catagoryName;
-  const PopUPAddItemWindow({
+  String itemName;
+  String quantity;
+  double price;
+  PopUPAddItemWindow({
     Key? key,
     required this.onBuyPage,
     required this.catagoryName,
+    this.itemName = '',
+    this.quantity = '',
+    this.price = 0.00,
   }) : super(key: key);
 
   @override
@@ -26,10 +32,9 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
 
   bool _validate = false;
   int _itemIdx = -1;
-  final List<int> _selectedIdx = [];
-  final List<String> userChecked = [];
+
   bool _addItemTextStatus = false;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _popUpAddItemformKey = GlobalKey<FormState>();
   final TextEditingController _itemNametextFieldController =
       TextEditingController();
   final TextEditingController _priceTextFieldController =
@@ -48,7 +53,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
 
   void _addItemButtonVerification(BuildContext context) {
     // Check if Item Name field is empty then show message
-    if (_formKey.currentState!.validate()) {
+    if (_popUpAddItemformKey.currentState!.validate()) {
       setState(() {
         _addItemTextStatus = true;
       });
@@ -63,13 +68,15 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
     String _currencySymbol = '';
     double _price = 0.00;
     final String userId = user?.uid ?? '';
-
+    _itemNametextFieldController.text = widget.itemName;
+    _priceTextFieldController.text = widget.price.toString();
+    _quantityTextFieldController.text = widget.quantity;
     return AlertDialog(
       scrollable: true,
       title: const Text('Add Item to Buy'),
       content: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: _popUpAddItemformKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +148,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                             quantity: _quantity,
                             toBuy: widget.onBuyPage);
                         log.i(
-                            'catagoryName: ${widget.catagoryName}, ItemName: $_itemName, Quantity: $_quantity, price $_price');
+                            'catagoryName: ${widget.catagoryName}, ItemName: $_itemName, Quantity: $_quantity, price €$_price');
                         await DatabaseService(uid: userId).addItem(
                           catagoryName: widget.catagoryName,
                           catagory: _catagory,
@@ -164,18 +171,6 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
         ),
       ),
     );
-  }
-
-  void _onSelected({required bool selected, required String name}) {
-    if (selected) {
-      setState(() {
-        userChecked.add(name);
-      });
-    } else {
-      setState(() {
-        userChecked.remove(name);
-      });
-    }
   }
 }
 

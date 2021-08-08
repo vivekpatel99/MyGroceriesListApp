@@ -107,30 +107,29 @@ class DatabaseService {
   Future addCatagory({
     required String catagoryName,
   }) async {
-/* 
-{
-  "Dairy": [
-    {
-      "name": "Milk",
-      "toBuy": true
-    },]
-
-*/
     log.i('addCatagory start');
     log.d('uid: $uid');
     final options = SetOptions(merge: true);
-    // List<dynamic> mapList = {catagoryName: catagory.toJason()};
-    // print('$catagoryName : ${catagory.toJson()}');
 
-    // {
-    //       // catagoryName: catagory.toJson(),
-    //       'Dairy': FieldValue.arrayUnion([
-    //         {'name': 'Cheese', 'toBuy': true}
-    //       ])
-    //     }
     return groceryListsCollection
         .doc(uid)
         .set({catagoryName: []}, options)
+        .then((value) => log.i('addItem Success'))
+        .catchError((error) => log.e(error));
+  }
+
+  //----------------------------------------------------------------------------
+  // * update userdata
+  Future deleteCatagory({
+    required String catagoryName,
+  }) async {
+    log.i('addCatagory start');
+    log.d('uid: $uid');
+    final options = SetOptions(merge: true);
+
+    return groceryListsCollection
+        .doc(uid)
+        .update({catagoryName: FieldValue.delete()})
         .then((value) => log.i('addItem Success'))
         .catchError((error) => log.e(error));
   }

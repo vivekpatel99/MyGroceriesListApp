@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/src/logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/models/user_model.dart';
+import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
@@ -37,6 +39,7 @@ class DisplayNestedListView extends StatelessWidget {
 
   final Map<String, dynamic> myGroceryList;
   final Logger log = logger(DisplayNestedListView);
+
   final bool onBuyPage;
 
   // bool _displayOnBuyPage(List<Catagory> items) {
@@ -60,6 +63,9 @@ class DisplayNestedListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel?>(context);
+
+    final String userId = user?.uid ?? '';
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -92,10 +98,18 @@ class DisplayNestedListView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              catagoryTitle,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            TextButton(
+                              onPressed: null,
+                              onLongPress: () {
+                                DatabaseService(uid: userId).deleteCatagory(
+                                    catagoryName: catagoryTitle);
+                              },
+                              child: Text(
+                                catagoryTitle,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.0),
+                              ),
                             ),
                             IconButton(
                                 onPressed: () {
@@ -148,6 +162,7 @@ class DisplayNestedListView extends StatelessWidget {
 
                                 if (onBuyPage && toBuy) {
                                   return ItemCardListTile(
+                                    catagoryTitle: catagoryTitle,
                                     itemName: itemName,
                                     tobuy: toBuy,
                                     price: price,
@@ -156,6 +171,7 @@ class DisplayNestedListView extends StatelessWidget {
                                 } else if (!onBuyPage && !toBuy) {
                                   log.i('toBuy $toBuy');
                                   return ItemCardListTile(
+                                    catagoryTitle: catagoryTitle,
                                     itemName: itemName,
                                     tobuy: toBuy,
                                     price: price,

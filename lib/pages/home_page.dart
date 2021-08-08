@@ -4,7 +4,6 @@ import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
-import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/utils/logging.dart';
 import 'package:my_grocery_list/wigets/item_add_button.dart';
 import 'package:my_grocery_list/wigets/mydrawer.dart';
@@ -36,24 +35,6 @@ class HomePage extends StatelessWidget {
                           value: 0,
                           child: Column(
                             children: [
-                              Row(
-                                children: const [
-                                  Icon(Icons.add),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Add Catagory '),
-                                ],
-                              ),
-                              Row(
-                                children: const [
-                                  Icon(Icons.remove),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text('Delete Catagory'),
-                                ],
-                              ),
                               Row(
                                 children: const [
                                   Icon(Icons.cleaning_services_rounded),
@@ -88,7 +69,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 resizeToAvoidBottomInset: false,
-                floatingActionButton: const AddItemButton(),
+                floatingActionButton: const AddCatagoryButton(),
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 bottomNavigationBar: BottomAppBar(
@@ -128,46 +109,6 @@ class HomePage extends StatelessWidget {
     final DatabaseService databaseService = DatabaseService(uid: userId);
     switch (item) {
       case 0:
-        // * add catagory title
-
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Add Catagory'),
-                content: Form(
-                  child: TextFormField(
-                    decoration: kTextFormInputDecoration.copyWith(
-                      hintText: 'Catagory Name',
-                    ),
-                    onChanged: (value) {
-                      catagoryName = value;
-                    },
-                  ),
-                ),
-                actions: [
-                  AlertDialogButton(
-                    onPressed: () {
-                      log.i('UserInput catagory $catagoryName');
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Add'),
-                  ),
-                  AlertDialogButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                ],
-              );
-            });
-        break;
-      case 1:
-        // * remove catagory title
-        // * list all the catagory and use checkbox to select it
-        break;
-      case 3:
         showDialog(
             context: context,
             builder: (BuildContext context) {
