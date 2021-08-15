@@ -21,8 +21,10 @@ class BuyPage extends StatelessWidget {
       final Map<String, dynamic>? myGroceryList =
           Provider.of<Map<String, dynamic>?>(context);
 
-      return DisplayNestedListView(
-          myGroceryList: myGroceryList ?? {}, onBuyPage: true);
+      return Provider.value(
+        value: myGroceryList,
+        child: DisplayNestedListView(onBuyPage: true),
+      );
     } catch (error) {
       log.e('$error');
       log.i('returning to Loading page');
@@ -34,11 +36,11 @@ class BuyPage extends StatelessWidget {
 class DisplayNestedListView extends StatelessWidget {
   DisplayNestedListView({
     Key? key,
-    required this.myGroceryList,
+    // required this.myGroceryList,
     required this.onBuyPage,
   }) : super(key: key);
 
-  final Map<String, dynamic> myGroceryList;
+  // final Map<String, dynamic> myGroceryList;
   final Logger log = logger(DisplayNestedListView);
 
   final bool onBuyPage;
@@ -66,6 +68,10 @@ class DisplayNestedListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
 
+    final Map<String, dynamic>? _myGroceryList =
+        Provider.of<Map<String, dynamic>?>(context);
+    final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
+    print(myGroceryList);
     final String userId = user?.uid ?? '';
     context.read<TotalPriceCounter>().reset();
     return SafeArea(
@@ -122,6 +128,7 @@ class DisplayNestedListView extends StatelessWidget {
                                         return PopUPAddItemWindow(
                                           onBuyPage: onBuyPage,
                                           catagoryName: catagoryTitle,
+                                          myGroceryList: myGroceryList,
                                         );
                                       });
                                 },

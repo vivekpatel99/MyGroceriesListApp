@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
-import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
-    as myconst;
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/utils/logging.dart';
-import 'package:provider/provider.dart';
 
 class BoughtPage extends StatelessWidget {
   final log = logger(BoughtPage);
   @override
   Widget build(BuildContext context) {
     try {
-      final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
-      log.d('myGroceryList : $myGroceryList');
-      final Map<String, dynamic>? sortedMyGroceryList =
-          myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
+      // final myGroceryList = Provider.of<Map<String, dynamic>?>(context);
+      // log.d('myGroceryList : $myGroceryList');
+      // final Map<String, dynamic>? sortedMyGroceryList =
+      //     myconst.shortedMyGroceryList(myGroceryList: myGroceryList);
 
-      return DisplayNestedListView(
-          myGroceryList: sortedMyGroceryList ?? {}, onBuyPage: false);
+      return DisplayNestedListView(onBuyPage: false);
     } catch (error) {
       log.e('$error');
       log.i('Returning to Loading page');

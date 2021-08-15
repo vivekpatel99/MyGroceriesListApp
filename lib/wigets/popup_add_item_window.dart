@@ -9,6 +9,7 @@ import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
+  final Map<String, dynamic> myGroceryList;
   final bool onBuyPage;
   final String catagoryName;
   String itemName;
@@ -16,6 +17,7 @@ class PopUPAddItemWindow extends StatefulWidget {
   num price;
   PopUPAddItemWindow({
     Key? key,
+    required this.myGroceryList,
     required this.onBuyPage,
     required this.catagoryName,
     this.itemName = '',
@@ -31,8 +33,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   // final List<CatagoryItem> _catagoryList = CatagoryItemModel.catagoryItemList;
 
   bool _validate = false;
-  int _itemIdx = -1;
-
+  bool _validatePrice = false;
   bool _addItemTextStatus = false;
   final GlobalKey<FormState> _popUpAddItemformKey = GlobalKey<FormState>();
   final TextEditingController _itemNametextFieldController =
@@ -63,14 +64,27 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
+    final List<dynamic> itemList =
+        widget.myGroceryList[widget.catagoryName] as List<dynamic>;
+
+    final catagoryItems = itemList
+        .map<Catagory>(
+            (json) => Catagory.fromJson(json as Map<String, dynamic>))
+        .toList();
+    final int foundItemIndex =
+        catagoryItems.indexWhere((element) => element.name == widget.itemName);
+
     String _itemName = '';
     String _quantity = '';
+    double _price = 0.0;
 
-    double _price = 0.00;
     final String userId = user?.uid ?? '';
     _itemNametextFieldController.text = widget.itemName;
-    _priceTextFieldController.text = widget.price.toString();
-    _quantityTextFieldController.text = widget.quantity;
+    _priceTextFieldController.text =
+        widget.price == 0.0 ? '' : widget.price.toString();
+    _quantityTextFieldController.text =
+        widget.quantity.isNotEmpty ? widget.quantity : '';
+
     return AlertDialog(
       scrollable: true,
       title: const Text('Add Item to Buy'),
@@ -92,10 +106,9 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
+                decoration: kAddItemPopupTextFormInputDecoration.copyWith(
                   hintText: 'Enter Item Name',
                   labelText: 'Item Name',
-                  errorText: _validate ? 'Please Enter Item Name' : null,
                 ),
               ),
               kSizedBox,
@@ -104,7 +117,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                 onChanged: (String text) {
                   _quantity = text.capitalize();
                 },
-                decoration: const InputDecoration(
+                decoration: kAddItemPopupTextFormInputDecoration.copyWith(
                   hintText: 'Enter Total Quantity',
                   labelText: 'Quantity',
                 ),
@@ -112,12 +125,22 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
               kSizedBox,
               TextFormField(
                 controller: _priceTextFieldController,
-                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
+                ],
                 keyboardType: TextInputType.number,
                 onChanged: (String text) {
-                  _price = double.parse(text);
+                  try {
+                    final double? _priceTemp =
+                        double.tryParse(_priceTextFieldController.text);
+                    _price = _priceTemp ?? 0.0;
+                    _validatePrice = true;
+                  } on Exception catch (_) {
+                    _validatePrice = false;
+                  }
                 },
-                decoration: const InputDecoration(
+                decoration: kAddItemPopupTextFormInputDecoration.copyWith(
+                  prefix: const Text('€'),
                   hintText: 'Enter Price',
                   labelText: 'Price',
                 ),
@@ -128,33 +151,50 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                 children: [
                   TextButton(
                     onPressed: () async {
-                      // await DatabaseService(uid: userId)
-                      //     .addCatagory(catagoryName: 'Chatni');
-                      _itemNametextFieldController.text.isEmpty
-                          ? _validate = true
-                          : _validate = false;
-
-                      _priceTextFieldController.text.isEmpty
-                          ? _price = 0.00
+                      _price = _priceTextFieldController.text.isEmpty
+                          ? _price = 0.0
                           : _price;
-                      _quantityTextFieldController.text.isEmpty
-                          ? _quantity = 'quantity'
+
+                      _quantity = _quantityTextFieldController.text == '' ||
+                              _quantityTextFieldController.text.isEmpty
+                          ? _quantity = ' '
                           : _quantity;
+
                       _addItemButtonVerification(context);
-                      if (_itemNametextFieldController.text.isNotEmpty) {
+
+                      if (_itemName.isNotEmpty ||
+                          _price != 0.0 ||
+                          _quantity.isNotEmpty) {
                         final Catagory _catagory = Catagory(
-                            name: _itemName,
-                            price: _price,
-                            quantity: _quantity,
-                            toBuy: widget.onBuyPage);
-                        log.i(
-                            'catagoryName: ${widget.catagoryName}, ItemName: $_itemName, Quantity: $_quantity, price €$_price');
-                        await DatabaseService(uid: userId).addItem(
-                          catagoryName: widget.catagoryName,
-                          catagory: _catagory,
+                          name: _itemName.isNotEmpty &&
+                                  widget.itemName != _itemName
+                              ? _itemName
+                              : widget.itemName,
+                          price: _price != 0.0 && widget.price != _price
+                              ? _price
+                              : 0.00,
+                          quantity: _quantity.isNotEmpty &&
+                                  widget.quantity != _quantity
+                              ? _quantity
+                              : widget.quantity,
+                          toBuy: widget.onBuyPage,
                         );
-                        Navigator.pop(context);
+
+                        if (foundItemIndex != -1) {
+                          catagoryItems[foundItemIndex] = _catagory;
+                          log.i(
+                              'foundItemIndex: $foundItemIndex, catagoryName: ${widget.catagoryName}, ItemName: $_itemName, Quantity: $_quantity, price €$_price');
+                        } else {
+                          catagoryItems.add(_catagory);
+                          log.i(
+                              'New index added for ItemName: $_itemName, Quantity: $_quantity, price €$_price');
+                        }
+                        await DatabaseService(uid: userId).addUpdateItem(
+                          catagoryName: widget.catagoryName,
+                          catagoryItemList: catagoryItems,
+                        );
                       }
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'Add',
@@ -174,18 +214,13 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   }
 }
 
-                          // title: Text(_catagoryList[index].catagoryName),
-                          // value: _catagoryList[index].isCheck,
-                          // onChanged: (bool? value) {
-                          //   _itemIdx = index;
-                          //   _selectedIdx.add(index);
-                          //   if (_selectedIdx.length > 1) {
-                          //     _catagoryList[_selectedIdx.elementAt(0)].isCheck =
-                          //         false;
-                          //     _selectedIdx.removeAt(0);
-                          //   }
-                          //   _catagoryList[index].isCheck = value!;
-                          //   _catagoryName = _catagoryList[index].catagoryName;
 
-                          //   setState(() {});
-                          // },
+
+
+// const InputDecoration(
+//                   hintText: 'Enter Item Name',
+//                   labelText: 'Item Name',
+//                   enabledBorder: UnderlineInputBorder(
+//                     borderSide: BorderSide(color: Colors.deepPurpleAccent),
+//                   ),
+//                 )

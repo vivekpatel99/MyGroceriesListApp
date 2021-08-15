@@ -247,6 +247,10 @@ class ListTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? _myGroceryList =
+        Provider.of<Map<String, dynamic>?>(context);
+    final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
+
     return SizedBox(
       height: 70,
       child: Card(
@@ -261,7 +265,7 @@ class ListTileCard extends StatelessWidget {
             style: const TextStyle(fontSize: 14.0),
           ),
           subtitle: Text(
-            quantity,
+            quantity.isNotEmpty ? quantity : 'Quantity',
             style: const TextStyle(fontSize: 12.0),
           ),
           trailing: Row(
@@ -283,6 +287,7 @@ class ListTileCard extends StatelessWidget {
                           itemName: itemName,
                           quantity: quantity,
                           price: price,
+                          myGroceryList: myGroceryList,
                         );
                       });
                 },

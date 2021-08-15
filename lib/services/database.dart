@@ -67,10 +67,10 @@ class DatabaseService {
   }
 
   //----------------------------------------------------------------------------
-  // * update userdata
-  Future addItem({
+  // * add userdata
+  Future addUpdateItem({
     required String catagoryName,
-    required Catagory catagory,
+    required List<Catagory> catagoryItemList,
   }) async {
 /* 
 {
@@ -81,23 +81,17 @@ class DatabaseService {
     },]
 
 */
-    log.i('addItem start');
+    log.i('addUpdateItem start');
     log.d('uid: $uid');
     final options = SetOptions(merge: true);
-    // List<dynamic> mapList = {catagoryName: catagory.toJason()};
-    // print('$catagoryName : ${catagory.toJson()}');
 
-    // {
-    //       // catagoryName: catagory.toJson(),
-    //       'Dairy': FieldValue.arrayUnion([
-    //         {'name': 'Cheese', 'toBuy': true}
-    //       ])
-    //     }
+    final List<Map<String, dynamic>> catagoryItemJson =
+        catagoryItemList.map((e) => e.toJson()).toList();
+    final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
+    log.d('catagoryItemJson: $catagoryItemJson');
     return groceryListsCollection
         .doc(uid)
-        .set({
-          catagoryName: FieldValue.arrayUnion([catagory.toJson()])
-        }, options)
+        .set({catagoryName: catagoryItemJson}, options)
         .then((value) => log.i('addItem Success'))
         .catchError((error) => log.e(error));
   }

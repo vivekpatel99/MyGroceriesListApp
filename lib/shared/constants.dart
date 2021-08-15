@@ -7,6 +7,11 @@ const kTextFormInputDecoration = InputDecoration(
   ),
 );
 
+const kAddItemPopupTextFormInputDecoration = InputDecoration(
+    focusedBorder: UnderlineInputBorder(
+  borderSide: BorderSide(color: Colors.deepPurpleAccent),
+));
+
 const kSizedBox = SizedBox(
   height: 20.0,
 );
