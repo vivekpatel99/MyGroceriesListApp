@@ -17,7 +17,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('groceryList');
 
   final String? uid;
-  DatabaseService({this.uid});
+  DatabaseService({required this.uid});
   final log = logger(DatabaseService);
 
 //------------------------------------------------------------------------------
@@ -212,30 +212,30 @@ class DatabaseService {
 
   //----------------------------------------------------------------------------
   // * Setup initial database collection
-  Future? initDatabaseSetup() async {
-    // * create a new document for the user with the uid
-    final List<Catagory> dairyList = [];
-    final List<Catagory> vegetablesList = [];
-    final List<Catagory> fruitsList = [];
-    final List<Catagory> breadBakeryList = [];
-    final List<Catagory> dryGoodsList = [];
-    final List<Catagory> frozenFoodsList = [];
-    final List<Catagory> beveragesList = [];
-    final List<Catagory> cleanersList = [];
-    final List<Catagory> personalCareList = [];
-    final List<Catagory> otherList = [];
-    final MyGroceryList mylist = MyGroceryList(
-        dairyList: dairyList,
-        vegetableList: vegetablesList,
-        fruitsList: fruitsList,
-        breadBakeryList: breadBakeryList,
-        dryGoodsList: dryGoodsList,
-        frozenFoodsList: frozenFoodsList,
-        beveragesList: beveragesList,
-        cleanersList: cleanersList,
-        personalCareList: personalCareList,
-        otherList: otherList);
+  // Future? initDatabaseSetup() async {
+  //   // * create a new document for the user with the uid
+  //   final List<Catagory> dairyList = [];
+  //   final List<Catagory> vegetablesList = [];
+  //   final List<Catagory> fruitsList = [];
+  //   final List<Catagory> breadBakeryList = [];
+  //   final List<Catagory> dryGoodsList = [];
+  //   final List<Catagory> frozenFoodsList = [];
+  //   final List<Catagory> beveragesList = [];
+  //   final List<Catagory> cleanersList = [];
+  //   final List<Catagory> personalCareList = [];
+  //   final List<Catagory> otherList = [];
+  //   final MyGroceryList mylist = MyGroceryList(
+  //       dairyList: dairyList,
+  //       vegetableList: vegetablesList,
+  //       fruitsList: fruitsList,
+  //       breadBakeryList: breadBakeryList,
+  //       dryGoodsList: dryGoodsList,
+  //       frozenFoodsList: frozenFoodsList,
+  //       beveragesList: beveragesList,
+  //       cleanersList: cleanersList,
+  //       personalCareList: personalCareList,
+  //       otherList: otherList);
 
-    await updateUserData(myGroceryList: mylist);
-  }
+  //   await updateUserData(myGroceryList: mylist);
+  // }
 }

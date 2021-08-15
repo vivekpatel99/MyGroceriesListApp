@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/services/auth.dart';
-import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/item_add_button.dart';
@@ -14,12 +13,12 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
   final log = logger(HomePage);
-
+  CatagoryItemsViewModel catagoryItemsViewModel = CatagoryItemsViewModel();
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Map<String, dynamic>?>.value(
-      value:
-          DatabaseService(uid: _auth.auth.currentUser?.uid).streamMyGroceryList,
+      value: CatagoryItemsViewModel().streamMyGroceryList,
+      //DatabaseService(uid: _auth.auth.currentUser?.uid).streamMyGroceryList,
       initialData: const {},
       child: DefaultTabController(
         length: 2,
@@ -102,8 +101,6 @@ class HomePage extends StatelessWidget {
   late String catagoryName;
 
   void onSelected({required BuildContext context, required int item}) {
-    final String? userId = _auth.auth.currentUser?.uid;
-    final DatabaseService databaseService = DatabaseService(uid: userId);
     switch (item) {
       case 0:
         showDialog(
@@ -116,8 +113,10 @@ class HomePage extends StatelessWidget {
                   AlertDialogButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      databaseService.deletedItemCollection();
-                      databaseService.initDatabaseSetup();
+                      catagoryItemsViewModel.deletedItem();
+                      // databaseService.deletedItemCollection();
+                      catagoryItemsViewModel.initDatabaseSetup();
+                      // databaseService.initDatabaseSetup();
                     },
                     child: const Text('Yes'),
                   ),

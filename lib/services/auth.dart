@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -82,7 +83,8 @@ class AuthService {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       final User userInfo = result.user!;
-      await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
+      await CatagoryItemsViewModel().initDatabaseSetup();
+      // await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
       log.i('User Sign in successful');
       return _userFromFirebaseUser(userInfo);
     } catch (error) {
