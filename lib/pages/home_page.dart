@@ -2,18 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/bought_page.dart';
 import 'package:my_grocery_list/pages/buy_page.dart';
-import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/item_add_button.dart';
 import 'package:my_grocery_list/wigets/mydrawer.dart';
+import 'package:my_grocery_list/wigets/total_price.dart';
 import 'package:provider/provider.dart';
 
 //--------------------------------------------------------------------------------------------
 class HomePage extends StatelessWidget {
-  final AuthService _auth = AuthService();
   final log = logger(HomePage);
-  CatagoryItemsViewModel catagoryItemsViewModel = CatagoryItemsViewModel();
+
+  // CatagoryItemsViewModel catagoryItemsViewModel = CatagoryItemsViewModel();
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Map<String, dynamic>?>.value(
@@ -101,6 +102,8 @@ class HomePage extends StatelessWidget {
   late String catagoryName;
 
   void onSelected({required BuildContext context, required int item}) {
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context);
     switch (item) {
       case 0:
         showDialog(
@@ -133,19 +136,5 @@ class HomePage extends StatelessWidget {
 
       default:
     }
-  }
-}
-
-//--------------------------------------------------------------------------------------------
-class TotalPrice extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final num totalprice = context.watch<CatagoryItemsViewModel>().count;
-    return Text(
-      '€ ${totalprice.toString()}',
-      style: const TextStyle(
-        fontSize: 20.0,
-      ),
-    );
   }
 }

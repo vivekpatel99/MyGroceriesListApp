@@ -114,7 +114,7 @@ class DatabaseService {
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future deleteCatagory({
+  Future deleteCatagoryFromCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');

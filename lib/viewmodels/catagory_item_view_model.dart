@@ -17,11 +17,21 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //------------------------------------------------------------------------------
+
+  //------------------------------------------------------------------------------
   // * get stream of grocerylist
   Stream<Map<String, dynamic>?> get streamMyGroceryList {
     log.i('streamMyGroceryList start');
 
     return _databaseService.streamMyGroceryList;
+  }
+
+  //----------------------------------------------------------------------------
+  Future deleteCatagory({
+    required String catagoryName,
+  }) async {
+    return _databaseService.deleteCatagoryFromCollection(
+        catagoryName: catagoryName);
   }
 
   //----------------------------------------------------------------------------
