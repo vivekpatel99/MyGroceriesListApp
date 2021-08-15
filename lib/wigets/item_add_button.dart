@@ -7,6 +7,7 @@ import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
 import 'package:provider/provider.dart';
 
+//--------------------------------------------------------------------------------------------
 class AddCatagoryButton extends StatefulWidget {
   const AddCatagoryButton({
     Key? key,

@@ -3,6 +3,7 @@ import 'package:my_grocery_list/pages/authenticate/sign_in.dart';
 import 'package:my_grocery_list/pages/authenticate/sign_up.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 
+//--------------------------------------------------------------------------------------------
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);
 

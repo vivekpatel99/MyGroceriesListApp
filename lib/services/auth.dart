@@ -77,17 +77,7 @@ class AuthService {
   Future signupWithEmailAndPassword(
       {required String email, required String password}) async {
     log.i('signupWithEmailAndPassword starts');
-    // await _auth
-    //     .createUserWithEmailAndPassword(email: email, password: password)
-    //     .then((result) async {
-    //   final User userInfo = result.user!;
-    //   await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
-    //   return _userFromFirebaseUser(userInfo);
-    // }).catchError((error) {
-    //   log.e(error);
-    //   return null;
-    // });
-    // return null;
+
     try {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -100,9 +90,6 @@ class AuthService {
       return null;
     }
   }
-
-//------------------------------------------------------------------------------
-  // sign in with email and password
 
 //------------------------------------------------------------------------------
   // sign out

@@ -213,14 +213,3 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
     );
   }
 }
-
-
-
-
-// const InputDecoration(
-//                   hintText: 'Enter Item Name',
-//                   labelText: 'Item Name',
-//                   enabledBorder: UnderlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.deepPurpleAccent),
-//                   ),
-//                 )

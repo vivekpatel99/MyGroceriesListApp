@@ -196,7 +196,6 @@ class DisplayNestedListView extends StatelessWidget {
                                 }
                               }),
                         ),
-                      // kDivider,
                     ],
                   ),
                 );

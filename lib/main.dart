@@ -16,8 +16,6 @@ void main() async {
     providers: [ChangeNotifierProvider(create: (_) => TotalPriceCounter())],
     child: MyApp(),
   ));
-
-  // runApp();
 }
 
 class MyApp extends StatelessWidget {

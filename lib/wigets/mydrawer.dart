@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/services/auth.dart';
-import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:package_info/package_info.dart';
 
+//--------------------------------------------------------------------------------------------
 class MyDrawer extends StatelessWidget {
   MyDrawer({Key? key}) : super(key: key);
 
@@ -25,7 +25,7 @@ class MyDrawer extends StatelessWidget {
     );
   }
 
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
   Future<String> _myPackageInfo() async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
@@ -33,8 +33,8 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? userId = _auth.auth.currentUser?.uid;
-    final DatabaseService databaseService = DatabaseService(uid: userId);
+    // final String? userId = _auth.auth.currentUser?.uid;
+    // final DatabaseService databaseService = DatabaseService(uid: userId);
     return Drawer(
       child: Column(
         children: [
@@ -90,6 +90,7 @@ class MyDrawer extends StatelessWidget {
   }
 }
 
+//--------------------------------------------------------------------------------------------
 class AlertDialogButton extends StatelessWidget {
   const AlertDialogButton({
     Key? key,
@@ -110,7 +111,7 @@ class AlertDialogButton extends StatelessWidget {
   }
 }
 
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 class MyDrawerHeader extends StatelessWidget {
   MyDrawerHeader({
     Key? key,
@@ -155,6 +156,7 @@ class MyDrawerHeader extends StatelessWidget {
   }
 }
 
+//--------------------------------------------------------------------------------------------
 class DeleteAllData extends StatefulWidget {
   const DeleteAllData({Key? key}) : super(key: key);
 
@@ -162,6 +164,7 @@ class DeleteAllData extends StatefulWidget {
   _DeleteAllDataState createState() => _DeleteAllDataState();
 }
 
+//--------------------------------------------------------------------------------------------
 class _DeleteAllDataState extends State<DeleteAllData> {
   @override
   Widget build(BuildContext context) {

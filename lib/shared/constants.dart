@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//------------------------------------------------------------------------------
 const kTextFormInputDecoration = InputDecoration(
   fillColor: Colors.white,
   focusedBorder: OutlineInputBorder(
@@ -7,25 +8,30 @@ const kTextFormInputDecoration = InputDecoration(
   ),
 );
 
+//------------------------------------------------------------------------------
 const kAddItemPopupTextFormInputDecoration = InputDecoration(
     focusedBorder: UnderlineInputBorder(
   borderSide: BorderSide(color: Colors.deepPurpleAccent),
 ));
 
+//------------------------------------------------------------------------------
 const kSizedBox = SizedBox(
   height: 20.0,
 );
 
+//------------------------------------------------------------------------------
 ButtonStyle? kButtonSytle = ButtonStyle(
   foregroundColor: MaterialStateProperty.all(
     Colors.deepPurpleAccent,
   ),
 );
 
+//------------------------------------------------------------------------------
 const Divider kDivider = Divider(
   // color: Colors.deepPurpleAccent,
   height: 3,
 );
+//------------------------------------------------------------------------------
 const TextStyle kDrawerManuTextStyle = TextStyle(fontSize: 18);
 
 //------------------------------------------------------------------------------

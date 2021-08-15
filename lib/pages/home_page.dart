@@ -10,6 +10,7 @@ import 'package:my_grocery_list/wigets/item_add_button.dart';
 import 'package:my_grocery_list/wigets/mydrawer.dart';
 import 'package:provider/provider.dart';
 
+//--------------------------------------------------------------------------------------------
 class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
   final log = logger(HomePage);
@@ -136,6 +137,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+//--------------------------------------------------------------------------------------------
 class TotalPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

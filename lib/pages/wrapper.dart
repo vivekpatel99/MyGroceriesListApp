@@ -13,7 +13,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
 
-    // print(user?.uid);
     if (user == null) {
       log.i('Authenticate Page opens');
       return const Authenticate();
