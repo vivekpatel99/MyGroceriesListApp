@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
-import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/shared/logging.dart';
 import 'package:package_info/package_info.dart';
 
 class MyDrawer extends StatelessWidget {

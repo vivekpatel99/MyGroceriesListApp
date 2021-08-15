@@ -5,7 +5,7 @@ import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/providers/total_total_counter.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
-import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/wigets/item_add_button.dart';
 import 'package:my_grocery_list/wigets/mydrawer.dart';
 import 'package:provider/provider.dart';

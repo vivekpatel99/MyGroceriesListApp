@@ -5,7 +5,7 @@ import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
-import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
 import 'package:provider/provider.dart';
 

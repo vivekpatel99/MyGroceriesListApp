@@ -4,8 +4,8 @@ import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/wrapper.dart';
 import 'package:my_grocery_list/providers/total_total_counter.dart';
 import 'package:my_grocery_list/services/auth.dart';
-import 'package:my_grocery_list/utils/logging.dart';
-import 'package:my_grocery_list/utils/theme.dart';
+import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/shared/theme.dart';
 import 'package:provider/provider.dart';
 
 // todo add internet connection check

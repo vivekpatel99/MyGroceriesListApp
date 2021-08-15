@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
-import 'package:my_grocery_list/utils/logging.dart';
 import 'package:provider/provider.dart';
 
 class AddCatagoryButton extends StatefulWidget {
