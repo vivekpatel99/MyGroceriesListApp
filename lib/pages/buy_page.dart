@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:logger/src/logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/providers/total_total_counter.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +73,7 @@ class DisplayNestedListView extends StatelessWidget {
     final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
     print(myGroceryList);
     final String userId = user?.uid ?? '';
-    context.read<TotalPriceCounter>().reset();
+    context.read<CatagoryItemsViewModel>().reset();
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -170,7 +170,7 @@ class DisplayNestedListView extends StatelessWidget {
                                     catagoryItems[idx].price as num;
                                 log.i('ItemName $itemName & toBuy $toBuy');
                                 context
-                                    .read<TotalPriceCounter>()
+                                    .read<CatagoryItemsViewModel>()
                                     .add(price: price);
                                 if (onBuyPage && toBuy) {
                                   return ItemCardListTile(
