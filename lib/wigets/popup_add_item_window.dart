@@ -151,14 +151,14 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                 children: [
                   TextButton(
                     onPressed: () async {
-                      _price = _priceTextFieldController.text.isEmpty
-                          ? _price = 0.0
-                          : _price;
+                      // _price = _priceTextFieldController.text.isEmpty
+                      //     ? _price = 0.0
+                      //     : _price;
 
-                      _quantity = _quantityTextFieldController.text == '' ||
-                              _quantityTextFieldController.text.isEmpty
-                          ? _quantity = ' '
-                          : _quantity;
+                      // _quantity = _quantityTextFieldController.text == '' ||
+                      //         _quantityTextFieldController.text.isEmpty
+                      //     ? _quantity = ''
+                      //     : _quantity;
 
                       _addItemButtonVerification(context);
 

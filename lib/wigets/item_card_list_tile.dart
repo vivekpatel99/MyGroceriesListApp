@@ -250,12 +250,11 @@ class ListTileCard extends StatelessWidget {
     final Map<String, dynamic>? _myGroceryList =
         Provider.of<Map<String, dynamic>?>(context);
     final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
-
+    final String _priceString = price.toString();
     return SizedBox(
       height: 70,
       child: Card(
         child: ListTile(
-          // dense: true,
           leading: CircleAvatar(
             foregroundImage: (_data != null) ? AssetImage(imagePath) : null,
             child: (_data != null) ? null : Text(firstLettter),
@@ -271,7 +270,7 @@ class ListTileCard extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(price.toString()),
+              Text(_priceString.isEmpty ? '0.0' : _priceString),
               const SizedBox(
                 width: 20,
               ),
