@@ -24,16 +24,18 @@ class DatabaseService {
   // * update tobuy status
   Future<void> moveToBuyBought({
     required String catagoryName,
-    required List<dynamic> mapList,
+    required Map<String, dynamic> mapList,
   }) {
     final options = SetOptions(merge: true);
     log.i('moveToBuyBought start');
     log.d('uid: $uid');
 
+    mapList = {'name': 'Some', 'price': 0.0, 'quantity': '', 'toBuy': false};
+
     return groceryListsCollection
         .doc(uid)
         .set({
-          catagoryName: mapList,
+          catagoryName: [mapList],
         }, options)
         .then((value) => log.i('moveToBuyBought Success'))
         .catchError((error) => log.e(error));
@@ -58,7 +60,7 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * delete collection
-  Future<void> deletedItemCollection() {
+  Future<void> deletedItem() {
     return groceryListsCollection
         .doc(uid)
         .delete()
@@ -68,7 +70,7 @@ class DatabaseService {
 
   //----------------------------------------------------------------------------
   // * add userdata
-  Future addUpdateItem({
+  Future addUpdateItemInCollection({
     required String catagoryName,
     required List<Catagory> catagoryItemList,
   }) async {
@@ -98,7 +100,7 @@ class DatabaseService {
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future addCatagory({
+  Future addCatagoryCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
@@ -119,7 +121,6 @@ class DatabaseService {
   }) async {
     log.i('addCatagory start');
     log.d('uid: $uid');
-    final options = SetOptions(merge: true);
 
     return groceryListsCollection
         .doc(uid)

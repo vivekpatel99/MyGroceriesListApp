@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
@@ -8,15 +8,44 @@ class CatagoryItemsViewModel with ChangeNotifier {
   final AuthService myAuth = AuthService();
   late String? currentUserId = myAuth.auth.currentUser?.uid;
 
-  num _count = 0.00;
-  num get count => _count;
   final log = logger(CatagoryItemsViewModel);
 
   DatabaseService get _databaseService {
     return DatabaseService(uid: currentUserId);
   }
 
+  int itemFoundInCatagoryItems(
+      {required List<Catagory> catagoryItems, required String itemName}) {
+    return catagoryItems.indexWhere((element) => element.name == itemName);
+  }
+
   //------------------------------------------------------------------------------
+  Future addUpdateItem({
+    required String catagoryName,
+    required List<Catagory> catagoryItemList,
+  }) async {
+    return _databaseService.addUpdateItemInCollection(
+        catagoryName: catagoryName, catagoryItemList: catagoryItemList);
+  }
+
+  //------------------------------------------------------------------------------
+  Future<void> moveToBuyBought({
+    required String catagoryName,
+    required Map<String, dynamic> mapList,
+  }) {
+    return _databaseService.moveToBuyBought(
+        catagoryName: catagoryName, mapList: mapList);
+  }
+
+//------------------------------------------------------------------------------
+  // * delete items
+  Future<void> deleteItemFromCataogry({
+    required String catagoryName,
+    required Map<String, dynamic> mapList,
+  }) {
+    return _databaseService.deleteItemFromCataogry(
+        catagoryName: catagoryName, mapList: mapList);
+  }
 
   //------------------------------------------------------------------------------
   // * get stream of grocerylist
@@ -35,8 +64,15 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //----------------------------------------------------------------------------
+  Future addCatagory({
+    required String catagoryName,
+  }) async {
+    return _databaseService.addCatagoryCollection(catagoryName: catagoryName);
+  }
+
+  //----------------------------------------------------------------------------
   Future<void> deletedItem() {
-    return _databaseService.deletedItemCollection();
+    return _databaseService.deletedItem();
   }
 
   //----------------------------------------------------------------------------
@@ -66,25 +102,5 @@ class CatagoryItemsViewModel with ChangeNotifier {
         otherList: otherList);
 
     await _databaseService.updateUserData(myGroceryList: mylist);
-  }
-
-//------------------------------------------------------------------------------
-  Future add({required num price}) async {
-    _count += price;
-    await Future.delayed(const Duration(milliseconds: 1));
-    notifyListeners();
-  }
-
-//------------------------------------------------------------------------------
-  void minus({required num price}) {
-    _count -= price;
-    notifyListeners();
-  }
-
-//------------------------------------------------------------------------------
-  Future reset() async {
-    _count = 0.00;
-    await Future.delayed(const Duration(milliseconds: 1));
-    notifyListeners();
   }
 }

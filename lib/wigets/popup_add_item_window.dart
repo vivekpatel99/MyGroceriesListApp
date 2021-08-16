@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_grocery_list/models/item_model.dart';
-import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
   final Map<String, dynamic> myGroceryList;
   final bool onBuyPage;
   final String catagoryName;
-  String itemName;
-  String quantity;
-  num price;
-  PopUPAddItemWindow({
+  final String itemName;
+  final String quantity;
+  final num price;
+  const PopUPAddItemWindow({
     Key? key,
     required this.myGroceryList,
     required this.onBuyPage,
@@ -63,7 +62,11 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
+    // final user = Provider.of<UserModel?>(context);
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context);
+    print(catagoryItemsViewModel.currentUserId);
+
     final List<dynamic> itemList =
         widget.myGroceryList[widget.catagoryName] as List<dynamic>;
 
@@ -78,7 +81,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
     String _quantity = '';
     double _price = 0.0;
 
-    final String userId = user?.uid ?? '';
+    // final String userId = user?.uid ?? '';
     _itemNametextFieldController.text = widget.itemName;
     _priceTextFieldController.text =
         widget.price == 0.0 ? '' : widget.price.toString();
@@ -189,7 +192,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
                           log.i(
                               'New index added for ItemName: $_itemName, Quantity: $_quantity, price €$_price');
                         }
-                        await DatabaseService(uid: userId).addUpdateItem(
+                        await catagoryItemsViewModel.addUpdateItem(
                           catagoryName: widget.catagoryName,
                           catagoryItemList: catagoryItems,
                         );

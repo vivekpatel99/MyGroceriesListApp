@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +42,8 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
+    final CatagoryItemsViewModel catagoryItemsViewMode =
+        Provider.of<CatagoryItemsViewModel>(context);
     final String userId = user?.uid ?? '';
     final String firstLettter = widget.itemName[0];
 
@@ -56,6 +60,9 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
         return null;
       }
     }
+
+    final Map<String, dynamic> myGroceryList =
+        Provider.of<Map<String, dynamic>?>(context) ?? {};
 
     return FutureBuilder(
       future: checkImageExist(imagePath),
@@ -81,11 +88,16 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
                     dismissDirection: dismissDirection, uid: userId);
           },
           onDismissed: (DismissDirection dismissDirection) {
+            final List<dynamic> catagoryItemList =
+                myGroceryList[widget.catagoryTitle] as List<dynamic>;
             widget.onBuyPage
                 ? _onDismissedForBuyPage(
-                    dismissDirection: dismissDirection, uid: userId)
+                    catagoryItemList: catagoryItemList,
+                    dismissDirection: dismissDirection,
+                    catagoryItemsViewModel: catagoryItemsViewMode)
                 : _onDismissedForBoughtPage(
-                    dismissDirection: dismissDirection, uid: userId);
+                    dismissDirection: dismissDirection,
+                    catagoryItemsViewMode: catagoryItemsViewMode);
           },
           child: ListTileCard(
             snapshotData: _snapshotData,
@@ -112,23 +124,54 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
   }
 
   Future<bool?> _onDismissedForBuyPage(
-      {required DismissDirection dismissDirection, required String uid}) async {
+      {required DismissDirection dismissDirection,
+      required CatagoryItemsViewModel catagoryItemsViewModel,
+      required List<dynamic> catagoryItemList}) async {
     if (dismissDirection == DismissDirection.startToEnd) {
       log.i('${widget.itemName} move to bought');
 
-      final Map<String, dynamic> _itemListMap = {
-        kName: widget.itemName,
-        kPrice: widget.price,
-        kQuantity: widget.quantity,
-        kToBuy: false
-      };
+      // final Map<String, dynamic> itemListMap = {
+      //   kName: widget.itemName,
+      //   kPrice: widget.price,
+      //   kQuantity: widget.quantity,
+      //   kToBuy: false
+      // };
+      final Catagory _catagory = Catagory(
+        name: widget.itemName,
+        price: widget.price,
+        quantity: widget.quantity,
+        toBuy: false,
+      );
+      final catagoryItems = catagoryItemList
+          .map<Catagory>(
+              (json) => Catagory.fromJson(json as Map<String, dynamic>))
+          .toList();
+      final int foundItemIndex = catagoryItems
+          .indexWhere((element) => element.name == widget.itemName);
+      print('${catagoryItemList}#################');
+      catagoryItems[foundItemIndex] = _catagory;
 
-      setState(() async {
-        await DatabaseService(uid: uid).moveToBuyBought(
-          catagoryName: widget.catagoryTitle,
-          mapList: [_itemListMap],
-        );
-      });
+      // print(widget.catagoryTitle);
+      // print([itemListMap]);
+
+      catagoryItemsViewModel.addUpdateItem(
+        catagoryName: widget.catagoryTitle,
+        catagoryItemList: catagoryItems,
+      );
+      // catagoryItemsViewMode.moveToBuyBought(
+      //   catagoryName: widget.catagoryTitle,
+      //   mapList: itemListMap,
+      // );
+      // setState(() async {
+      // catagoryItemsViewMode.moveToBuyBought(
+      //   catagoryName: widget.catagoryTitle,
+      //   mapList: [_itemListMap],
+      // );
+      // await DatabaseService(uid: uid).moveToBuyBought(
+      //   catagoryName: widget.catagoryTitle,
+      //   mapList: [_itemListMap],
+      // );
+      // });
 
       final SnackBar _snackBar = SnackBar(
         content: Text('${widget.itemName} moved to bought'),
@@ -148,7 +191,8 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
   }
 
   Future<bool?> _onDismissedForBoughtPage(
-      {required DismissDirection dismissDirection, required String uid}) async {
+      {required DismissDirection dismissDirection,
+      required CatagoryItemsViewModel catagoryItemsViewMode}) async {
     // https://flutter.dev/docs/cookbook/design/snackbars
     // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.endToStart) {
@@ -161,12 +205,20 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
         kToBuy: true
       };
 
-      setState(() async {
-        await DatabaseService(uid: uid).moveToBuyBought(
-          catagoryName: widget.catagoryTitle,
-          mapList: [itemListMap],
-        );
-      });
+      print('#################');
+      print(widget.catagoryTitle);
+      print(itemListMap);
+      // setState(() async {
+      // await catagoryItemsViewMode.moveToBuyBought(
+      //   catagoryName: widget.catagoryTitle,
+      //   mapList: [itemListMap],
+      // );
+
+      // await DatabaseService(uid: uid).moveToBuyBought(
+      //   catagoryName: widget.catagoryTitle,
+      //   mapList: [itemListMap],
+      // );
+      // });
 
       final SnackBar _snackBar = SnackBar(
         content: Text('${widget.itemName} Item moved to buy'),
@@ -250,7 +302,8 @@ class ListTileCard extends StatelessWidget {
     final Map<String, dynamic>? _myGroceryList =
         Provider.of<Map<String, dynamic>?>(context);
     final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
-
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context);
     return SizedBox(
       height: 70,
       child: Card(

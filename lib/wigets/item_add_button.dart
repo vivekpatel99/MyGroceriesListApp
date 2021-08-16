@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:provider/provider.dart';
 
 //--------------------------------------------------------------------------------------------
@@ -47,6 +47,8 @@ class _AddCatagoryButtonState extends State<AddCatagoryButton> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     final String userId = user?.uid ?? '';
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context);
     return FloatingActionButton(
       onPressed: () {
         showDialog(
@@ -93,9 +95,11 @@ class _AddCatagoryButtonState extends State<AddCatagoryButton> {
                                   if (_catagoryNametextFieldController
                                       .text.isNotEmpty) {
                                     log.i('catagoryName: $_catagoryName');
-                                    await DatabaseService(uid: userId)
-                                        .addCatagory(
-                                            catagoryName: _catagoryName);
+                                    catagoryItemsViewModel.addCatagory(
+                                        catagoryName: _catagoryName);
+                                    // await DatabaseService(uid: userId)
+                                    //     .addCatagory(
+                                    //         catagoryName: _catagoryName);
                                     Navigator.pop(context);
                                   }
                                 },
