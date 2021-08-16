@@ -96,8 +96,9 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
                     dismissDirection: dismissDirection,
                     catagoryItemsViewModel: catagoryItemsViewMode)
                 : _onDismissedForBoughtPage(
+                    catagoryItemList: catagoryItemList,
                     dismissDirection: dismissDirection,
-                    catagoryItemsViewMode: catagoryItemsViewMode);
+                    catagoryItemsViewModel: catagoryItemsViewMode);
           },
           child: ListTileCard(
             snapshotData: _snapshotData,
@@ -142,26 +143,28 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
         quantity: widget.quantity,
         toBuy: false,
       );
-      final catagoryItems = catagoryItemList
-          .map<Catagory>(
-              (json) => Catagory.fromJson(json as Map<String, dynamic>))
-          .toList();
-      final int foundItemIndex = catagoryItems
-          .indexWhere((element) => element.name == widget.itemName);
-      print('${catagoryItemList}#################');
-      catagoryItems[foundItemIndex] = _catagory;
+      // final catagoryItems = catagoryItemList
+      //     .map<Catagory>(
+      //         (json) => Catagory.fromJson(json as Map<String, dynamic>))
+      //     .toList();
+      // final int foundItemIndex = catagoryItems
+      //     .indexWhere((element) => element.name == widget.itemName);
+
+      // catagoryItems[foundItemIndex] = _catagory;
 
       // print(widget.catagoryTitle);
       // print([itemListMap]);
 
-      catagoryItemsViewModel.addUpdateItem(
-        catagoryName: widget.catagoryTitle,
-        catagoryItemList: catagoryItems,
-      );
-      // catagoryItemsViewMode.moveToBuyBought(
+      // catagoryItemsViewModel.addUpdateItem(
       //   catagoryName: widget.catagoryTitle,
-      //   mapList: itemListMap,
+      //   catagoryItemList: catagoryItems,
       // );
+
+      catagoryItemsViewModel.moveToBuyBought(
+          catagory: _catagory,
+          catagoryItemList: catagoryItemList,
+          catagoryTitle: widget.catagoryTitle,
+          itemName: widget.itemName);
       // setState(() async {
       // catagoryItemsViewMode.moveToBuyBought(
       //   catagoryName: widget.catagoryTitle,
@@ -192,22 +195,33 @@ class _ItemCardListTileState extends State<ItemCardListTile> {
 
   Future<bool?> _onDismissedForBoughtPage(
       {required DismissDirection dismissDirection,
-      required CatagoryItemsViewModel catagoryItemsViewMode}) async {
+      required CatagoryItemsViewModel catagoryItemsViewModel,
+      required List<dynamic> catagoryItemList}) async {
     // https://flutter.dev/docs/cookbook/design/snackbars
     // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
     if (dismissDirection == DismissDirection.endToStart) {
       log.i('${widget.itemName} move to buy');
 
-      final Map<String, dynamic> itemListMap = {
-        kName: widget.itemName,
-        kPrice: widget.price,
-        kQuantity: widget.quantity,
-        kToBuy: true
-      };
+      // final Map<String, dynamic> itemListMap = {
+      //   kName: widget.itemName,
+      //   kPrice: widget.price,
+      //   kQuantity: widget.quantity,
+      //   kToBuy: true
+      // };
+      final Catagory _catagory = Catagory(
+        name: widget.itemName,
+        price: widget.price,
+        quantity: widget.quantity,
+        toBuy: true,
+      );
 
-      print('#################');
-      print(widget.catagoryTitle);
-      print(itemListMap);
+      catagoryItemsViewModel.moveToBuyBought(
+          catagory: _catagory,
+          catagoryItemList: catagoryItemList,
+          catagoryTitle: widget.catagoryTitle,
+          itemName: widget.itemName);
+
+      // print(itemListMap);
       // setState(() async {
       // await catagoryItemsViewMode.moveToBuyBought(
       //   catagoryName: widget.catagoryTitle,

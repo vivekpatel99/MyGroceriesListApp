@@ -22,24 +22,24 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * update tobuy status
-  Future<void> moveToBuyBought({
-    required String catagoryName,
-    required Map<String, dynamic> mapList,
-  }) {
-    final options = SetOptions(merge: true);
-    log.i('moveToBuyBought start');
-    log.d('uid: $uid');
+  // Future<void> moveToBuyBought({
+  //   required String catagoryName,
+  //   required Map<String, dynamic> mapList,
+  // }) {
+  //   final options = SetOptions(merge: true);
+  //   log.i('moveToBuyBought start');
+  //   log.d('uid: $uid');
 
-    mapList = {'name': 'Some', 'price': 0.0, 'quantity': '', 'toBuy': false};
+  //   mapList = {'name': 'Some', 'price': 0.0, 'quantity': '', 'toBuy': false};
 
-    return groceryListsCollection
-        .doc(uid)
-        .set({
-          catagoryName: [mapList],
-        }, options)
-        .then((value) => log.i('moveToBuyBought Success'))
-        .catchError((error) => log.e(error));
-  }
+  //   return groceryListsCollection
+  //       .doc(uid)
+  //       .set({
+  //         catagoryName: [mapList],
+  //       }, options)
+  //       .then((value) => log.i('moveToBuyBought Success'))
+  //       .catchError((error) => log.e(error));
+  // }
 
 //------------------------------------------------------------------------------
   // * delete items

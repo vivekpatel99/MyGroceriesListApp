@@ -29,12 +29,23 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //------------------------------------------------------------------------------
-  Future<void> moveToBuyBought({
-    required String catagoryName,
-    required Map<String, dynamic> mapList,
-  }) {
-    return _databaseService.moveToBuyBought(
-        catagoryName: catagoryName, mapList: mapList);
+  Future<void> moveToBuyBought(
+      {required String itemName,
+      required String catagoryTitle,
+      required Catagory catagory,
+      required List<dynamic> catagoryItemList}) {
+    final catagoryItems = catagoryItemList
+        .map<Catagory>(
+            (json) => Catagory.fromJson(json as Map<String, dynamic>))
+        .toList();
+    final int foundItemIndex =
+        catagoryItems.indexWhere((element) => element.name == itemName);
+
+    catagoryItems[foundItemIndex] = catagory;
+    return addUpdateItem(
+      catagoryName: catagoryTitle,
+      catagoryItemList: catagoryItems,
+    );
   }
 
 //------------------------------------------------------------------------------
