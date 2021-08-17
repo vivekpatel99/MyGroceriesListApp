@@ -6,6 +6,7 @@ import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
+import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 import 'package:my_grocery_list/wigets/list_tile_card.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +63,7 @@ class ItemCardListTile extends StatelessWidget {
       // https://flutter.dev/docs/cookbook/design/snackbars
       // https://stackoverflow.com/questions/64135284/how-to-achieve-delete-and-undo-operations-on-dismissible-widget-in-flutter
       if (dismissDirection == DismissDirection.endToStart) {
-        log.i('${itemName} move to buy');
+        log.i('$itemName move to buy');
 
         final Catagory _catagory = Catagory(
           name: itemName,
@@ -78,10 +79,13 @@ class ItemCardListTile extends StatelessWidget {
             itemName: itemName);
 
         final SnackBar _snackBar = SnackBar(
-          content: Text('${itemName} Item moved to buy'),
-        );
+            content: Text('$itemName Item moved to buy'),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(milliseconds: 1000));
 
         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+        Provider.of<TotalPriceViewModel>(context, listen: false)
+            .addItemPrice(itemName: itemName, price: price);
       }
     }
 
@@ -90,7 +94,7 @@ class ItemCardListTile extends StatelessWidget {
         required CatagoryItemsViewModel catagoryItemsViewModel,
         required List<dynamic> catagoryItemList}) async {
       if (dismissDirection == DismissDirection.startToEnd) {
-        log.i('${itemName} move to bought');
+        log.i('$itemName move to bought');
 
         final Catagory _catagory = Catagory(
           name: itemName,
@@ -104,11 +108,14 @@ class ItemCardListTile extends StatelessWidget {
             catagoryItemList: catagoryItemList,
             catagoryTitle: catagoryTitle,
             itemName: itemName);
-
         final SnackBar _snackBar = SnackBar(
-          content: Text('${itemName} moved to bought'),
+          content: Text('$itemName moved to bought'),
+          duration: const Duration(milliseconds: 1000),
+          behavior: SnackBarBehavior.floating,
         );
         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+        Provider.of<TotalPriceViewModel>(context, listen: false)
+            .removeItemPrice(itemName: itemName, price: price);
       }
     }
 
@@ -134,7 +141,7 @@ class ItemCardListTile extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Conform'),
-            content: Text('Are you sure you want to delete ${itemName}?'),
+            content: Text('Are you sure you want to delete $itemName?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -166,7 +173,7 @@ class ItemCardListTile extends StatelessWidget {
         {required DismissDirection dismissDirection,
         required CatagoryItemsViewModel catagoryItemsViewModel}) async {
       if (dismissDirection == DismissDirection.endToStart) {
-        log.i('${itemName} moved to bought');
+        log.i('$itemName moved to bought');
 
         return _conformDeleteShowDialog(
             catagoryItemsViewModel: catagoryItemsViewModel);
@@ -178,7 +185,7 @@ class ItemCardListTile extends StatelessWidget {
         {required DismissDirection dismissDirection,
         required CatagoryItemsViewModel catagoryItemsViewModel}) async {
       if (dismissDirection == DismissDirection.startToEnd) {
-        log.i('${itemName} deteled');
+        log.i('$itemName deteled');
 
         return _conformDeleteShowDialog(
             catagoryItemsViewModel: catagoryItemsViewModel);

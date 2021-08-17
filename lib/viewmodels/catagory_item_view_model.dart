@@ -3,9 +3,11 @@ import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 
 class CatagoryItemsViewModel with ChangeNotifier {
   final AuthService myAuth = AuthService();
+  final TotalPriceViewModel totalPrice = TotalPriceViewModel();
   late String? currentUserId = myAuth.auth.currentUser?.uid;
 
   final log = logger(CatagoryItemsViewModel);
@@ -40,8 +42,10 @@ class CatagoryItemsViewModel with ChangeNotifier {
         .map<Catagory>(
             (json) => Catagory.fromJson(json as Map<String, dynamic>))
         .toList();
-    final int foundItemIndex =
-        catagoryItems.indexWhere((element) => element.name == itemName);
+    final int foundItemIndex = itemFoundInCatagoryItems(
+        catagoryItems: catagoryItems, itemName: itemName);
+    // final int foundItemIndex =
+    //     catagoryItems.indexWhere((element) => element.name == itemName);
 
     catagoryItems[foundItemIndex] = catagory;
     return addUpdateItem(

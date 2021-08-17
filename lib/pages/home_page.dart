@@ -14,16 +14,13 @@ class HomePage extends StatelessWidget {
   final log = logger(HomePage);
 
   // CatagoryItemsViewModel catagoryItemsViewModel = CatagoryItemsViewModel();
-
   @override
   Widget build(BuildContext context) {
-    late String catagoryName;
     final CatagoryItemsViewModel catagoryItemsViewModel =
         Provider.of<CatagoryItemsViewModel>(context);
-
+    log.i('----------- HomePage rebuild --------------------');
     //----------------------------------------------------------------------------------------
     void onSelected({required BuildContext context, required int item}) {
-      print('###################');
       switch (item) {
         case 0:
           showDialog(
@@ -129,7 +126,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(
                         width: 40,
                       ),
-                      TotalPrice(),
+                      TotalPriceTextWidget(),
                     ],
                   ),
                 ),

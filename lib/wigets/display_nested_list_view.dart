@@ -43,129 +43,220 @@ class DisplayNestedListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final String userId = user?.uid ?? '';
-    context.read<TotalPriceViewModel>().reset();
-
+    // context.read<TotalPriceViewModel>().reset();
+    final Map<String, dynamic> myGroceryList =
+        Provider.of<Map<String, dynamic>?>(context) ?? {};
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: CatagoryNameListView(onBuyPage: onBuyPage),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: myGroceryList.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String catagoryTitle = myGroceryList.keys.elementAt(index);
+              final itemsListLen =
+                  myGroceryList.values.elementAt(index)?.length as int;
+
+              final items = myGroceryList.values.elementAt(index);
+              final List<Catagory> catagoryItems = items
+                  .map<Catagory>(
+                      (json) => Catagory.fromJson(json as Map<String, dynamic>))
+                  .toList() as List<Catagory>;
+
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // if (catagoryTitle == null)
+                    //   const SizedBox()
+                    // else
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: null,
+                          onLongPress: () {
+                            catagoryItemsViewModel.deleteCatagory(
+                                catagoryName: catagoryTitle);
+                            // DatabaseService(uid: userId).deleteCatagory(
+                            //     catagoryName: catagoryTitle);
+                          },
+                          child: Text(
+                            catagoryTitle,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return PopUPAddItemWindow(
+                                      myGroceryList: myGroceryList,
+                                      onBuyPage: onBuyPage,
+                                      catagoryName: catagoryTitle,
+                                    );
+                                  });
+                            },
+                            icon: const Icon(CupertinoIcons.add))
+                      ],
+                    ),
+                    if (itemsListLen == 0)
+                      // ||
+                      //     (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
+                      //             true &&
+                      //         !onBuyPage)
+                      // ||
+                      // (_displayOnBoughtPage(
+                      //             catagoryItems as List<Catagory>) ==
+                      //         true &&
+                      //     onBuyPage)
+                      // )
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'No item',
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                      )
+                    else
+                      Flexible(
+                        child: ItemListView(
+                          itemsListLen: itemsListLen,
+                          catagoryItems: catagoryItems,
+                          onBuyPage: onBuyPage,
+                          catagoryTitle: catagoryTitle,
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
 }
 
-class CatagoryNameListView extends StatelessWidget {
-  CatagoryNameListView({
-    Key? key,
-    required this.onBuyPage,
-  }) : super(key: key);
+// class CatagoryNameListView extends StatelessWidget {
+//   CatagoryNameListView({
+//     Key? key,
+//     required this.onBuyPage,
+//   }) : super(key: key);
 
-  final bool onBuyPage;
-  final Logger log = logger(CatagoryNameListView);
-  @override
-  Widget build(BuildContext context) {
-    final Map<String, dynamic> myGroceryList =
-        Provider.of<Map<String, dynamic>?>(context) ?? {};
+//   final bool onBuyPage;
+//   final Logger log = logger(CatagoryNameListView);
+//   @override
+//   Widget build(BuildContext context) {
+//     final Map<String, dynamic> myGroceryList =
+//         Provider.of<Map<String, dynamic>?>(context) ?? {};
 
-    // final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
+//     // final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: myGroceryList.length,
-      itemBuilder: (BuildContext context, int index) {
-        final CatagoryItemsViewModel catagoryItemsViewModel =
-            Provider.of<CatagoryItemsViewModel>(context, listen: false);
+//     return ListView.builder(
+//       shrinkWrap: true,
+//       itemCount: myGroceryList.length,
+//       itemBuilder: (BuildContext context, int index) {
+//         final CatagoryItemsViewModel catagoryItemsViewModel =
+//             Provider.of<CatagoryItemsViewModel>(context, listen: false);
 
-        final String catagoryTitle = myGroceryList.keys.elementAt(index);
-        final itemsListLen =
-            myGroceryList.values.elementAt(index)?.length as int;
+//         final String catagoryTitle = myGroceryList.keys.elementAt(index);
+//         final itemsListLen =
+//             myGroceryList.values.elementAt(index)?.length as int;
 
-        final items = myGroceryList.values.elementAt(index);
-        final List<Catagory> catagoryItems = items
-            .map<Catagory>(
-                (json) => Catagory.fromJson(json as Map<String, dynamic>))
-            .toList() as List<Catagory>;
+//         final items = myGroceryList.values.elementAt(index);
+//         final List<Catagory> catagoryItems = items
+//             .map<Catagory>(
+//                 (json) => Catagory.fromJson(json as Map<String, dynamic>))
+//             .toList() as List<Catagory>;
 
-        return Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // if (catagoryTitle == null)
-              //   const SizedBox()
-              // else
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: null,
-                    onLongPress: () {
-                      catagoryItemsViewModel.deleteCatagory(
-                          catagoryName: catagoryTitle);
-                      // DatabaseService(uid: userId).deleteCatagory(
-                      //     catagoryName: catagoryTitle);
-                    },
-                    child: Text(
-                      catagoryTitle,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return PopUPAddItemWindow(
-                                myGroceryList: myGroceryList,
-                                onBuyPage: onBuyPage,
-                                catagoryName: catagoryTitle,
-                              );
-                            });
-                      },
-                      icon: const Icon(CupertinoIcons.add))
-                ],
-              ),
-              if (itemsListLen == 0)
-                // ||
-                //     (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
-                //             true &&
-                //         !onBuyPage)
-                // ||
-                // (_displayOnBoughtPage(
-                //             catagoryItems as List<Catagory>) ==
-                //         true &&
-                //     onBuyPage)
-                // )
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'No item',
-                    style: TextStyle(fontSize: 10.0),
-                  ),
-                )
-              else
-                Flexible(
-                  child: ItemListView(
-                    itemsListLen: itemsListLen,
-                    catagoryItems: catagoryItems,
-                    onBuyPage: onBuyPage,
-                    catagoryTitle: catagoryTitle,
-                  ),
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
+//         return Padding(
+//           padding: const EdgeInsets.all(20.0),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               // if (catagoryTitle == null)
+//               //   const SizedBox()
+//               // else
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   TextButton(
+//                     onPressed: null,
+//                     onLongPress: () {
+//                       catagoryItemsViewModel.deleteCatagory(
+//                           catagoryName: catagoryTitle);
+//                       // DatabaseService(uid: userId).deleteCatagory(
+//                       //     catagoryName: catagoryTitle);
+//                     },
+//                     child: Text(
+//                       catagoryTitle,
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         fontSize: 15.0,
+//                       ),
+//                     ),
+//                   ),
+//                   IconButton(
+//                       onPressed: () {
+//                         showDialog(
+//                             context: context,
+//                             builder: (BuildContext context) {
+//                               return PopUPAddItemWindow(
+//                                 myGroceryList: myGroceryList,
+//                                 onBuyPage: onBuyPage,
+//                                 catagoryName: catagoryTitle,
+//                               );
+//                             });
+//                       },
+//                       icon: const Icon(CupertinoIcons.add))
+//                 ],
+//               ),
+//               if (itemsListLen == 0)
+//                 // ||
+//                 //     (_displayOnBuyPage(catagoryItems as List<Catagory>) ==
+//                 //             true &&
+//                 //         !onBuyPage)
+//                 // ||
+//                 // (_displayOnBoughtPage(
+//                 //             catagoryItems as List<Catagory>) ==
+//                 //         true &&
+//                 //     onBuyPage)
+//                 // )
+//                 const Padding(
+//                   padding: EdgeInsets.all(8.0),
+//                   child: Text(
+//                     'No item',
+//                     style: TextStyle(fontSize: 10.0),
+//                   ),
+//                 )
+//               else
+//                 Flexible(
+//                   child: ItemListView(
+//                     itemsListLen: itemsListLen,
+//                     catagoryItems: catagoryItems,
+//                     onBuyPage: onBuyPage,
+//                     catagoryTitle: catagoryTitle,
+//                   ),
+//                 ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class ItemListView extends StatelessWidget {
   ItemListView({
@@ -194,8 +285,11 @@ class ItemListView extends StatelessWidget {
         final String quantity = catagoryItems[idx].quantity;
         final num price = catagoryItems[idx].price;
         log.i('ItemName $itemName & toBuy $toBuy');
-        context.read<TotalPriceViewModel>().add(price: price);
+
         if (onBuyPage && toBuy) {
+          context
+              .read<TotalPriceViewModel>()
+              .addItemPrice(itemName: itemName, price: price);
           return ItemCardListTile(
             onBuyPage: onBuyPage,
             catagoryTitle: catagoryTitle,

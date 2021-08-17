@@ -2,19 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 
 class TotalPriceViewModel with ChangeNotifier {
-  num _count = 0.00;
-  num get count => _count;
+  final Map<String, num> itemWithPriceMap = {};
   final log = logger(TotalPriceViewModel);
+  num _count = 0.00;
+  num get count {
+    if (itemWithPriceMap.isEmpty) {
+      return 0.00;
+    } else {
+      _count = 0.00;
+      itemWithPriceMap.forEach((key, value) {
+        _count += value;
+      });
+      log.d('_count $_count');
+      return _count;
+    }
+  }
+
+  void initItemPriceCount() {}
   //------------------------------------------------------------------------------
-  Future add({required num price}) async {
-    _count += price;
+  Future addItemPrice({required String itemName, required num price}) async {
+    final Map<String, num> items = {itemName: price};
+    if (!itemWithPriceMap.containsKey(itemName)) {
+      itemWithPriceMap.addAll(items);
+      log.i('addItemPrice $items');
+    }
+    // _count += price;
     await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
   }
 
 //------------------------------------------------------------------------------
-  void minus({required num price}) {
-    _count -= price;
+  Future removeItemPrice({required String itemName, required num price}) async {
+    // final Map<String, num> items = {itemName: price};
+
+    itemWithPriceMap.remove(itemName);
+    log.i('removeItemPrice $itemName');
+
+    await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
   }
 

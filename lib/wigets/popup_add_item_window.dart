@@ -160,7 +160,7 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
 
                       _quantity = _quantityTextFieldController.text == '' ||
                               _quantityTextFieldController.text.isEmpty
-                          ? _quantity = ' '
+                          ? _quantity = ''
                           : _quantity;
 
                       _addItemButtonVerification(context);

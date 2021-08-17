@@ -33,7 +33,7 @@ class ListTileCard extends StatelessWidget {
       height: 70,
       child: Card(
         child: ListTile(
-          // dense: true,
+          dense: true,
           leading: CircleAvatar(
             foregroundImage: (_data != null) ? AssetImage(imagePath) : null,
             child: (_data != null) ? null : Text(firstLettter),
