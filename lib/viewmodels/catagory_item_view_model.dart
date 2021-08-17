@@ -10,10 +10,12 @@ class CatagoryItemsViewModel with ChangeNotifier {
 
   final log = logger(CatagoryItemsViewModel);
 
+  //------------------------------------------------------------------------------
   DatabaseService get _databaseService {
     return DatabaseService(uid: currentUserId);
   }
 
+  //------------------------------------------------------------------------------
   int itemFoundInCatagoryItems(
       {required List<Catagory> catagoryItems, required String itemName}) {
     return catagoryItems.indexWhere((element) => element.name == itemName);
@@ -54,7 +56,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
     required String catagoryName,
     required Map<String, dynamic> mapList,
   }) {
-    return _databaseService.deleteItemFromCataogry(
+    return _databaseService.deleteItemFromCataogryList(
         catagoryName: catagoryName, mapList: mapList);
   }
 
@@ -63,7 +65,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
   Stream<Map<String, dynamic>?> get streamMyGroceryList {
     log.i('streamMyGroceryList start');
 
-    return _databaseService.streamMyGroceryList;
+    return _databaseService.streamMyGroceryListMap;
   }
 
   //----------------------------------------------------------------------------
@@ -82,8 +84,8 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> deletedItem() {
-    return _databaseService.deletedItem();
+  Future<void> deleteAllItems() {
+    return _databaseService.deletedItemFromCatagoryList();
   }
 
   //----------------------------------------------------------------------------

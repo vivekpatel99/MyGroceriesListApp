@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/pages/buy_page.dart';
 import 'package:my_grocery_list/shared/loading.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/wigets/display_nested_list_view.dart';
 
 class BoughtPage extends StatelessWidget {
   final log = logger(BoughtPage);

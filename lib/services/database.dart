@@ -43,7 +43,7 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * delete items
-  Future<void> deleteItemFromCataogry({
+  Future<void> deleteItemFromCataogryList({
     required String catagoryName,
     required Map<String, dynamic> mapList,
   }) {
@@ -60,7 +60,7 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * delete collection
-  Future<void> deletedItem() {
+  Future<void> deletedItemFromCatagoryList() {
     return groceryListsCollection
         .doc(uid)
         .delete()
@@ -202,7 +202,7 @@ class DatabaseService {
   //       .snapshots()
   //       .map(myGroceryListFromSnapshot);
   // }
-  Stream<Map<String, dynamic>?> get streamMyGroceryList {
+  Stream<Map<String, dynamic>?> get streamMyGroceryListMap {
     log.i('streamMyGroceryList start');
 
     return groceryListsCollection

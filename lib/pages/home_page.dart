@@ -17,6 +17,48 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late String catagoryName;
+    final CatagoryItemsViewModel catagoryItemsViewModel =
+        Provider.of<CatagoryItemsViewModel>(context);
+
+    //----------------------------------------------------------------------------------------
+    void onSelected({required BuildContext context, required int item}) {
+      print('###################');
+      switch (item) {
+        case 0:
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Delete All Data!!'),
+                  content: const Text('Are you sure to delete?'),
+                  actions: [
+                    AlertDialogButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        catagoryItemsViewModel.deleteAllItems();
+                        // databaseService.deletedItemCollection();
+                        catagoryItemsViewModel.initDatabaseSetup();
+                        // databaseService.initDatabaseSetup();
+                      },
+                      child: const Text('Yes'),
+                    ),
+                    AlertDialogButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('No'),
+                    ),
+                  ],
+                );
+              });
+          break;
+
+        default:
+      }
+    }
+
+    //----------------------------------------------------------------------------------------
     return StreamProvider<Map<String, dynamic>?>.value(
       value: CatagoryItemsViewModel().streamMyGroceryList,
       //DatabaseService(uid: _auth.auth.currentUser?.uid).streamMyGroceryList,
@@ -97,44 +139,5 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  late String catagoryName;
-
-  void onSelected({required BuildContext context, required int item}) {
-    final CatagoryItemsViewModel catagoryItemsViewModel =
-        Provider.of<CatagoryItemsViewModel>(context);
-    switch (item) {
-      case 0:
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Delete All Data!!'),
-                content: const Text('Are you sure to delete?'),
-                actions: [
-                  AlertDialogButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      catagoryItemsViewModel.deletedItem();
-                      // databaseService.deletedItemCollection();
-                      catagoryItemsViewModel.initDatabaseSetup();
-                      // databaseService.initDatabaseSetup();
-                    },
-                    child: const Text('Yes'),
-                  ),
-                  AlertDialogButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('No'),
-                  ),
-                ],
-              );
-            });
-        break;
-
-      default:
-    }
   }
 }
