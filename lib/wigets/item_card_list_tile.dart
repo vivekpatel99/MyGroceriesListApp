@@ -115,7 +115,7 @@ class ItemCardListTile extends StatelessWidget {
         );
         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
         Provider.of<TotalPriceViewModel>(context, listen: false)
-            .removeItemPrice(itemName: itemName, price: price);
+            .removeItemPrice(itemName: itemName);
       }
     }
 

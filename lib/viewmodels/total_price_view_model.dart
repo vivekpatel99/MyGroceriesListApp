@@ -32,7 +32,7 @@ class TotalPriceViewModel with ChangeNotifier {
   }
 
 //------------------------------------------------------------------------------
-  Future removeItemPrice({required String itemName, required num price}) async {
+  Future removeItemPrice({required String itemName}) async {
     // final Map<String, num> items = {itemName: price};
 
     itemWithPriceMap.remove(itemName);
@@ -45,6 +45,7 @@ class TotalPriceViewModel with ChangeNotifier {
 //------------------------------------------------------------------------------
   Future reset() async {
     _count = 0.00;
+    itemWithPriceMap.clear();
     await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
   }
