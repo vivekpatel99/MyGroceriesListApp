@@ -31,6 +31,7 @@ dependencies:
   flutter_spinkit: ^5.0.0
   google_fonts: ^2.1.0
   logger: ^1.0.0
+  okito: ^1.2.5
   package_info: ^2.0.2
   provider: ^5.0.0
   sortedmap: ^0.5.1

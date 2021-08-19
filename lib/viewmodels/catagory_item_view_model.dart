@@ -6,11 +6,15 @@ import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 
 class CatagoryItemsViewModel with ChangeNotifier {
-  final AuthService myAuth = AuthService();
   final TotalPriceViewModel totalPrice = TotalPriceViewModel();
-  late String? currentUserId = myAuth.auth.currentUser?.uid;
 
   final log = logger(CatagoryItemsViewModel);
+
+  String? get currentUserId {
+    final AuthService myAuth = AuthService();
+    final String? currentUserId = myAuth.auth.currentUser?.uid;
+    return currentUserId;
+  }
 
   //------------------------------------------------------------------------------
   DatabaseService get _databaseService {
@@ -20,7 +24,8 @@ class CatagoryItemsViewModel with ChangeNotifier {
   //------------------------------------------------------------------------------
   int itemFoundInCatagoryItems(
       {required List<Catagory> catagoryItems, required String itemName}) {
-    return catagoryItems.indexWhere((element) => element.name == itemName);
+    return catagoryItems.indexWhere(
+        (element) => element.name.toLowerCase() == itemName.toLowerCase());
   }
 
   //------------------------------------------------------------------------------

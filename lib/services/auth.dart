@@ -97,9 +97,12 @@ class AuthService {
   // sign out
   Future signOut() async {
     log.i('signOut');
-    _auth
-        .signOut()
-        .then((_) => log.i('Sign out Successful'))
-        .catchError((error) => log.e(error));
+    _auth.signOut().then((_) {
+      log.i('Sign out Successful');
+      return "Success";
+    }).catchError((error) {
+      log.e(error);
+      return "Failed";
+    });
   }
 }

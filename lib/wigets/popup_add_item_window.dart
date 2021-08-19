@@ -65,7 +65,6 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
     // final user = Provider.of<UserModel?>(context);
     final CatagoryItemsViewModel catagoryItemsViewModel =
         Provider.of<CatagoryItemsViewModel>(context);
-    print(catagoryItemsViewModel.currentUserId);
 
     final List<dynamic> itemList =
         widget.myGroceryList[widget.catagoryName] as List<dynamic>;
