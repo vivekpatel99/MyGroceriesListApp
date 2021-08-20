@@ -13,13 +13,15 @@ class DatabaseService {
   */
 //------------------------------------------------------------------------------
   // * collection reference
-  final CollectionReference groceryListsCollection =
-      FirebaseFirestore.instance.collection('groceryList');
+  // final CollectionReference groceryListsCollection =
+  //     FirebaseFirestore.instance.collection('groceryList');
 
   final String? uid;
   DatabaseService({required this.uid});
   final log = logger(DatabaseService);
-
+  static const String kGroceryList = 'groceryList';
+  CollectionReference get groceryListsCollection =>
+      FirebaseFirestore.instance.collection(kGroceryList);
 //------------------------------------------------------------------------------
   // * update tobuy status
   // Future<void> moveToBuyBought({
@@ -43,19 +45,21 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * delete items
-  Future<void> deleteItemFromCataogryList({
+  Future<String> deleteItemFromCataogryList({
     required String catagoryName,
     required Map<String, dynamic> mapList,
   }) {
     log.i('deleteItemFromCataogry start');
     log.d('uid: $uid');
-    return groceryListsCollection
-        .doc(uid)
-        .update({
-          catagoryName: FieldValue.arrayRemove([mapList]),
-        })
-        .then((value) => log.i('deleteItemFromCataogry Success'))
-        .catchError((error) => log.e(error));
+    return groceryListsCollection.doc(uid).update({
+      catagoryName: FieldValue.arrayRemove([mapList]),
+    }).then((value) {
+      log.i('deleteItemFromCataogry Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
 //------------------------------------------------------------------------------
@@ -72,7 +76,7 @@ class DatabaseService {
   // * add userdata
   Future addUpdateItemInCollection({
     required String catagoryName,
-    required List<Catagory> catagoryItemList,
+    required List<Map<String, dynamic>> catagoryItemJson,
   }) async {
 /* 
 {
@@ -87,9 +91,9 @@ class DatabaseService {
     log.d('uid: $uid');
     final options = SetOptions(merge: true);
 
-    final List<Map<String, dynamic>> catagoryItemJson =
-        catagoryItemList.map((e) => e.toJson()).toList();
-    final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
+    // final List<Map<String, dynamic>> catagoryItemJson =
+    //     catagoryItemList.map((e) => e.toJson()).toList();
+    // final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
     log.d('catagoryItemJson: $catagoryItemJson');
     return groceryListsCollection
         .doc(uid)

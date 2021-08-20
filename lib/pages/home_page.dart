@@ -18,7 +18,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CatagoryItemsViewModel catagoryItemsViewModel =
         Provider.of<CatagoryItemsViewModel>(context);
-    log.i('----------- HomePage rebuild --------------------');
+    log.d('----------- HomePage rebuild --------------------');
+
     //----------------------------------------------------------------------------------------
     void onSelected({required BuildContext context, required int item}) {
       switch (item) {

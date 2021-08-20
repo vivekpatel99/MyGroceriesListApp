@@ -25,13 +25,14 @@ dependencies:
   cloud_firestore_web: ^2.3.0
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.2
+  fake_cloud_firestore: ^1.1.2
   firebase_auth: ^3.0.1
   flutter:
     sdk: flutter
   flutter_spinkit: ^5.0.0
   google_fonts: ^2.1.0
   logger: ^1.0.0
-  okito: ^1.2.5
+  mockito: ^5.0.14
   package_info: ^2.0.2
   provider: ^5.0.0
   sortedmap: ^0.5.1

@@ -33,8 +33,14 @@ class CatagoryItemsViewModel with ChangeNotifier {
     required String catagoryName,
     required List<Catagory> catagoryItemList,
   }) async {
+    final List<Map<String, dynamic>> catagoryItemJson =
+        catagoryItemList.map((e) => e.toJson()).toList();
+
+    // final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
+
+    log.d('catagoryItemJson: $catagoryItemJson');
     return _databaseService.addUpdateItemInCollection(
-        catagoryName: catagoryName, catagoryItemList: catagoryItemList);
+        catagoryName: catagoryName, catagoryItemJson: catagoryItemJson);
   }
 
   //------------------------------------------------------------------------------

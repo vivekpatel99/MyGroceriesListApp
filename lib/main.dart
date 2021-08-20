@@ -31,10 +31,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final log = logger(MyApp);
     log.i('MyApp Started');
+    log.d('----------- MyApp rebuild --------------------');
     return StreamProvider<UserModel?>.value(
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(
+        // showPerformanceOverlay: true,
         title: "My Grocery App",
         debugShowCheckedModeBanner: false,
         theme: MyTheme.darkTheme(context),
