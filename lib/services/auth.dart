@@ -48,7 +48,8 @@ class AuthService {
     log.i('signInWithEmailAndPassord starts');
 
     _auth
-        .signInWithEmailAndPassword(email: email, password: password)
+        .signInWithEmailAndPassword(
+            email: email.trim(), password: password.trim())
         .then((value) {
       log.i('Success Signin');
       final UserCredential _result = value;
@@ -81,7 +82,7 @@ class AuthService {
 
     try {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password.trim());
       final User userInfo = result.user!;
       await CatagoryItemsViewModel().initDatabaseSetup();
       // await DatabaseService(uid: userInfo.uid).initDatabaseSetup();

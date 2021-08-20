@@ -11,25 +11,32 @@ class TestCatagoryItemsViewModel extends CatagoryItemsViewModel {
   DatabaseService get _databaseService => TestDatabaseService(uid: 'abc');
 }
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   final TestCatagoryItemsViewModel catagoryItemsViewModel =
       TestCatagoryItemsViewModel();
   group('CatagoryItemViewModel -', () {
     group('ItemFoundInCatagoryItems -', () {
       test('If item Found then return index as int', () {
         final int result = catagoryItemsViewModel.itemFoundInCatagoryItems(
-            catagoryItems: catagoryItems, itemName: 'milk');
+            catagoryItems: tkCatagoryItems, itemName: 'milk');
         expect(result, 0);
       });
       test('If item can not Found then return -1', () {
         final int result = catagoryItemsViewModel.itemFoundInCatagoryItems(
-            catagoryItems: catagoryItems, itemName: 'Pen');
+            catagoryItems: tkCatagoryItems, itemName: 'Pen');
         expect(result, -1);
       });
     });
   });
 
-  group('addUpdateItem -', () {
-    test('Add', () {});
-  });
+  // group('addUpdateItem -', () {
+  //   test('Add data into Firebase Cloud', () async {
+  //     final List<Catagory> catagoryItemList = [tkDairy];
+  //     final result = await catagoryItemsViewModel.addUpdateItem(
+  //         catagoryName: tkCatagoryName, catagoryItemList: catagoryItemList);
+  //     expect(result, 'Success');
+  //   });
+  // });
 }

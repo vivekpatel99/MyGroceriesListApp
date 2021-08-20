@@ -29,7 +29,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //------------------------------------------------------------------------------
-  Future addUpdateItem({
+  Future<String> addUpdateItem({
     required String catagoryName,
     required List<Catagory> catagoryItemList,
   }) async {
@@ -44,7 +44,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //------------------------------------------------------------------------------
-  Future<void> moveToBuyBought(
+  Future<String> moveToBuyBought(
       {required String itemName,
       required String catagoryTitle,
       required Catagory catagory,
@@ -67,7 +67,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
 
 //------------------------------------------------------------------------------
   // * delete items
-  Future<void> deleteItemFromCataogry({
+  Future<String> deleteItemFromCataogry({
     required String catagoryName,
     required Map<String, dynamic> mapList,
   }) {
@@ -84,7 +84,7 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //----------------------------------------------------------------------------
-  Future deleteCatagory({
+  Future<String> deleteCatagory({
     required String catagoryName,
   }) async {
     return _databaseService.deleteCatagoryFromCollection(
@@ -92,20 +92,20 @@ class CatagoryItemsViewModel with ChangeNotifier {
   }
 
   //----------------------------------------------------------------------------
-  Future addCatagory({
+  Future<String> addCatagory({
     required String catagoryName,
   }) async {
     return _databaseService.addCatagoryCollection(catagoryName: catagoryName);
   }
 
   //----------------------------------------------------------------------------
-  Future<void> deleteAllItems() {
+  Future<String> deleteAllItems() {
     return _databaseService.deletedItemFromCatagoryList();
   }
 
   //----------------------------------------------------------------------------
   // * Setup initial database collection
-  Future? initDatabaseSetup() async {
+  Future<String> initDatabaseSetup() {
     // * create a new document for the user with the uid
     final List<Catagory> dairyList = [];
     final List<Catagory> vegetablesList = [];
@@ -129,6 +129,6 @@ class CatagoryItemsViewModel with ChangeNotifier {
         personalCareList: personalCareList,
         otherList: otherList);
 
-    await _databaseService.updateUserData(myGroceryList: mylist);
+    return _databaseService.updateUserData(myGroceryList: mylist);
   }
 }

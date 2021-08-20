@@ -64,17 +64,19 @@ class DatabaseService {
 
 //------------------------------------------------------------------------------
   // * delete collection
-  Future<void> deletedItemFromCatagoryList() {
-    return groceryListsCollection
-        .doc(uid)
-        .delete()
-        .then((value) => log.i('Collection delete for $uid'))
-        .catchError((error) => log.e(error));
+  Future<String> deletedItemFromCatagoryList() {
+    return groceryListsCollection.doc(uid).delete().then((value) {
+      log.i('Collection delete for $uid');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * add userdata
-  Future addUpdateItemInCollection({
+  Future<String> addUpdateItemInCollection({
     required String catagoryName,
     required List<Map<String, dynamic>> catagoryItemJson,
   }) async {
@@ -97,14 +99,18 @@ class DatabaseService {
     log.d('catagoryItemJson: $catagoryItemJson');
     return groceryListsCollection
         .doc(uid)
-        .set({catagoryName: catagoryItemJson}, options)
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .set({catagoryName: catagoryItemJson}, options).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future addCatagoryCollection({
+  Future<String> addCatagoryCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
@@ -113,14 +119,18 @@ class DatabaseService {
 
     return groceryListsCollection
         .doc(uid)
-        .set({catagoryName: []}, options)
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .set({catagoryName: []}, options).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future deleteCatagoryFromCollection({
+  Future<String> deleteCatagoryFromCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
@@ -128,14 +138,18 @@ class DatabaseService {
 
     return groceryListsCollection
         .doc(uid)
-        .update({catagoryName: FieldValue.delete()})
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .update({catagoryName: FieldValue.delete()}).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //------------------------------------------------------------------------------
   // * update userdata
-  Future updateUserData({required MyGroceryList myGroceryList}) async {
+  Future<String> updateUserData({required MyGroceryList myGroceryList}) async {
 /* {
 {
   "Dairy": [
@@ -180,8 +194,13 @@ class DatabaseService {
     return groceryListsCollection
         .doc(uid)
         .set(myGroceryList.toJson())
-        .then((value) => log.i('updateUserData Success'))
-        .catchError((error) => log.e(error));
+        .then((value) {
+      log.i('updateUserData Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
 //------------------------------------------------------------------------------

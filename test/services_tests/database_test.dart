@@ -24,11 +24,11 @@ void main() {
     group('deleteItemFromCataogryList -', () {
       test('deleteItemFromCataogryList will return success', () async {
         final result = await databaseService.deleteItemFromCataogryList(
-            catagoryName: catagoryName, mapList: dairy.toJson());
+            catagoryName: tkCatagoryName, mapList: tkDairy.toJson());
         expect(result, 'Success');
 
         final result2 = await databaseService.deleteItemFromCataogryList(
-            catagoryName: catagoryName, mapList: {});
+            catagoryName: tkCatagoryName, mapList: {});
         expect(result2, 'Success');
       });
     });
