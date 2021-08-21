@@ -10,8 +10,8 @@ import 'package:my_grocery_list/wigets/total_price.dart';
 import 'package:provider/provider.dart';
 
 //--------------------------------------------------------------------------------------------
-class HomePage extends StatelessWidget {
-  final log = logger(HomePage);
+class HomePageView extends StatelessWidget {
+  final log = logger(HomePageView);
 
   // CatagoryItemsViewModel catagoryItemsViewModel = CatagoryItemsViewModel();
   @override

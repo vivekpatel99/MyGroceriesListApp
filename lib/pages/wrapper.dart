@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/authenticate/authenticate.dart';
-import 'package:my_grocery_list/pages/home_page.dart';
+import 'package:my_grocery_list/pages/home_page_view.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
       return const Authenticate();
     } else {
       log.i('Homepage Page opens');
-      return HomePage();
+      return HomePageView();
     }
   }
 }
