@@ -1,18 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.router.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/pages/wrapper.dart';
+import 'package:my_grocery_list/pages/authenticate/login/login_view.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/theme.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 // Todo add internet connection check
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  setupLocator();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<TotalPriceViewModel>(
@@ -41,7 +45,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: MyTheme.darkTheme(context),
         // darkTheme: ThemeData.dark(),
-        home: Wrapper(),
+        // home: Wrapper(),
+        navigatorKey: StackedService.navigatorKey,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        home: LoginView(),
       ),
     );
   }

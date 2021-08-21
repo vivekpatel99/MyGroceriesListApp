@@ -36,10 +36,16 @@ dependencies:
   package_info: ^2.0.2
   provider: ^5.0.0
   sortedmap: ^0.5.1
+  stacked: ^2.2.5
+  stacked_firebase_auth: ^0.2.10
+  stacked_services: ^0.8.13
 
 dev_dependencies:
+  build_runner: ^2.1.1
   flutter_test:
     sdk: flutter
+
+  stacked_generator: ^0.5.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
