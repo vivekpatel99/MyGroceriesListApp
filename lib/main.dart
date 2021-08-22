@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.router.dart';
 import 'package:my_grocery_list/models/user_model.dart';
+import 'package:my_grocery_list/pages/home/home_view.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
@@ -17,8 +18,8 @@ void main() async {
   setupLocator();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<TotalPriceViewModel>(
-        create: (_) => TotalPriceViewModel(),
+      ChangeNotifierProvider<TotalPriceViewModelOld>(
+        create: (_) => TotalPriceViewModelOld(),
       ),
       // ChangeNotifierProvider<CatagoryItemsViewModel>(
       //   create: (_) => CatagoryItemsViewModel(),
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         // home: Wrapper(),
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        // home: HomeView(),
+        home: const HomeView(),
       ),
     );
   }

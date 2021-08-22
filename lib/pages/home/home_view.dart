@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/pages/bought/bought_view.dart';
 import 'package:my_grocery_list/pages/buy/buy_tab_view.dart';
 import 'package:my_grocery_list/pages/home/home_viewmodel.dart';
-import 'package:my_grocery_list/wigets/total_price.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_view.dart';
 import 'package:stacked/stacked.dart';
 
 // duration 20:34
@@ -71,16 +71,16 @@ class HomeView extends StatelessWidget {
                     shape: const CircularNotchedRectangle(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text(
+                      children: const [
+                        Text(
                           'Total',
                           style: TextStyle(
                               fontSize: 25.0, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 40,
                         ),
-                        TotalPriceTextWidget(),
+                        TotalPriceView(),
                       ],
                     ),
                   ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class TotalPriceView extends StatelessWidget {
@@ -8,7 +8,12 @@ class TotalPriceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TotalPriceViewModel>.reactive(
-      builder: (context, model, child) => Scaffold(),
+      builder: (context, model, child) => Text(
+        '€ ${model.count.toStringAsFixed(2)}',
+        style: const TextStyle(
+          fontSize: 20.0,
+        ),
+      ),
       viewModelBuilder: () => TotalPriceViewModel(),
     );
   }

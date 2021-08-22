@@ -12,7 +12,7 @@ class BuyTabView extends StatelessWidget {
   final catagoryItemsViewModel = locator<CatagoryItemsViewModel>();
   @override
   Widget build(BuildContext context) {
-    print('######################  BuyTabView ##########################');
+    log.d('------------------------  BuyTabView ------------------------');
     return ViewModelBuilder<BuyTabViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: StreamBuilder<Map<String, dynamic>?>(

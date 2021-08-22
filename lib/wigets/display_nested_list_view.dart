@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
-import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/shared/logging.dart';
-import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
+import 'package:my_grocery_list/wigets/item_list_view/item_list_view.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
-import 'package:provider/provider.dart';
 
 class DisplayNestedListView extends StatelessWidget {
   DisplayNestedListView({
@@ -127,14 +125,15 @@ class DisplayNestedListView extends StatelessWidget {
                         ),
                       )
                     else
-                      Flexible(
-                        child: ItemListView(
-                          itemsListLen: itemsListLen,
-                          catagoryItems: catagoryItems,
-                          onBuyPage: onBuyPage,
-                          catagoryTitle: catagoryTitle,
-                        ),
+                      // Flexible(
+                      //   child:
+                      ItemListView(
+                        itemsListLen: itemsListLen,
+                        catagoryItems: catagoryItems,
+                        onBuyPage: onBuyPage,
+                        catagoryTitle: catagoryTitle,
                       ),
+                    // ),
                   ],
                 ),
               );
@@ -146,60 +145,61 @@ class DisplayNestedListView extends StatelessWidget {
   }
 }
 
-class ItemListView extends StatelessWidget {
-  ItemListView({
-    Key? key,
-    required this.itemsListLen,
-    required this.catagoryItems,
-    required this.onBuyPage,
-    required this.catagoryTitle,
-  }) : super(key: key);
+// class ItemListView extends StatelessWidget {
+//   ItemListView({
+//     Key? key,
+//     required this.itemsListLen,
+//     required this.catagoryItems,
+//     required this.onBuyPage,
+//     required this.catagoryTitle,
+//   }) : super(key: key);
 
-  final int itemsListLen;
-  final List<Catagory> catagoryItems;
+//   final int itemsListLen;
+//   final List<Catagory> catagoryItems;
 
-  final bool onBuyPage;
-  final String catagoryTitle;
-  final Logger log = logger(ItemListView);
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      itemCount: itemsListLen,
-      itemBuilder: (BuildContext context, int idx) {
-        final String itemName = catagoryItems[idx].name;
-        final bool toBuy = catagoryItems[idx].toBuy;
-        final String quantity = catagoryItems[idx].quantity;
-        final num price = catagoryItems[idx].price;
-        log.i('ItemName $itemName & toBuy $toBuy');
+//   final bool onBuyPage;
+//   final String catagoryTitle;
+//   final Logger log = logger(ItemListView);
 
-        if (onBuyPage && toBuy) {
-          context
-              .read<TotalPriceViewModel>()
-              .addItemPrice(itemName: itemName, price: price);
-          return ItemCardListTile(
-            onBuyPage: onBuyPage,
-            catagoryTitle: catagoryTitle,
-            itemName: itemName,
-            tobuy: toBuy,
-            price: price,
-            quantity: quantity,
-          );
-        } else if (!onBuyPage && !toBuy) {
-          log.i('toBuy $toBuy');
-          return ItemCardListTile(
-            onBuyPage: onBuyPage,
-            catagoryTitle: catagoryTitle,
-            itemName: itemName,
-            tobuy: toBuy,
-            price: price,
-            quantity: quantity,
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       shrinkWrap: true,
+//       physics: const ClampingScrollPhysics(),
+//       itemCount: itemsListLen,
+//       itemBuilder: (BuildContext context, int idx) {
+//         final String itemName = catagoryItems[idx].name;
+//         final bool toBuy = catagoryItems[idx].toBuy;
+//         final String quantity = catagoryItems[idx].quantity;
+//         final num price = catagoryItems[idx].price;
+//         log.i('ItemName $itemName & toBuy $toBuy');
+
+//         if (onBuyPage && toBuy) {
+//           context
+//               .read<TotalPriceViewModel>()
+//               .addItemPrice(itemName: itemName, price: price);
+//           return ItemCardListTile(
+//             onBuyPage: onBuyPage,
+//             catagoryTitle: catagoryTitle,
+//             itemName: itemName,
+//             tobuy: toBuy,
+//             price: price,
+//             quantity: quantity,
+//           );
+//         } else if (!onBuyPage && !toBuy) {
+//           log.i('toBuy $toBuy');
+//           return ItemCardListTile(
+//             onBuyPage: onBuyPage,
+//             catagoryTitle: catagoryTitle,
+//             itemName: itemName,
+//             tobuy: toBuy,
+//             price: price,
+//             quantity: quantity,
+//           );
+//         } else {
+//           return const SizedBox();
+//         }
+//       },
+//     );
+//   }
+// }

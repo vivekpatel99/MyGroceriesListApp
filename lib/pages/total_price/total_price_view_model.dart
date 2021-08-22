@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 
-class TotalPriceViewModel with ChangeNotifier {
+class TotalPriceViewModelOld with ChangeNotifier {
   final Map<String, num> itemWithPriceMap = {};
-  final log = logger(TotalPriceViewModel);
+  final log = logger(TotalPriceViewModelOld);
   num _count = 0.00;
   num get count {
     if (itemWithPriceMap.isEmpty) {

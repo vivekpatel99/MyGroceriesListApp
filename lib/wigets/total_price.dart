@@ -9,7 +9,7 @@ class TotalPriceTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log.d('----------- TotalPriceTextWidget rebuild --------------------');
-    final num totalprice = context.watch<TotalPriceViewModel>().count;
+    final num totalprice = context.watch<TotalPriceViewModelOld>().count;
     log.i('totalprice $totalprice');
     return Text(
       '€ ${totalprice.toStringAsFixed(2)}',

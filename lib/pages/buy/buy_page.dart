@@ -12,7 +12,7 @@ class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log.i('----------------- BuyPage reBuild ------------------');
-    context.read<TotalPriceViewModel>().reset();
+    context.read<TotalPriceViewModelOld>().reset();
     try {
       return const SizedBox(); //DisplayNestedListView(onBuyPage: true);
     } catch (error) {

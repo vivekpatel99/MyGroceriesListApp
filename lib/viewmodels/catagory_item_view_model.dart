@@ -6,7 +6,7 @@ import 'package:my_grocery_list/shared/logging.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class CatagoryItemsViewModel {
-  final TotalPriceViewModel totalPrice = TotalPriceViewModel();
+  final TotalPriceViewModelOld totalPrice = TotalPriceViewModelOld();
   final FirebaseAuthenticationService auth =
       locator<FirebaseAuthenticationService>();
   final log = logger(CatagoryItemsViewModel);
