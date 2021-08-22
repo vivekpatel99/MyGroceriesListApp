@@ -1,23 +1,34 @@
-import 'package:flutter/cupertino.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/models/item_model.dart';
-import 'package:my_grocery_list/services/auth.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/shared/logging.dart';
-import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
-class CatagoryItemsViewModel with ChangeNotifier {
+class CatagoryItemsViewModel {
   final TotalPriceViewModel totalPrice = TotalPriceViewModel();
-
+  final FirebaseAuthenticationService auth =
+      locator<FirebaseAuthenticationService>();
   final log = logger(CatagoryItemsViewModel);
-
+  Map<String, dynamic>? _myGroceryList = {};
   String? get currentUserId {
-    final AuthService myAuth = AuthService();
-    final String? currentUserId = myAuth.auth.currentUser?.uid;
+    // final AuthService myAuth = AuthService();
+    final String? currentUserId = auth.currentUser?.uid;
     return currentUserId;
   }
 
   //------------------------------------------------------------------------------
+  // REFORMATE to update the values
+  set myGroceryList(Map<String, dynamic>? myMapList) {
+    _myGroceryList = myMapList;
+  }
+
+  //------------------------------------------------------------------------------
+  Map<String, dynamic>? get myGroceryList => _myGroceryList;
+
+  //------------------------------------------------------------------------------
   DatabaseService get _databaseService {
+    log.i(currentUserId);
     return DatabaseService(uid: currentUserId);
   }
 

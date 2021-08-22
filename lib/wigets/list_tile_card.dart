@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
-import 'package:provider/provider.dart';
 
 class ListTileCard extends StatelessWidget {
   const ListTileCard({
@@ -25,9 +26,11 @@ class ListTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic>? _myGroceryList =
-        Provider.of<Map<String, dynamic>?>(context);
-    final Map<String, dynamic> myGroceryList = _myGroceryList ?? {};
+    // final Map<String, dynamic>? _myGroceryList =
+    //     Provider.of<Map<String, dynamic>?>(context);
+    final _catagoryItemsService = locator<CatagoryItemsViewModel>();
+    final Map<String, dynamic> myGroceryList =
+        _catagoryItemsService.myGroceryList ?? {};
 
     return SizedBox(
       height: 70,

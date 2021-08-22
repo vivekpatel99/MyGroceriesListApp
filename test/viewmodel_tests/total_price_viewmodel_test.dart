@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 
 void main() {
   final TotalPriceViewModel totalPriceViewModel = TotalPriceViewModel();

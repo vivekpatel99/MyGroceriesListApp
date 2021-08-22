@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.router.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/pages/authenticate/login/login_view.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/theme.dart';
-import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -22,9 +20,9 @@ void main() async {
       ChangeNotifierProvider<TotalPriceViewModel>(
         create: (_) => TotalPriceViewModel(),
       ),
-      ChangeNotifierProvider<CatagoryItemsViewModel>(
-        create: (_) => CatagoryItemsViewModel(),
-      ),
+      // ChangeNotifierProvider<CatagoryItemsViewModel>(
+      //   create: (_) => CatagoryItemsViewModel(),
+      // ),
     ],
     child: MyApp(),
   ));
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
         // home: Wrapper(),
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: LoginView(),
+        // home: HomeView(),
       ),
     );
   }

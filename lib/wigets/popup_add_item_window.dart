@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:provider/provider.dart';
 
 class PopUPAddItemWindow extends StatefulWidget {
   final Map<String, dynamic> myGroceryList;
@@ -63,8 +63,9 @@ class _PopUPAddItemWindowState extends State<PopUPAddItemWindow> {
   @override
   Widget build(BuildContext context) {
     // final user = Provider.of<UserModel?>(context);
-    final CatagoryItemsViewModel catagoryItemsViewModel =
-        Provider.of<CatagoryItemsViewModel>(context);
+    final catagoryItemsViewModel = locator<CatagoryItemsViewModel>();
+    // final CatagoryItemsViewModel catagoryItemsViewModel =
+    //     Provider.of<CatagoryItemsViewModel>(context);
 
     final List<dynamic> itemList =
         widget.myGroceryList[widget.catagoryName] as List<dynamic>;

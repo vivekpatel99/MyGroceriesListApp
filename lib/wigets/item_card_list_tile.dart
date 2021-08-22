@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
+import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:my_grocery_list/viewmodels/total_price_view_model.dart';
 import 'package:my_grocery_list/wigets/list_tile_card.dart';
 import 'package:provider/provider.dart';
 
@@ -35,13 +36,16 @@ class ItemCardListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CatagoryItemsViewModel catagoryItemsViewModel =
-        Provider.of<CatagoryItemsViewModel>(context);
+    // final CatagoryItemsViewModel catagoryItemsViewModel =
+    //     Provider.of<CatagoryItemsViewModel>(context);
 
+    final catagoryItemsViewModel = locator<CatagoryItemsViewModel>();
     final String firstLettter = itemName[0];
 
     final Map<String, dynamic> myGroceryList =
-        Provider.of<Map<String, dynamic>?>(context) ?? {};
+        catagoryItemsViewModel.myGroceryList ?? {};
+    // final Map<String, dynamic> myGroceryList =
+    //     Provider.of<Map<String, dynamic>?>(context) ?? {};
     final String imagePath =
         '${ItemCardListTile.assetsPath}${itemName.toLowerCase()}${ItemCardListTile.imageExt}';
     // final String imagePath = 'assets/images/broccoli.png';
