@@ -4,7 +4,6 @@ import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.router.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/home/home_view.dart';
-import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/theme.dart';
@@ -16,17 +15,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<TotalPriceViewModelOld>(
-        create: (_) => TotalPriceViewModelOld(),
-      ),
-      // ChangeNotifierProvider<CatagoryItemsViewModel>(
-      //   create: (_) => CatagoryItemsViewModel(),
-      // ),
-    ],
-    child: MyApp(),
-  ));
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -34,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final log = logger(MyApp);
     log.i('MyApp Started');
-    log.d('----------- MyApp rebuild --------------------');
+    log.d('-------------------- MyApp rebuild --------------------');
     return StreamProvider<UserModel?>.value(
       value: AuthService().user,
       initialData: null,
@@ -47,7 +38,7 @@ class MyApp extends StatelessWidget {
         // home: Wrapper(),
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: const HomeView(),
+        home: HomeView(),
       ),
     );
   }

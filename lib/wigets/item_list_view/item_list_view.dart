@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
 import 'package:my_grocery_list/wigets/item_card_list_tile.dart';
-import 'package:my_grocery_list/wigets/item_list_view/item_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class ItemListView extends StatelessWidget {
@@ -24,7 +24,7 @@ class ItemListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ItemListViewModel>.nonReactive(
+    return ViewModelBuilder<TotalPriceViewModel>.nonReactive(
       builder: (context, model, child) => ListView.builder(
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
@@ -64,7 +64,7 @@ class ItemListView extends StatelessWidget {
           }
         },
       ),
-      viewModelBuilder: () => ItemListViewModel(),
+      viewModelBuilder: () => TotalPriceViewModel(),
     );
   }
 }

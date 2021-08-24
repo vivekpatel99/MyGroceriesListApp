@@ -5,13 +5,14 @@ import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
+import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:my_grocery_list/wigets/item_list_view/item_list_viewmodel.dart';
 import 'package:my_grocery_list/wigets/list_tile_card.dart';
 import 'package:stacked/stacked.dart';
 
 //TODO REFACTOR CODE
+//--------------------------------------------------------------------------------------------
 class ItemCardListTile extends StatelessWidget {
   final bool onBuyPage;
   final String catagoryTitle;
@@ -33,7 +34,7 @@ class ItemCardListTile extends StatelessWidget {
 
   static const String imageExt = '.png';
   final log = getLogger('ItemCardListTile');
-
+  //-------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     final catagoryItemsViewModel = locator<CatagoryItemsViewModel>();
@@ -46,7 +47,7 @@ class ItemCardListTile extends StatelessWidget {
     final String imagePath =
         '${ItemCardListTile.assetsPath}${itemName.toLowerCase()}${ItemCardListTile.imageExt}';
     // final String imagePath = 'assets/images/broccoli.png';
-
+    //------------------------------------------------------------------------------
     Future<AssetImage?> checkImageExist(String imagePath) async {
       try {
         await rootBundle.load(imagePath);
@@ -57,9 +58,10 @@ class ItemCardListTile extends StatelessWidget {
       }
     }
 
+    //------------------------------------------------------------------------------
     Future<bool?> _onDismissedForBoughtPage(
         {required DismissDirection dismissDirection,
-        required ItemListViewModel model,
+        required TotalPriceViewModel model,
         required CatagoryItemsViewModel catagoryItemsViewModel,
         required List<dynamic> catagoryItemList}) async {
       // https://flutter.dev/docs/cookbook/design/snackbars
@@ -93,9 +95,10 @@ class ItemCardListTile extends StatelessWidget {
       }
     }
 
+    //------------------------------------------------------------------------------
     Future<bool?> _onDismissedForBuyPage(
         {required DismissDirection dismissDirection,
-        required ItemListViewModel model,
+        required TotalPriceViewModel model,
         required CatagoryItemsViewModel catagoryItemsViewModel,
         required List<dynamic> catagoryItemList}) async {
       if (dismissDirection == DismissDirection.startToEnd) {
@@ -125,6 +128,7 @@ class ItemCardListTile extends StatelessWidget {
       }
     }
 
+    //------------------------------------------------------------------------------
     Future _deleteItemsFromCatagory(
         {required CatagoryItemsViewModel catagoryItemsViewModel}) async {
       final Map<String, dynamic> itemListMap = {
@@ -140,6 +144,7 @@ class ItemCardListTile extends StatelessWidget {
       );
     }
 
+    //------------------------------------------------------------------------------
     Future<bool?> _conformDeleteShowDialog(
         {required CatagoryItemsViewModel catagoryItemsViewModel}) async {
       return showDialog<bool>(
@@ -175,6 +180,7 @@ class ItemCardListTile extends StatelessWidget {
       );
     }
 
+    //------------------------------------------------------------------------------
     Future<bool?> _confirmDismissForBuyPage(
         {required DismissDirection dismissDirection,
         required CatagoryItemsViewModel catagoryItemsViewModel}) async {
@@ -187,6 +193,7 @@ class ItemCardListTile extends StatelessWidget {
       return true;
     }
 
+    //------------------------------------------------------------------------------
     Future<bool?> _confirmDismissForBoughtPage(
         {required DismissDirection dismissDirection,
         required CatagoryItemsViewModel catagoryItemsViewModel}) async {
@@ -199,7 +206,8 @@ class ItemCardListTile extends StatelessWidget {
       return true;
     }
 
-    return ViewModelBuilder<ItemListViewModel>.reactive(
+    //--------------------------------------------------------------------------------------
+    return ViewModelBuilder<TotalPriceViewModel>.reactive(
       builder: (context, model, child) => FutureBuilder(
         future: checkImageExist(imagePath),
         builder: (BuildContext context, snapshot) {
@@ -253,7 +261,7 @@ class ItemCardListTile extends StatelessWidget {
           );
         },
       ),
-      viewModelBuilder: () => ItemListViewModel(),
+      viewModelBuilder: () => TotalPriceViewModel(),
     );
   }
 }

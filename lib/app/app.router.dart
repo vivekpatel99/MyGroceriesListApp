@@ -46,8 +46,11 @@ class StackedRouter extends RouterBase {
       );
     },
     HomeView: (data) {
+      var args = data.getArgs<HomeViewArguments>(
+        orElse: () => HomeViewArguments(),
+      );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const HomeView(),
+        builder: (context) => HomeView(key: args.key),
         settings: data,
       );
     },
@@ -71,6 +74,12 @@ class StackedRouter extends RouterBase {
 class CreateAccountViewArguments {
   final Key? key;
   CreateAccountViewArguments({this.key});
+}
+
+/// HomeView arguments holder class
+class HomeViewArguments {
+  final Key? key;
+  HomeViewArguments({this.key});
 }
 
 /// LoginView arguments holder class

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/pages/bought/bought_view.dart';
-import 'package:my_grocery_list/pages/buy/buy_tab_view.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/pages/home/home_viewmodel.dart';
+import 'package:my_grocery_list/pages/tabs/bought_tab_view.dart';
+import 'package:my_grocery_list/pages/tabs/buy_tab_view.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_view.dart';
 import 'package:stacked/stacked.dart';
 
 // duration 20:34
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
-
+  HomeView({Key? key}) : super(key: key);
+  final log = getLogger('HomeView');
   @override
   Widget build(BuildContext context) {
-    print('######################  HomeView ##########################');
+    log.d('---------------------------- HomeView ----------------------------');
     return ViewModelBuilder<HomeViewModel>.nonReactive(
       builder: (context, model, child) => Scaffold(
         body: DefaultTabController(
@@ -21,6 +22,7 @@ class HomeView extends StatelessWidget {
               builder: (BuildContext context) {
                 return Scaffold(
                   appBar: AppBar(
+                    title: const Center(child: Text('My Groceries List')),
                     actions: [
                       // PopupMenuButton<int>(
                       //   onSelected: (item) =>
@@ -60,7 +62,7 @@ class HomeView extends StatelessWidget {
                   body: TabBarView(
                     children: [
                       BuyTabView(),
-                      BoughtView(),
+                      BoughtTabView(),
                     ],
                   ),
                   resizeToAvoidBottomInset: false,
