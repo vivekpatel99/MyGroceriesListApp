@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 class MyTheme {
   MyTheme._();
   static ThemeData darkTheme(BuildContext context) => ThemeData(
-      accentColor: Colors.deepPurpleAccent,
-      fontFamily: GoogleFonts.poppins().fontFamily,
-      brightness: Brightness.dark);
+        accentColor: Colors.deepPurpleAccent,
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        brightness: Brightness.dark,
+      );
 }

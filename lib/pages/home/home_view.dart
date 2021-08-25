@@ -7,6 +7,7 @@ import 'package:my_grocery_list/pages/total_price/total_price_view.dart';
 import 'package:stacked/stacked.dart';
 
 // duration 20:34
+//TODO Setup floating button and with AddCatagoryButton
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   final log = getLogger('HomeView');

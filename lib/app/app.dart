@@ -19,6 +19,8 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: DatabaseService),
     LazySingleton(classType: TotalPriceService),
     LazySingleton(classType: CatagoryItemsViewModel),
+    LazySingleton(classType: SnackbarService),
+    LazySingleton(classType: DialogService),
     Singleton(classType: FirebaseAuthenticationService)
   ],
   logger: StackedLogger(),

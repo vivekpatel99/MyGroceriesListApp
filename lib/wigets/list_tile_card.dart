@@ -59,6 +59,7 @@ class ListTileCard extends StatelessWidget {
               IconButton(
                 // color: Colors.deepPurpleAccent,
                 onPressed: () {
+                  //TODO add custom dialog from stacked package
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {

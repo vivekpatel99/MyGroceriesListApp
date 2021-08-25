@@ -28,5 +28,7 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => DatabaseService());
   locator.registerLazySingleton(() => TotalPriceService());
   locator.registerLazySingleton(() => CatagoryItemsViewModel());
+  locator.registerLazySingleton(() => SnackbarService());
+  locator.registerLazySingleton(() => DialogService());
   locator.registerSingleton(FirebaseAuthenticationService());
 }
