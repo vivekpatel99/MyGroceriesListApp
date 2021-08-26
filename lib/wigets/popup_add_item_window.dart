@@ -7,6 +7,7 @@ import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/shared/my_extensions.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 
+//TODO refactor using custom dialog
 class PopUPAddItemWindow extends StatefulWidget {
   final Map<String, dynamic> myGroceryList;
   final bool onBuyPage;

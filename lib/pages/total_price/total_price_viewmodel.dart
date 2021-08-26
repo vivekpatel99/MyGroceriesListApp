@@ -3,7 +3,7 @@ import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/services/total_price_service.dart';
 import 'package:stacked/stacked.dart';
 
-class TotalPriceViewModel extends ReactiveViewModel {
+class TotalPriceViewModel extends BaseViewModel {
   final _totalPriceService = locator<TotalPriceService>();
   final Map<String, num> itemWithPriceMap = {};
   final log = getLogger('TotalPriceViewModel');
@@ -11,7 +11,9 @@ class TotalPriceViewModel extends ReactiveViewModel {
   num get count => _totalPriceService.count;
 
   //------------------------------------------------------------------------------
-  void initItemPriceCount() {}
+  void initItemPriceCount() {
+    notifyListeners();
+  }
 
   //------------------------------------------------------------------------------
   Future addItemsPrice({required String itemName, required num price}) async {
@@ -57,6 +59,6 @@ class TotalPriceViewModel extends ReactiveViewModel {
   }
 
   //------------------------------------------------------------------------------
-  @override
-  List<ReactiveServiceMixin> get reactiveServices => [_totalPriceService];
+  // @override
+  // List<ReactiveServiceMixin> get reactiveServices => [_totalPriceService];
 }

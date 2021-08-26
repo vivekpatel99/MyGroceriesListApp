@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 //------------------------------------------------------------------------------
+const Color kcRedColor = Color(0xfff44336);
+const Color kcOrangeColor = Color(0xffff9800);
+//------------------------------------------------------------------------------
 const kTextFormInputDecoration = InputDecoration(
   fillColor: Colors.white,
   focusedBorder: OutlineInputBorder(
@@ -25,7 +28,10 @@ ButtonStyle? kButtonSytle = ButtonStyle(
     Colors.deepPurpleAccent,
   ),
 );
-
+//------------------------------------------------------------------------------
+// const Text ktbTextStyleTextButton = Text()
+//                         textAlign: TextAlign.center,
+//                       );
 //------------------------------------------------------------------------------
 const Divider kDivider = Divider(
   // color: Colors.deepPurpleAccent,

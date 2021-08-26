@@ -1,35 +1,34 @@
 import 'package:my_grocery_list/app/app.logger.dart';
-import 'package:stacked/stacked.dart';
 
 //-------------------------------------------------------------------------------------------
 
-class TotalPriceService with ReactiveServiceMixin {
+class TotalPriceService {
   final log = getLogger('TotalPriceService');
-  TotalPriceService() {
-    listenToReactiveValues([
-      _count,
-      _itemWithPriceMap,
-    ]);
-  }
-  final ReactiveValue<Map<String, num>> _itemWithPriceMap =
-      ReactiveValue<Map<String, num>>({});
-  // final Map<String, num> itemWithPriceMap = {};
-  final ReactiveValue<num> _count = ReactiveValue<num>(0);
+  // TotalPriceService() {
+  //   listenToReactiveValues([
+  //     _count,
+  //     _itemWithPriceMap,
+  //   ]);
+  // }
+  // final ReactiveValue<Map<String, num>> _itemWithPriceMap =
+  //     ReactiveValue<Map<String, num>>({});
+  final Map<String, num> _itemWithPriceMap = {};
+  // final ReactiveValue<num> _count = ReactiveValue<num>(0);
   // ReactiveValue<int> _postCount = ReactiveValue<int>(initial: 0);
 
-  // num _count = 0.00;
+  num _count = 0.00;
 
   //------------------------------------------------------------------------------
   num get count {
-    if (_itemWithPriceMap.value.isEmpty) {
+    if (_itemWithPriceMap.isEmpty) {
       return 0.00;
     } else {
-      _count.value = 0.00;
-      _itemWithPriceMap.value.forEach((key, value) {
-        _count.value += value;
+      _count = 0.00;
+      _itemWithPriceMap.forEach((key, value) {
+        _count += value;
       });
-      log.d('_count.value ${_count.value}');
-      return _count.value;
+      log.d('_count$_count');
+      return _count;
     }
   }
 
@@ -38,8 +37,8 @@ class TotalPriceService with ReactiveServiceMixin {
   //------------------------------------------------------------------------------
   Future addItemPrice({required String itemName, required num price}) async {
     final Map<String, num> items = {itemName: price};
-    if (!_itemWithPriceMap.value.containsKey(itemName)) {
-      _itemWithPriceMap.value.addAll({itemName: price});
+    if (!_itemWithPriceMap.containsKey(itemName)) {
+      _itemWithPriceMap.addAll({itemName: price});
       log.i('addItemPrice $items');
     }
     // _count += price;
@@ -51,7 +50,7 @@ class TotalPriceService with ReactiveServiceMixin {
   Future removeItemPrice({required String itemName}) async {
     // final Map<String, num> items = {itemName: price};
 
-    _itemWithPriceMap.value.remove(itemName);
+    _itemWithPriceMap.remove(itemName);
     log.i('removeItemPrice $itemName');
 
     // await Future.delayed(const Duration(milliseconds: 1));
@@ -60,8 +59,8 @@ class TotalPriceService with ReactiveServiceMixin {
 
 //------------------------------------------------------------------------------
   Future reset() async {
-    _count.value = 0.00;
-    _itemWithPriceMap.value.clear();
+    _count = 0.00;
+    _itemWithPriceMap.clear();
     // await Future.delayed(const Duration(milliseconds: 1));
     // notifyListeners();
   }

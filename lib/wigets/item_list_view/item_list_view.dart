@@ -38,9 +38,7 @@ class ItemListView extends StatelessWidget {
 
           if (onBuyPage && toBuy) {
             model.updateItemPrice(itemName: itemName, price: price);
-            // context
-            //     .read<TotalPriceViewModel>()
-            //     .addItemPrice(itemName: itemName, price: price);
+
             return ItemCardListTile(
               onBuyPage: onBuyPage,
               catagoryTitle: catagoryTitle,

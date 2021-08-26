@@ -6,6 +6,7 @@ import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/pages/home/home_view.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/logging.dart';
+import 'package:my_grocery_list/shared/setup_dialog_ui.dart';
 import 'package:my_grocery_list/shared/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -15,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
+  setupDialogUi();
   runApp(
     MyApp(),
   );

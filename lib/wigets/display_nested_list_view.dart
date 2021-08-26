@@ -39,11 +39,8 @@ class DisplayNestedListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final String userId = user?.uid ?? '';
-    // context.read<TotalPriceViewModel>().reset();
     final Map<String, dynamic> myGroceryList = groceryList ?? {};
-    // final CatagoryItemsViewModel catagoryItemsViewModel =
-    //     Provider.of<CatagoryItemsViewModel>(context, listen: false);
+
     return SafeArea(
       child: Scaffold(
         body: SizedBox(

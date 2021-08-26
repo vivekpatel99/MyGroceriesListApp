@@ -9,6 +9,7 @@ import 'login_view.form.dart';
 class LoginViewModel extends AuthenticationViewModel {
   late final FirebaseAuthenticationService? _firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
+
   final log = getLogger('LoginViewModel');
   LoginViewModel() : super(successRoute: Routes.homeView);
 

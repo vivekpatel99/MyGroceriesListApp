@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/pages/smart_widgets/add_catagory_button.dart';
+import 'package:my_grocery_list/pages/smart_widgets/mydrawer.dart';
 // import 'package:my_grocery_list/pages/buy/buy_page.dart';
 import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:my_grocery_list/wigets/item_add_button.dart';
-import 'package:my_grocery_list/wigets/mydrawer.dart';
-import 'package:my_grocery_list/wigets/total_price.dart';
 import 'package:provider/provider.dart';
 
 //--------------------------------------------------------------------------------------------
@@ -110,7 +109,7 @@ class HomePageView extends StatelessWidget {
                   ],
                 ),
                 resizeToAvoidBottomInset: false,
-                floatingActionButton: const AddCatagoryButton(),
+                floatingActionButton: AddCatagoryButton(),
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 bottomNavigationBar: BottomAppBar(

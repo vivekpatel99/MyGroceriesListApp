@@ -150,38 +150,6 @@ class ItemCardListTile extends StatelessWidget {
       }
     }
 
-    // return showDialog<bool>(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return AlertDialog(
-    //       title: const Text('Conform'),
-    //       content: Text('Are you sure you want to delete $itemName?'),
-    //       actions: <Widget>[
-    //         TextButton(
-    //           onPressed: () {
-    //             // setState(() {});
-    //             return Navigator.of(context).pop(false);
-    //           },
-    //           child: const Text('Cancel'),
-    //         ),
-    //         TextButton(
-    //           onPressed: () {
-    //             // * delete the item
-    //             _deleteItemsFromCatagory(
-    //                 catagoryItemsViewModel: catagoryItemsViewModel);
-    //             // setState(() {});
-    //             return Navigator.of(context).pop(true);
-    //           },
-    //           child: const Text(
-    //             'Delete',
-    //             style: TextStyle(color: Colors.red),
-    //           ),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
-
     //------------------------------------------------------------------------------
     Future<bool?> _confirmDismissForBuyPage(
         {required DismissDirection dismissDirection,
@@ -209,7 +177,7 @@ class ItemCardListTile extends StatelessWidget {
     }
 
     //--------------------------------------------------------------------------------------
-    return ViewModelBuilder<TotalPriceViewModel>.reactive(
+    return ViewModelBuilder<TotalPriceViewModel>.nonReactive(
       builder: (context, model, child) => FutureBuilder(
         future: checkImageExist(imagePath),
         builder: (BuildContext context, snapshot) {
