@@ -22,29 +22,33 @@ class AddCatagoryButton extends StatelessWidget with $AddCatagoryButton {
   Widget build(
     BuildContext context,
   ) {
-    return ViewModelBuilder<AddCatagoryButtonViewModel>.reactive(
+    return ViewModelBuilder<AddCatagoryButtonViewModel>.nonReactive(
         builder: (context, model, child) => FloatingActionButton(
               onPressed: () async {
                 final dialgResult = await _dialogService.showCustomDialog(
                     variant: DialogType.form,
                     // customData: BasicDialogStatus.error,
-                    // data: Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: [
-                    //     TextField(
-                    //       decoration:
-                    //           const InputDecoration(labelText: ksNewCatagoryName),
-                    //       controller: catagoryController,
-                    //     )
-                    //   ],
-                    // ),
+                    data: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                              labelText: ksNewCatagoryName),
+                          controller: catagoryController,
+                        )
+                      ],
+                    ),
                     title: 'Add New Catagory',
                     secondaryButtonTitle: 'Cancel',
                     mainButtonTitle: 'Add');
 
-                if (!dialgResult!.confirmed) {
-                  print('confirmed ****************');
+                if (dialgResult?.confirmed != null) {
+                  if (dialgResult!.confirmed) {
+                    model.addNewCatagory(newCatagory: catagoryController.text);
+                  }
                 }
+
+                // Navigator.pop(context);
               },
               child: const Icon(
                 Icons.add,

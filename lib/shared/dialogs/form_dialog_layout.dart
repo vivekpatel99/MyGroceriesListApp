@@ -5,12 +5,6 @@ import 'package:my_grocery_list/pages/authenticate/dumb_widgets/shared/ui_helper
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-// @FormView(fields: [
-//   FormTextField(name: 'New Catagory Name'),
-//   FormTextField(name: 'Item Name'),
-//   FormTextField(name: 'Quantity'),
-//   FormTextField(name: 'Price'),
-// ])
 class FormDialogLayout extends StatelessWidget {
   final DialogRequest request;
   final Function(DialogResponse) completer;
@@ -65,6 +59,13 @@ class _FormDialogLayoutContent extends StatelessWidget {
               ),
               kVerticalSpaceMedium,
               request.data as Widget,
+              kVerticalSpaceRegular,
+              if (request.description != null)
+                Text(
+                  request.description!,
+                  style: const TextStyle(
+                      color: Colors.red, fontSize: kBodyTextSize),
+                ),
               kVerticalSpaceMedium,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
