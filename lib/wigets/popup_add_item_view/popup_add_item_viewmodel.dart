@@ -134,16 +134,6 @@ class PopupAddItemViewModel extends FormViewModel {
           catagoryItems[_foundItemIndex] = _catagory;
           log.i(
               'catagoryName $catagoryName - _catagoryName ${_catagory.name} -  Quantity ${_catagory.quantity} - Price ${_catagory.price} - toBuy ${_catagory.toBuy}');
-        } else if (_itemName.isNotEmpty) {
-          final Catagory _catagory = Catagory(
-            name: _itemName,
-            price: _userPrice,
-            quantity: _quantity,
-            toBuy: onBuyPage,
-          );
-          log.i(
-              'New index added for ItemName: $_itemName, Quantity: $_quantity, price €$_price');
-          // catagoryItems.add(_catagory);
         }
         await catagoryItemsViewModel.addUpdateItem(
             catagoryName: catagoryName,
@@ -168,6 +158,21 @@ class PopupAddItemViewModel extends FormViewModel {
         // log.i(
         //     'catagoryName $catagoryName - _catagoryName ${_catagory.name} -  Quantity ${_catagory.quantity} - Price ${_catagory.price} - toBuy ${_catagory.toBuy}');
       }
+    } else if (_itemName.isNotEmpty) {
+      final Catagory _catagory = Catagory(
+        name: _itemName,
+        price: _userPrice,
+        quantity: _quantity,
+        toBuy: onBuyPage,
+      );
+      log.i(
+          'New index added for ItemName: $_itemName, Quantity: $_quantity, price €$_price');
+      final List<dynamic> catagoryItems =
+          prepareMyGroceryList(catagoryName: catagoryName);
+      catagoryItems.add(_catagory);
+      await catagoryItemsViewModel.addUpdateItem(
+          catagoryName: catagoryName,
+          catagoryItemList: catagoryItems as List<Catagory>);
     } else {
       setValidationMessage('Item Name can not be Empty');
     }
