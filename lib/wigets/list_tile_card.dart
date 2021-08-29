@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
-import 'package:my_grocery_list/wigets/popup_add_item_window.dart';
+import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.dart';
 
 class ListTileCard extends StatelessWidget {
   const ListTileCard({
@@ -63,7 +63,8 @@ class ListTileCard extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return PopUPAddItemWindow(
+                        return PopupAddItemView(
+                          addUpdate: false,
                           onBuyPage: true,
                           catagoryName: catagoryTitle,
                           itemName: itemName,
