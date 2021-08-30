@@ -4,12 +4,11 @@ import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class TotalPriceTextWidget extends ViewModelWidget<TotalPriceViewModel> {
-  TotalPriceTextWidget({Key? key}) : super(key: key, reactive: true);
+  TotalPriceTextWidget({Key? key}) : super(key: key);
   final log = getLogger('TotalPriceView');
   @override
   Widget build(BuildContext context, TotalPriceViewModel model) {
     log.d('--------------------- TotalPriceView rebuild ---------------------');
-    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     return Text(
       '€ ${model.count.toStringAsFixed(2)}',
       style: const TextStyle(

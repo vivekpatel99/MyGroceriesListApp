@@ -11,9 +11,9 @@ class TotalPriceViewModel extends BaseViewModel {
   num get count => _totalPriceService.count;
 
   //------------------------------------------------------------------------------
-  void initItemPriceCount() {
-    notifyListeners();
-  }
+  // void initItemPriceCount() {
+  //   notifyListeners();
+  // }
 
   //------------------------------------------------------------------------------
   Future addItemsPrice({required String itemName, required num price}) async {
@@ -45,7 +45,6 @@ class TotalPriceViewModel extends BaseViewModel {
 
 //------------------------------------------------------------------------------
   void updateItemPrice({required String itemName, required num price}) {
-    print('################ updateItemPrice');
     log.i('updateItemPrice $itemName  $price');
     _totalPriceService.addItemPrice(itemName: itemName, price: price);
     notifyListeners();

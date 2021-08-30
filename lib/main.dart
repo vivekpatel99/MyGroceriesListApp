@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/app/app.router.dart';
+import 'package:my_grocery_list/pages/home/home_view.dart';
 import 'package:my_grocery_list/shared/setup_dialog_ui.dart';
 import 'package:my_grocery_list/shared/theme.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       // darkTheme: ThemeData.dark(),
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: StackedRouter().onGenerateRoute,
-      // home: HomeView(),
+      home: HomeView(),
     );
   }
 }

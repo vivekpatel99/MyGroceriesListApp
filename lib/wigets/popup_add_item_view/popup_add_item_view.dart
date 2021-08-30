@@ -74,6 +74,7 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
                     labelText: 'Item Name',
                     errorText: model.validationMessage,
                   ),
+                  autofocus: true,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return model.validationMessage;
