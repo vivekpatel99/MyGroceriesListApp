@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/user_model.dart';
 import 'package:my_grocery_list/services/database.dart';
-import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final log = logger(AuthService);
+  final log = getLogger('AuthService');
 
 //------------------------------------------------------------------------------
 // * create user object based on firebase user

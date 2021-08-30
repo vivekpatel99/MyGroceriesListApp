@@ -1,15 +1,15 @@
 import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
 import 'package:my_grocery_list/services/database.dart';
-import 'package:my_grocery_list/shared/logging.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class CatagoryItemsViewModel {
   final TotalPriceViewModelOld totalPrice = TotalPriceViewModelOld();
   final FirebaseAuthenticationService auth =
       locator<FirebaseAuthenticationService>();
-  final log = logger(CatagoryItemsViewModel);
+  final log = getLogger('CatagoryItemsViewModel');
   Map<String, dynamic>? _myGroceryList = {};
   String? get currentUserId {
     // final AuthService myAuth = AuthService();

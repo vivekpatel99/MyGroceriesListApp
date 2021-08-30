@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
-import 'package:my_grocery_list/shared/logging.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class DatabaseService {
@@ -20,7 +20,7 @@ class DatabaseService {
 
   final String? uid;
   DatabaseService({this.uid});
-  final log = logger(DatabaseService);
+  final log = getLogger('DatabaseService');
   final auth = locator<FirebaseAuthenticationService>();
 
   static const String kGroceryList = 'groceryList';

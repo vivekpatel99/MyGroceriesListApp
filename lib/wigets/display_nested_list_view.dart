@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
-import 'package:my_grocery_list/shared/logging.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/item_list_view/item_list_view.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.dart';
@@ -16,7 +16,7 @@ class DisplayNestedListView extends StatelessWidget {
   }) : super(key: key);
 
   // final Map<String, dynamic> myGroceryList;
-  final Logger log = logger(DisplayNestedListView);
+  final Logger log = getLogger('DisplayNestedListView');
   final Map<String, dynamic>? groceryList;
   final bool onBuyPage;
 

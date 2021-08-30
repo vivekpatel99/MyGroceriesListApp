@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
-import 'package:my_grocery_list/shared/logging.dart';
 import 'package:package_info/package_info.dart';
 
 //--------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ class MyDrawer extends StatelessWidget {
 
   final AuthService _auth = AuthService();
 
-  final log = logger(MyDrawer);
+  final log = getLogger('MyDrawer');
   Widget createDrawerBodyItem(
       {required IconData icon,
       required String title,
