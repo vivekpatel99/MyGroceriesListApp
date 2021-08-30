@@ -20,6 +20,8 @@ class DisplayNestedListView extends StatelessWidget {
   final Map<String, dynamic>? groceryList;
   final bool onBuyPage;
 
+  final CatagoryItemsViewModel catagoryItemsViewModel =
+      locator<CatagoryItemsViewModel>();
   // bool _displayOnBuyPage(List<Catagory> items) {
   //   bool showItemOnPage = false;
   //   for (int i = 0; i < items.length; i++) {
@@ -42,8 +44,6 @@ class DisplayNestedListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> myGroceryList = groceryList ?? {};
-    final CatagoryItemsViewModel catagoryItemsViewModel =
-        locator<CatagoryItemsViewModel>();
     catagoryItemsViewModel.myGroceryList = myGroceryList;
     return SafeArea(
       child: Scaffold(
@@ -79,10 +79,9 @@ class DisplayNestedListView extends StatelessWidget {
                         TextButton(
                           onPressed: null,
                           onLongPress: () {
-                            // catagoryItemsViewModel.deleteCatagory(
-                            //     catagoryName: catagoryTitle);
-                            // DatabaseService(uid: userId).deleteCatagory(
-                            //     catagoryName: catagoryTitle);
+                            catagoryItemsViewModel.deleteCatagory(
+                                catagoryName: catagoryTitle);
+                            // TODO add popup dialog for conformation
                           },
                           child: Text(
                             catagoryTitle,
@@ -127,15 +126,12 @@ class DisplayNestedListView extends StatelessWidget {
                         ),
                       )
                     else
-                      // Flexible(
-                      //   child:
                       ItemListView(
                         itemsListLen: itemsListLen,
                         catagoryItems: catagoryItems,
                         onBuyPage: onBuyPage,
                         catagoryTitle: catagoryTitle,
                       ),
-                    // ),
                   ],
                 ),
               );

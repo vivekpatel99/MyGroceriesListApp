@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/pages/authenticate/dumb_widgets/shared/ui_helpers.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.dart';
 
@@ -45,9 +46,18 @@ class ListTileCard extends StatelessWidget {
             itemName,
             style: const TextStyle(fontSize: 14.0),
           ),
-          subtitle: Text(
-            quantity.isNotEmpty ? quantity : 'Quantity',
-            style: const TextStyle(fontSize: 12.0),
+          subtitle: Row(
+            children: [
+              const Text(
+                'QTY',
+                style: TextStyle(fontSize: 12.0),
+              ),
+              kHorizontalSpaceSmall,
+              Text(
+                quantity,
+                style: const TextStyle(fontSize: 12.0),
+              ),
+            ],
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

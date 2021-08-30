@@ -43,12 +43,14 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
     priceController.text = price == 0.0 ? '' : price.toString();
     quantityController.text = quantity.isNotEmpty ? quantity : '';
 
-    return ViewModelBuilder<PopupAddItemViewModel>.nonReactive(
+    return ViewModelBuilder<PopupAddItemViewModel>.reactive(
+      onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => AlertDialog(
         scrollable: true,
         title: Column(
           children: [
             Text(catagoryName),
+            kVerticalSpaceSmall,
             Text(
               addUpdate ? ksAddItemStr : ksUpdateitemStr,
               style: const TextStyle(
@@ -67,46 +69,34 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
               children: [
                 TextFormField(
                   controller: itemnameController,
-                  onChanged: model.getUserItemName,
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return 'Item Name can not be empty';
-                    }
-                    return null;
-                  },
                   decoration: kAddItemPopupTextFormInputDecoration.copyWith(
                     hintText: 'Enter Item Name',
                     labelText: 'Item Name',
                     errorText: model.validationMessage,
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return model.validationMessage;
+                    }
+                  },
                 ),
                 kSizedBox,
-                TextFormField(
+                TextField(
                   controller: quantityController,
-                  onChanged: model.getItemQuantity,
                   decoration: kAddItemPopupTextFormInputDecoration.copyWith(
                     hintText: 'Enter Total Quantity',
                     labelText: 'Quantity',
                   ),
                 ),
                 kSizedBox,
-                TextFormField(
+                TextField(
                   controller: priceController,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
                   ],
                   keyboardType: TextInputType.number,
-                  onChanged: model.getItemPrice,
-                  validator: (String? value) {
-                    final String _value = value ?? '';
-                    try {
-                      num.tryParse(_value);
-                      return null;
-                    } on Exception catch (_) {
-                      return 'Price must be a number';
-                    }
-                  },
                   decoration: kAddItemPopupTextFormInputDecoration.copyWith(
+                    // TODO in Next version add user edit currency symbol
                     prefix: const Text('€'),
                     hintText: 'Enter Price',
                     labelText: 'Price',
@@ -131,7 +121,7 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
                             quantity: quantity,
                             price: price,
                             onBuyPage: onBuyPage);
-                        print('############################################');
+
                         if (_formKey.currentState!.validate()) {
                           Navigator.pop(context);
                         }
