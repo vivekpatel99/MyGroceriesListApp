@@ -44,6 +44,7 @@ class TotalPriceService {
     // _count += price;
     // await Future.delayed(const Duration(milliseconds: 1));
     // notifyListeners();
+    return true;
   }
 
 //------------------------------------------------------------------------------
@@ -55,6 +56,7 @@ class TotalPriceService {
 
     // await Future.delayed(const Duration(milliseconds: 1));
     // notifyListeners();
+    return true;
   }
 
 //------------------------------------------------------------------------------
@@ -63,5 +65,6 @@ class TotalPriceService {
     _itemWithPriceMap.clear();
     // await Future.delayed(const Duration(milliseconds: 1));
     // notifyListeners();
+    return true;
   }
 }

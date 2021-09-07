@@ -14,3 +14,5 @@ final Catagory tkCheese = Catagory(name: 'cheese', price: 2, quantity: '');
 final Catagory tkApples = Catagory(name: 'apples', price: 0, quantity: '');
 
 final List<Catagory> tkCatagoryItems = [tkDairy, tkCheese, tkApples];
+const String kItemNameMixVeg = 'mixVeg';
+const String kItemNameMilk = 'Milk';

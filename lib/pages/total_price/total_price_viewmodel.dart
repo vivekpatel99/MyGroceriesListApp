@@ -16,14 +16,15 @@ class TotalPriceViewModel extends BaseViewModel {
   // }
 
   //------------------------------------------------------------------------------
-  Future addItemsPrice({required String itemName, required num price}) async {
+  bool addItemsPrice({required String itemName, required num price}) {
     log.i('addItemsPrice $itemName $price');
     _totalPriceService.addItemPrice(itemName: itemName, price: price);
     notifyListeners();
+    return true;
   }
 
 //------------------------------------------------------------------------------
-  Future removeItemsPrice({required String itemName}) async {
+  bool removeItemsPrice({required String itemName}) {
     // final Map<String, num> items = {itemName: price};
 
     // itemWithPriceMap.remove(itemName);
@@ -32,15 +33,17 @@ class TotalPriceViewModel extends BaseViewModel {
 
     // await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
+    return true;
   }
 
 //------------------------------------------------------------------------------
-  Future resetPriceToZero() async {
+  bool resetPriceToZero() {
     // _count = 0.00;
     // itemWithPriceMap.clear();
     _totalPriceService.reset();
     // await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
+    return true;
   }
 
 //------------------------------------------------------------------------------

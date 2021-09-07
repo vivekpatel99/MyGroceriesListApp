@@ -1,41 +1,57 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_grocery_list/pages/total_price/total_price_view_model.dart';
+import 'package:mockito/mockito.dart';
+import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
 
+import '../helpers/test_data.dart';
+import '../helpers/test_helpers.dart';
+
+TotalPriceViewModel _totalPriceViewModel() => TotalPriceViewModel();
 void main() {
-  final TotalPriceViewModelOld totalPriceViewModel = TotalPriceViewModelOld();
-  const String itemNameMixVeg = 'mixVeg';
-  const String itemNameMilk = 'Milk';
-
+  setUp(() => registerServices());
+  tearDown(() => unregisterServices());
   group('TotalPriceViewModelTest -', () {
-    test('Value should start at 0.0', () {
-      expect(totalPriceViewModel.count, 0.0);
+    final _service = getAndRegisterTotalPriceService();
+    final model = _totalPriceViewModel();
+    test('When called with count, should call TotalPriceService.count', () {
+      model.count;
+      verify(_service.count);
+    });
+    test('When addItemsPrice is called, should call addItemPrice()', () {
+      final _service = getAndRegisterTotalPriceService();
+      final model = _totalPriceViewModel();
+      model.addItemsPrice(itemName: kItemNameMixVeg, price: 2);
+      verify(_service.addItemPrice(itemName: kItemNameMixVeg, price: 2));
     });
 
-    group('AddItemPrice -', () {
-      test('AddItemPrice should add Item and Price', () {
-        totalPriceViewModel.addItemPrice(itemName: itemNameMixVeg, price: 2);
-        expect(totalPriceViewModel.count, 2.0);
-
-        totalPriceViewModel.addItemPrice(itemName: itemNameMilk, price: 0.99);
-        expect(totalPriceViewModel.count, 2.99);
-      });
-      test('AddItemPrice if item exist then it should not add Price', () {
-        totalPriceViewModel.addItemPrice(itemName: itemNameMixVeg, price: 4);
-        expect(totalPriceViewModel.count, 2.99);
-      });
+    test('when removeItemPrice called, should call removeItemPrice()', () {
+      final _service = getAndRegisterTotalPriceService();
+      final model = _totalPriceViewModel();
+      model.removeItemsPrice(itemName: kItemNameMilk);
+      verify(_service.removeItemPrice(itemName: kItemNameMilk));
     });
 
-    group('removeItemPrice -', () {
-      test('removeItemPrice should remove Items from list', () {
-        totalPriceViewModel.removeItemPrice(itemName: itemNameMilk);
-        expect(totalPriceViewModel.count, 2);
-      });
+    test('when resetPriceToZero called, should call reset()', () {
+      final _service = getAndRegisterTotalPriceService();
+      final model = _totalPriceViewModel();
+      model.resetPriceToZero();
+
+      verify(_service.reset());
     });
 
-    test('rest should set counter back 0.0', () {
-      totalPriceViewModel.reset();
+    test('when updateItemPrice called, should call addItemPrice()', () {
+      final _service = getAndRegisterTotalPriceService();
+      final model = _totalPriceViewModel();
+      model.updateItemPrice(itemName: kItemNameMilk, price: 0);
 
-      expect(totalPriceViewModel.count, 0);
+      verify(_service.addItemPrice(itemName: kItemNameMilk, price: 0));
+    });
+
+    test('when removeItemWithPrice called, should call removeItemPrice()', () {
+      final _service = getAndRegisterTotalPriceService();
+      final model = _totalPriceViewModel();
+      model.removeItemWithPrice(itemName: kItemNameMilk);
+
+      verify(_service.removeItemPrice(itemName: kItemNameMilk));
     });
   });
 }
