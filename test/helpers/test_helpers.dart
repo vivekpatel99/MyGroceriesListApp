@@ -5,6 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/services/total_price_service.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'test_data.dart';
@@ -14,6 +15,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<TotalPriceService>(returnNullOnMissingStub: true),
+  MockSpec<FirebaseAuthenticationService>(returnNullOnMissingStub: true),
 ])
 MockDialogService getAndRegisterDialogService() {
   _removeRegistrationIfExists<DialogService>();
@@ -39,6 +41,15 @@ MockNavigationService getAndRegisterNavigationService() {
   final service = MockNavigationService();
   locator.registerSingleton<NavigationService>(service);
   return service;
+}
+
+MockFirebaseAuthenticationService getAndRegisterFirebaseService() {
+  _removeRegistrationIfExists<FirebaseAuthenticationService>();
+  final _service = MockFirebaseAuthenticationService();
+
+  when(_service.currentUser?.uid).thenAnswer((realInvocation) => 'abc');
+  locator.registerSingleton<FirebaseAuthenticationService>(_service);
+  return _service;
 }
 
 MockTotalPriceService getAndRegisterTotalPriceService() {
@@ -73,12 +84,14 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterNavigationService();
   getAndRegisterTotalPriceService();
+  getAndRegisterFirebaseService();
 }
 
 void unregisterServices() {
   locator.unregister<NavigationService>();
   locator.unregister<DialogService>();
   locator.unregister<TotalPriceService>();
+  locator.unregister<FirebaseAuthenticationService>();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

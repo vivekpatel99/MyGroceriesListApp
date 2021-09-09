@@ -2,18 +2,18 @@ import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/services/database.dart';
-import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class CatagoryItemsViewModel {
-  final FirebaseAuthenticationService auth =
-      locator<FirebaseAuthenticationService>();
+  final DatabaseService _databaseService = locator<DatabaseService>();
   final log = getLogger('CatagoryItemsViewModel');
   Map<String, dynamic>? _myGroceryList = {};
-  String? get currentUserId {
-    // final AuthService myAuth = AuthService();
-    final String? currentUserId = auth.currentUser?.uid;
-    return currentUserId;
-  }
+
+  //------------------------------------------------------------------------------
+  // String? get currentUserId {
+  //   // final AuthService myAuth = AuthService();
+  //   final String? currentUserId = auth.currentUser?.uid;
+  //   return currentUserId;
+  // }
 
   //------------------------------------------------------------------------------
   // REFORMATE to update the values
@@ -25,10 +25,10 @@ class CatagoryItemsViewModel {
   Map<String, dynamic>? get myGroceryList => _myGroceryList;
 
   //------------------------------------------------------------------------------
-  DatabaseService get _databaseService {
-    log.i(currentUserId);
-    return DatabaseService(uid: currentUserId);
-  }
+  // DatabaseService get _databaseService {
+  //   log.i(currentUserId);
+  //   return DatabaseService(uid: currentUserId);
+  // }
 
   //------------------------------------------------------------------------------
   int itemFoundInCatagoryItems(

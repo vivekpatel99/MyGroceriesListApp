@@ -18,10 +18,11 @@ class DatabaseService {
   // final CollectionReference groceryListsCollection =
   //     FirebaseFirestore.instance.collection('groceryList');
 
-  final String? uid;
-  DatabaseService({this.uid});
   final log = getLogger('DatabaseService');
   final auth = locator<FirebaseAuthenticationService>();
+  String? get _uid {
+    return auth.currentUser?.uid;
+  }
 
   static const String kGroceryList = 'groceryList';
   CollectionReference get groceryListsCollection =>
@@ -34,12 +35,12 @@ class DatabaseService {
   // }) {
   //   final options = SetOptions(merge: true);
   //   log.i('moveToBuyBought start');
-  //   log.d('uid: $uid');
+  //   log.d('_uid: $_uid');
 
   //   mapList = {'name': 'Some', 'price': 0.0, 'quantity': '', 'toBuy': false};
 
   //   return groceryListsCollection
-  //       .doc(uid)
+  //       .doc(_uid)
   //       .set({
   //         catagoryName: [mapList],
   //       }, options)
@@ -54,8 +55,8 @@ class DatabaseService {
     required Map<String, dynamic> mapList,
   }) {
     log.i('deleteItemFromCataogry start');
-    log.d('uid: $uid');
-    return groceryListsCollection.doc(uid).update({
+    log.d('_uid: $_uid');
+    return groceryListsCollection.doc(_uid).update({
       catagoryName: FieldValue.arrayRemove([mapList]),
     }).then((value) {
       log.i('deleteItemFromCataogry Success');
@@ -69,8 +70,8 @@ class DatabaseService {
 //------------------------------------------------------------------------------
   // * delete collection
   Future<String> deletedItemFromCatagoryList() {
-    return groceryListsCollection.doc(uid).delete().then((value) {
-      log.i('Collection delete for $uid');
+    return groceryListsCollection.doc(_uid).delete().then((value) {
+      log.i('Collection delete for $_uid');
       return 'Success';
     }).catchError((error) {
       log.e(error);
@@ -94,7 +95,7 @@ class DatabaseService {
 
 */
     log.i('addUpdateItem start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     final options = SetOptions(merge: true);
 
     // final List<Map<String, dynamic>> catagoryItemJson =
@@ -102,7 +103,7 @@ class DatabaseService {
     // final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
     log.d('catagoryItemJson: $catagoryItemJson');
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .set({catagoryName: catagoryItemJson}, options).then((value) {
       log.i('addItem Success');
       return 'Success';
@@ -118,11 +119,11 @@ class DatabaseService {
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     final options = SetOptions(merge: true);
 
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .set({catagoryName: []}, options).then((value) {
       log.i('addItem Success');
       return 'Success';
@@ -138,10 +139,10 @@ class DatabaseService {
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
 
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .update({catagoryName: FieldValue.delete()}).then((value) {
       log.i('addItem Success');
       return 'Success';
@@ -194,9 +195,9 @@ class DatabaseService {
 }
 */
     log.i('updateUserData start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .set(myGroceryList.toJson())
         .then((value) {
       log.i('updateUserData Success');
@@ -225,7 +226,7 @@ class DatabaseService {
   // Stream<MyGroceryList> get streamMyGroceryList {
   //   log.i('streamMyGroceryList start');
   //   return groceryListsCollection
-  //       .doc(uid)
+  //       .doc(_uid)
   //       .snapshots()
   //       .map(myGroceryListFromSnapshot);
   // }
@@ -233,7 +234,7 @@ class DatabaseService {
     log.i('streamMyGroceryList start');
 
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .snapshots()
         .map(myGroceryListFromSnapshot);
   }
