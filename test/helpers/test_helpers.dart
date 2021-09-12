@@ -4,6 +4,7 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/services/database.dart';
 import 'package:my_grocery_list/services/total_price_service.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -15,6 +16,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<TotalPriceService>(returnNullOnMissingStub: true),
+  MockSpec<DatabaseService>(returnNullOnMissingStub: true),
   MockSpec<FirebaseAuthenticationService>(returnNullOnMissingStub: true),
 ])
 MockDialogService getAndRegisterDialogService() {
@@ -40,6 +42,26 @@ MockNavigationService getAndRegisterNavigationService() {
   _removeRegistrationIfExists<NavigationService>();
   final service = MockNavigationService();
   locator.registerSingleton<NavigationService>(service);
+  return service;
+}
+
+MockDatabaseService getAndRegisterDatabaseService() {
+  _removeRegistrationIfExists<DatabaseService>();
+  final service = MockDatabaseService();
+
+  when(service.addUpdateItemInCollection(
+          catagoryName: tkCatagoryName, catagoryItemJson: ktCatagoryItemJson))
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  when(service.deleteItemFromCataogryList(
+          catagoryName: tkCatagoryName, mapList: tkitemListMap))
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  // Stream<Map<String, dynamic>> dummyStream = {};
+  // when(service.streamMyGroceryListMap)
+  //     .thenAnswer((realInvocation) => Future.value('Success'));
+
+  locator.registerSingleton<DatabaseService>(service);
   return service;
 }
 

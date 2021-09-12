@@ -5,6 +5,7 @@
 // }
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 
 import '../helpers/test_data.dart';
@@ -15,8 +16,9 @@ CatagoryItemsViewModel _catagoryItemsViewModel() => CatagoryItemsViewModel();
 void main() async {
   setUp(() => registerServices());
   tearDown(() => unregisterServices());
-  final _service = getAndRegisterFirebaseService();
+
   group('CatagoryItemViewModel -', () {
+    final _service = getAndRegisterDatabaseService();
     //TODO make it work
     // group('currentUserId -', () {
 
@@ -28,6 +30,7 @@ void main() async {
     // });
     // --------------------------------------------------------------------------------------
     group('setter and getter myGroceryList -', () {
+      final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test(
           'When myGroceryList setter called, should set arg map to _myGroceryList',
@@ -36,12 +39,11 @@ void main() async {
         expect(model.myGroceryList, tkFirebaseResponseMap);
       });
     });
-    // --------------------------------------------------------------------------------------
 
     // --------------------------------------------------------------------------------------
 
     group('ItemFoundInCatagoryItems -', () {
-      final _service = getAndRegisterFirebaseService();
+      final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test('If item Found then return index as int', () {
         final int result = model.itemFoundInCatagoryItems(
@@ -54,14 +56,60 @@ void main() async {
         expect(result, -1);
       });
     });
-  });
 
-  // group('addUpdateItem -', () {
-  //   test('Add data into Firebase Cloud', () async {
-  //     final List<Catagory> catagoryItemList = [tkDairy];
-  //     final result = await catagoryItemsViewModel.addUpdateItem(
-  //         catagoryName: tkCatagoryName, catagoryItemList: catagoryItemList);
-  //     expect(result, 'Success');
-  //   });
-  // });
+    group('addUpdateItem -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test('When addUpdateItem called, should call addUpdateItemInCollection',
+          () async {
+        final result = await model.addUpdateItem(
+            catagoryName: tkCatagoryName, catagoryItemList: tkCatagoryItemList);
+        verify(_service.addUpdateItemInCollection(
+            catagoryName: tkCatagoryName,
+            catagoryItemJson: ktCatagoryItemJson));
+      });
+    });
+// --------------------------------------------------------------------------------------
+    // group('moveToBuyBought -', () {
+    //   final _service = getAndRegisterDatabaseService();
+    //   final model = _catagoryItemsViewModel();
+    //   test('Wehn moveToBuyBought called, should call addUpdateItem', () {
+    //     model.moveToBuyBought(
+    //         itemName: kItemNameMixVeg,
+    //         catagoryTitle: tkCatagoryName,
+    //         catagory: tkDairy,
+    //         catagoryItemList: tkCatagoryItemList);
+
+    //     verify(_service.addUpdateItemInCollection(
+    //         catagoryName: tkCatagoryName,
+    //         catagoryItemJson: ktCatagoryItemJson));
+    //   });
+    // });
+    // --------------------------------------------------------------------------------------
+    group('deleteItemFromCataogry -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test(
+          'Wehn deleteItemFromCataogry called, should call deleteItemFromCataogryList',
+          () {
+        model.deleteItemFromCataogry(
+            catagoryName: tkCatagoryName, mapList: tkitemListMap);
+
+        verify(_service.deleteItemFromCataogryList(
+            catagoryName: tkCatagoryName, mapList: tkitemListMap));
+      });
+    });
+    // --------------------------------------------------------------------------------------
+    group('streamMyGroceryList -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test(
+          'Wehn streamMyGroceryList called, should call streamMyGroceryListMap',
+          () {
+        model.streamMyGroceryList;
+
+        verify(_service.streamMyGroceryListMap);
+      });
+    });
+  });
 }
