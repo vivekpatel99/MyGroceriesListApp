@@ -62,7 +62,7 @@ void main() async {
       final model = _catagoryItemsViewModel();
       test('When addUpdateItem called, should call addUpdateItemInCollection',
           () async {
-        final result = await model.addUpdateItem(
+        await model.addUpdateItem(
             catagoryName: tkCatagoryName, catagoryItemList: tkCatagoryItemList);
         verify(_service.addUpdateItemInCollection(
             catagoryName: tkCatagoryName,
@@ -90,7 +90,7 @@ void main() async {
       final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test(
-          'Wehn deleteItemFromCataogry called, should call deleteItemFromCataogryList',
+          'When deleteItemFromCataogry called, should call deleteItemFromCataogryList',
           () {
         model.deleteItemFromCataogry(
             catagoryName: tkCatagoryName, mapList: tkitemListMap);
@@ -104,11 +104,57 @@ void main() async {
       final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test(
-          'Wehn streamMyGroceryList called, should call streamMyGroceryListMap',
+          'When streamMyGroceryList called, should call streamMyGroceryListMap',
           () {
         model.streamMyGroceryList;
 
         verify(_service.streamMyGroceryListMap);
+      });
+    });
+    // --------------------------------------------------------------------------------------
+    group('deleteCatagory -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test(
+          'When deleteCatagory called, should call deleteCatagoryFromCollection',
+          () {
+        model.deleteCatagory(catagoryName: tkCatagoryName);
+
+        verify(_service.deleteCatagoryFromCollection(
+            catagoryName: tkCatagoryName));
+      });
+    });
+    // --------------------------------------------------------------------------------------
+    group('addCatagory -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test('When addCatagory called, should call addCatagoryCollection', () {
+        model.addCatagory(catagoryName: tkCatagoryName);
+
+        verify(_service.addCatagoryCollection(catagoryName: tkCatagoryName));
+      });
+    });
+    // --------------------------------------------------------------------------------------
+    group('deleteAllItems -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test(
+          'When deleteAllItems called, should deletedItemFromCatagoryList addCatagory',
+          () {
+        model.deleteAllItems();
+
+        verify(_service.deletedItemFromCatagoryList());
+      });
+    });
+    // --------------------------------------------------------------------------------------
+    group('initDatabaseSetup -', () {
+      final _service = getAndRegisterDatabaseService();
+      final model = _catagoryItemsViewModel();
+      test('When initDatabaseSetup called, should updateUserData addCatagory',
+          () {
+        model.initDatabaseSetup();
+
+        verify(_service.updateUserData(myGroceryList: tkmylist));
       });
     });
   });

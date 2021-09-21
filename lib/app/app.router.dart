@@ -9,6 +9,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../pages/authenticate/create_account/create_account_view.dart';
 import '../pages/authenticate/login/login_view.dart';
@@ -40,7 +41,7 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<CreateAccountViewArguments>(
         orElse: () => CreateAccountViewArguments(),
       );
-      return CupertinoPageRoute<dynamic>(
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
         builder: (context) => CreateAccountView(key: args.key),
         settings: data,
       );
@@ -49,7 +50,7 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<HomeViewArguments>(
         orElse: () => HomeViewArguments(),
       );
-      return CupertinoPageRoute<dynamic>(
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
         builder: (context) => HomeView(key: args.key),
         settings: data,
       );
@@ -58,7 +59,7 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<LoginViewArguments>(
         orElse: () => LoginViewArguments(),
       );
-      return CupertinoPageRoute<dynamic>(
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
         builder: (context) => LoginView(key: args.key),
         settings: data,
       );

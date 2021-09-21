@@ -27,8 +27,31 @@ final Map<String, dynamic> tkitemListMap = {
   kToBuy: true
 };
 
-// Stream<Map<String, dynamic>> dummyMapStream() async {
-  
-//   yield tkitemListMap;
-//   await Future.delayed(Duration(seconds: 1));
-// }
+Stream<Map<String, dynamic>?> ktdummyMapStream() async* {
+  for (int i = 0; i <= 10; i++) {
+    yield tkitemListMap;
+    await Future.delayed(const Duration(seconds: 1));
+  }
+}
+
+final List<Catagory> dairyList = [];
+final List<Catagory> tkvegetablesList = [];
+final List<Catagory> tkfruitsList = [];
+final List<Catagory> tkbreadBakeryList = [];
+final List<Catagory> tkdryGoodsList = [];
+final List<Catagory> tkfrozenFoodsList = [];
+final List<Catagory> tkbeveragesList = [];
+final List<Catagory> tkcleanersList = [];
+final List<Catagory> tkpersonalCareList = [];
+final List<Catagory> tkotherList = [];
+final MyGroceryList tkmylist = MyGroceryList(
+    dairyList: dairyList,
+    vegetableList: tkvegetablesList,
+    fruitsList: tkfruitsList,
+    breadBakeryList: tkbreadBakeryList,
+    dryGoodsList: tkdryGoodsList,
+    frozenFoodsList: tkfrozenFoodsList,
+    beveragesList: tkbeveragesList,
+    cleanersList: tkcleanersList,
+    personalCareList: tkpersonalCareList,
+    otherList: tkotherList);

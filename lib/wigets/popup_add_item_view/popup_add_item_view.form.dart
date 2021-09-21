@@ -44,8 +44,11 @@ mixin $PopupAddItemView on StatelessWidget {
     // The dispose function for a TextEditingController sets all listeners to null
 
     itemnameController.dispose();
+    itemnameFocusNode.dispose();
     quantityController.dispose();
+    quantityFocusNode.dispose();
     priceController.dispose();
+    priceFocusNode.dispose();
   }
 }
 

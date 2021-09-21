@@ -34,6 +34,7 @@ mixin $AddCatagoryButton on StatelessWidget {
     // The dispose function for a TextEditingController sets all listeners to null
 
     catagoryController.dispose();
+    catagoryFocusNode.dispose();
   }
 }
 

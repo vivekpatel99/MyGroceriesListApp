@@ -57,9 +57,23 @@ MockDatabaseService getAndRegisterDatabaseService() {
           catagoryName: tkCatagoryName, mapList: tkitemListMap))
       .thenAnswer((realInvocation) => Future.value('Success'));
 
-  // Stream<Map<String, dynamic>> dummyStream = {};
-  // when(service.streamMyGroceryListMap)
-  //     .thenAnswer((realInvocation) => Future.value('Success'));
+  when(service.streamMyGroceryListMap)
+      .thenAnswer((realInvocation) => ktdummyMapStream());
+
+  when(service.addCatagoryCollection(catagoryName: tkCatagoryName))
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  when(service.deleteCatagoryFromCollection(catagoryName: tkCatagoryName))
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  when(service.addCatagoryCollection(catagoryName: tkCatagoryName))
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  when(service.deletedItemFromCatagoryList())
+      .thenAnswer((realInvocation) => Future.value('Success'));
+
+  when(service.updateUserData(myGroceryList: tkmylist))
+      .thenAnswer((realInvocation) => Future.value('Success'));
 
   locator.registerSingleton<DatabaseService>(service);
   return service;
