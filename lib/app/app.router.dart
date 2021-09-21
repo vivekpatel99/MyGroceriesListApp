@@ -1,0 +1,90 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// StackedRouterGenerator
+// **************************************************************************
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
+
+import '../pages/authenticate/create_account/create_account_view.dart';
+import '../pages/authenticate/login/login_view.dart';
+import '../pages/home/home_view.dart';
+
+class Routes {
+  static const String createAccountView = '/create-account-view';
+  static const String homeView = '/home-view';
+  static const String loginView = '/';
+  static const all = <String>{
+    createAccountView,
+    homeView,
+    loginView,
+  };
+}
+
+class StackedRouter extends RouterBase {
+  @override
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(Routes.createAccountView, page: CreateAccountView),
+    RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.loginView, page: LoginView),
+  ];
+  @override
+  Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, StackedRouteFactory>{
+    CreateAccountView: (data) {
+      var args = data.getArgs<CreateAccountViewArguments>(
+        orElse: () => CreateAccountViewArguments(),
+      );
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
+        builder: (context) => CreateAccountView(key: args.key),
+        settings: data,
+      );
+    },
+    HomeView: (data) {
+      var args = data.getArgs<HomeViewArguments>(
+        orElse: () => HomeViewArguments(),
+      );
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
+        builder: (context) => HomeView(key: args.key),
+        settings: data,
+      );
+    },
+    LoginView: (data) {
+      var args = data.getArgs<LoginViewArguments>(
+        orElse: () => LoginViewArguments(),
+      );
+      return CupertinoPageRoute<CupertinoRoute<dynamic>>(
+        builder: (context) => LoginView(key: args.key),
+        settings: data,
+      );
+    },
+  };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// CreateAccountView arguments holder class
+class CreateAccountViewArguments {
+  final Key? key;
+  CreateAccountViewArguments({this.key});
+}
+
+/// HomeView arguments holder class
+class HomeViewArguments {
+  final Key? key;
+  HomeViewArguments({this.key});
+}
+
+/// LoginView arguments holder class
+class LoginViewArguments {
+  final Key? key;
+  LoginViewArguments({this.key});
+}

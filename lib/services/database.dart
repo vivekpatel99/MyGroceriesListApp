@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
 import 'package:my_grocery_list/pages/page_constants/page_constants.dart'
     as myconst;
-import 'package:my_grocery_list/utils/logging.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class DatabaseService {
   /*
@@ -13,64 +15,75 @@ class DatabaseService {
   */
 //------------------------------------------------------------------------------
   // * collection reference
-  final CollectionReference groceryListsCollection =
-      FirebaseFirestore.instance.collection('groceryList');
+  // final CollectionReference groceryListsCollection =
+  //     FirebaseFirestore.instance.collection('groceryList');
 
-  final String? uid;
-  DatabaseService({this.uid});
-  final log = logger(DatabaseService);
+  final log = getLogger('DatabaseService');
+  final auth = locator<FirebaseAuthenticationService>();
+  String? get _uid {
+    return auth.currentUser?.uid;
+  }
 
+  static const String kGroceryList = 'groceryList';
+  CollectionReference get groceryListsCollection =>
+      FirebaseFirestore.instance.collection(kGroceryList);
 //------------------------------------------------------------------------------
   // * update tobuy status
-  Future<void> moveToBuyBought({
-    required String catagoryName,
-    required List<dynamic> mapList,
-  }) {
-    final options = SetOptions(merge: true);
-    log.i('moveToBuyBought start');
-    log.d('uid: $uid');
+  // Future<void> moveToBuyBought({
+  //   required String catagoryName,
+  //   required Map<String, dynamic> mapList,
+  // }) {
+  //   final options = SetOptions(merge: true);
+  //   log.i('moveToBuyBought start');
+  //   log.d('_uid: $_uid');
 
-    return groceryListsCollection
-        .doc(uid)
-        .set({
-          catagoryName: mapList,
-        }, options)
-        .then((value) => log.i('moveToBuyBought Success'))
-        .catchError((error) => log.e(error));
-  }
+  //   mapList = {'name': 'Some', 'price': 0.0, 'quantity': '', 'toBuy': false};
+
+  //   return groceryListsCollection
+  //       .doc(_uid)
+  //       .set({
+  //         catagoryName: [mapList],
+  //       }, options)
+  //       .then((value) => log.i('moveToBuyBought Success'))
+  //       .catchError((error) => log.e(error));
+  // }
 
 //------------------------------------------------------------------------------
   // * delete items
-  Future<void> deleteItemFromCataogry({
+  Future<String> deleteItemFromCataogryList({
     required String catagoryName,
     required Map<String, dynamic> mapList,
   }) {
     log.i('deleteItemFromCataogry start');
-    log.d('uid: $uid');
-    return groceryListsCollection
-        .doc(uid)
-        .update({
-          catagoryName: FieldValue.arrayRemove([mapList]),
-        })
-        .then((value) => log.i('deleteItemFromCataogry Success'))
-        .catchError((error) => log.e(error));
+    log.d('_uid: $_uid');
+    return groceryListsCollection.doc(_uid).update({
+      catagoryName: FieldValue.arrayRemove([mapList]),
+    }).then((value) {
+      log.i('deleteItemFromCataogry Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
 //------------------------------------------------------------------------------
   // * delete collection
-  Future<void> deletedItemCollection() {
-    return groceryListsCollection
-        .doc(uid)
-        .delete()
-        .then((value) => log.i('Collection delete for $uid'))
-        .catchError((error) => log.e(error));
+  Future<String> deletedItemFromCatagoryList() {
+    return groceryListsCollection.doc(_uid).delete().then((value) {
+      log.i('Collection delete for $_uid');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * add userdata
-  Future addUpdateItem({
+  Future<String> addUpdateItemInCollection({
     required String catagoryName,
-    required List<Catagory> catagoryItemList,
+    required List<Map<String, dynamic>> catagoryItemJson,
   }) async {
 /* 
 {
@@ -82,55 +95,66 @@ class DatabaseService {
 
 */
     log.i('addUpdateItem start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     final options = SetOptions(merge: true);
 
-    final List<Map<String, dynamic>> catagoryItemJson =
-        catagoryItemList.map((e) => e.toJson()).toList();
-    final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
+    // final List<Map<String, dynamic>> catagoryItemJson =
+    //     catagoryItemList.map((e) => e.toJson()).toList();
+    // final catagoryItemJsonUniq = catagoryItemList.toSet().toList();
     log.d('catagoryItemJson: $catagoryItemJson');
     return groceryListsCollection
-        .doc(uid)
-        .set({catagoryName: catagoryItemJson}, options)
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .doc(_uid)
+        .set({catagoryName: catagoryItemJson}, options).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future addCatagory({
+  Future<String> addCatagoryCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     final options = SetOptions(merge: true);
 
     return groceryListsCollection
-        .doc(uid)
-        .set({catagoryName: []}, options)
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .doc(_uid)
+        .set({catagoryName: []}, options).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //----------------------------------------------------------------------------
   // * update userdata
-  Future deleteCatagory({
+  Future<String> deleteCatagoryFromCollection({
     required String catagoryName,
   }) async {
     log.i('addCatagory start');
-    log.d('uid: $uid');
-    final options = SetOptions(merge: true);
+    log.d('_uid: $_uid');
 
     return groceryListsCollection
-        .doc(uid)
-        .update({catagoryName: FieldValue.delete()})
-        .then((value) => log.i('addItem Success'))
-        .catchError((error) => log.e(error));
+        .doc(_uid)
+        .update({catagoryName: FieldValue.delete()}).then((value) {
+      log.i('addItem Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
   //------------------------------------------------------------------------------
   // * update userdata
-  Future updateUserData({required MyGroceryList myGroceryList}) async {
+  Future<String> updateUserData({required MyGroceryList myGroceryList}) async {
 /* {
 {
   "Dairy": [
@@ -171,12 +195,17 @@ class DatabaseService {
 }
 */
     log.i('updateUserData start');
-    log.d('uid: $uid');
+    log.d('_uid: $_uid');
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .set(myGroceryList.toJson())
-        .then((value) => log.i('updateUserData Success'))
-        .catchError((error) => log.e(error));
+        .then((value) {
+      log.i('updateUserData Success');
+      return 'Success';
+    }).catchError((error) {
+      log.e(error);
+      return 'Failed';
+    });
   }
 
 //------------------------------------------------------------------------------
@@ -197,45 +226,45 @@ class DatabaseService {
   // Stream<MyGroceryList> get streamMyGroceryList {
   //   log.i('streamMyGroceryList start');
   //   return groceryListsCollection
-  //       .doc(uid)
+  //       .doc(_uid)
   //       .snapshots()
   //       .map(myGroceryListFromSnapshot);
   // }
-  Stream<Map<String, dynamic>?> get streamMyGroceryList {
+  Stream<Map<String, dynamic>?> get streamMyGroceryListMap {
     log.i('streamMyGroceryList start');
 
     return groceryListsCollection
-        .doc(uid)
+        .doc(_uid)
         .snapshots()
         .map(myGroceryListFromSnapshot);
   }
 
   //----------------------------------------------------------------------------
   // * Setup initial database collection
-  Future? initDatabaseSetup() async {
-    // * create a new document for the user with the uid
-    final List<Catagory> dairyList = [];
-    final List<Catagory> vegetablesList = [];
-    final List<Catagory> fruitsList = [];
-    final List<Catagory> breadBakeryList = [];
-    final List<Catagory> dryGoodsList = [];
-    final List<Catagory> frozenFoodsList = [];
-    final List<Catagory> beveragesList = [];
-    final List<Catagory> cleanersList = [];
-    final List<Catagory> personalCareList = [];
-    final List<Catagory> otherList = [];
-    final MyGroceryList mylist = MyGroceryList(
-        dairyList: dairyList,
-        vegetableList: vegetablesList,
-        fruitsList: fruitsList,
-        breadBakeryList: breadBakeryList,
-        dryGoodsList: dryGoodsList,
-        frozenFoodsList: frozenFoodsList,
-        beveragesList: beveragesList,
-        cleanersList: cleanersList,
-        personalCareList: personalCareList,
-        otherList: otherList);
+  // Future? initDatabaseSetup() async {
+  //   // * create a new document for the user with the uid
+  //   final List<Catagory> dairyList = [];
+  //   final List<Catagory> vegetablesList = [];
+  //   final List<Catagory> fruitsList = [];
+  //   final List<Catagory> breadBakeryList = [];
+  //   final List<Catagory> dryGoodsList = [];
+  //   final List<Catagory> frozenFoodsList = [];
+  //   final List<Catagory> beveragesList = [];
+  //   final List<Catagory> cleanersList = [];
+  //   final List<Catagory> personalCareList = [];
+  //   final List<Catagory> otherList = [];
+  //   final MyGroceryList mylist = MyGroceryList(
+  //       dairyList: dairyList,
+  //       vegetableList: vegetablesList,
+  //       fruitsList: fruitsList,
+  //       breadBakeryList: breadBakeryList,
+  //       dryGoodsList: dryGoodsList,
+  //       frozenFoodsList: frozenFoodsList,
+  //       beveragesList: beveragesList,
+  //       cleanersList: cleanersList,
+  //       personalCareList: personalCareList,
+  //       otherList: otherList);
 
-    await updateUserData(myGroceryList: mylist);
-  }
+  //   await updateUserData(myGroceryList: mylist);
+  // }
 }

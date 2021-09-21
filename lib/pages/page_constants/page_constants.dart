@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+//--------------------------------------------------------------------------------------------
 Container dismissibleBackground(
     {required MainAxisAlignment mainAxisAlignment, required String msgText}) {
   return Container(
@@ -15,6 +16,7 @@ Container dismissibleBackground(
   );
 }
 
+//--------------------------------------------------------------------------------------------
 Container secondaryBackground({required MainAxisAlignment mainAxisAlignment}) {
   return Container(
     color: Colors.red,
@@ -30,6 +32,7 @@ Container secondaryBackground({required MainAxisAlignment mainAxisAlignment}) {
   );
 }
 
+//--------------------------------------------------------------------------------------------
 bool simpleSnackBar(
     {required BuildContext context,
     required String displayMsg,
@@ -46,6 +49,7 @@ bool simpleSnackBar(
   return true;
 }
 
+//--------------------------------------------------------------------------------------------
 Map<String, dynamic>? shortedMyGroceryList(
     {@required Map<String, dynamic>? myGroceryList}) {
   late Map<String, dynamic>? sortedMyGroceryList;

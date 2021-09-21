@@ -1,40 +1,39 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/pages/wrapper.dart';
-import 'package:my_grocery_list/providers/total_total_counter.dart';
-import 'package:my_grocery_list/services/auth.dart';
-import 'package:my_grocery_list/utils/logging.dart';
-import 'package:my_grocery_list/utils/theme.dart';
-import 'package:provider/provider.dart';
+import 'package:my_grocery_list/app/app.locator.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
+import 'package:my_grocery_list/app/app.router.dart';
+import 'package:my_grocery_list/pages/home/home_view.dart';
+import 'package:my_grocery_list/shared/setup_dialog_ui.dart';
+import 'package:my_grocery_list/shared/theme.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-// todo add internet connection check
+// Todo add internet connection check
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => TotalPriceCounter())],
-    child: MyApp(),
-  ));
-
-  // runApp();
+  setupLocator();
+  setupDialogUi();
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final log = logger(MyApp);
+    final log = getLogger('MyApp');
     log.i('MyApp Started');
-    return StreamProvider<UserModel?>.value(
-      value: AuthService().user,
-      initialData: null,
-      child: MaterialApp(
-        title: "My Grocery App",
-        debugShowCheckedModeBanner: false,
-        theme: MyTheme.darkTheme(context),
-        // darkTheme: ThemeData.dark(),
-        home: Wrapper(),
-      ),
+    log.d('-------------------- MyApp rebuild --------------------');
+    return MaterialApp(
+      // showPerformanceOverlay: true,
+      title: "My Grocery App",
+      debugShowCheckedModeBanner: false,
+      theme: MyTheme.darkTheme(context),
+      // darkTheme: ThemeData.dark(),
+      navigatorKey: StackedService.navigatorKey,
+      onGenerateRoute: StackedRouter().onGenerateRoute,
+      home: HomeView(),
     );
   }
 }

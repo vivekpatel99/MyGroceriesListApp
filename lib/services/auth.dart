@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/user_model.dart';
-import 'package:my_grocery_list/services/database.dart';
-import 'package:my_grocery_list/utils/logging.dart';
+import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final log = logger(AuthService);
+  final log = getLogger('AuthService');
 
 //------------------------------------------------------------------------------
 // * create user object based on firebase user
@@ -47,12 +47,13 @@ class AuthService {
     log.i('signInWithEmailAndPassord starts');
 
     _auth
-        .signInWithEmailAndPassword(email: email, password: password)
+        .signInWithEmailAndPassword(
+            email: email.trim(), password: password.trim())
         .then((value) {
       log.i('Success Signin');
       final UserCredential _result = value;
       final User _user = _result.user!;
-      DatabaseService(uid: _user.uid);
+      // DatabaseService(uid: _user.uid);
       log.d('uid of new user ${_user.uid}');
       return _userFromFirebaseUser(_user);
     }).catchError((error) {
@@ -77,22 +78,13 @@ class AuthService {
   Future signupWithEmailAndPassword(
       {required String email, required String password}) async {
     log.i('signupWithEmailAndPassword starts');
-    // await _auth
-    //     .createUserWithEmailAndPassword(email: email, password: password)
-    //     .then((result) async {
-    //   final User userInfo = result.user!;
-    //   await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
-    //   return _userFromFirebaseUser(userInfo);
-    // }).catchError((error) {
-    //   log.e(error);
-    //   return null;
-    // });
-    // return null;
+
     try {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password.trim());
       final User userInfo = result.user!;
-      await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
+      await CatagoryItemsViewModel().initDatabaseSetup();
+      // await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
       log.i('User Sign in successful');
       return _userFromFirebaseUser(userInfo);
     } catch (error) {
@@ -102,15 +94,15 @@ class AuthService {
   }
 
 //------------------------------------------------------------------------------
-  // sign in with email and password
-
-//------------------------------------------------------------------------------
   // sign out
   Future signOut() async {
     log.i('signOut');
-    _auth
-        .signOut()
-        .then((_) => log.i('Sign out Successful'))
-        .catchError((error) => log.e(error));
+    _auth.signOut().then((_) {
+      log.i('Sign out Successful');
+      return "Success";
+    }).catchError((error) {
+      log.e(error);
+      return "Failed";
+    });
   }
 }
