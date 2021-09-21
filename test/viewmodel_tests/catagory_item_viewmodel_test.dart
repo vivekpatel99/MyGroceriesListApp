@@ -13,7 +13,7 @@ import '../helpers/test_helpers.dart';
 
 CatagoryItemsViewModel _catagoryItemsViewModel() => CatagoryItemsViewModel();
 
-void main() async {
+void main() {
   setUp(() => registerServices());
   tearDown(() => unregisterServices());
 
@@ -30,7 +30,7 @@ void main() async {
     // });
     // --------------------------------------------------------------------------------------
     group('setter and getter myGroceryList -', () {
-      final _service = getAndRegisterDatabaseService();
+      // final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test(
           'When myGroceryList setter called, should set arg map to _myGroceryList',
@@ -43,7 +43,7 @@ void main() async {
     // --------------------------------------------------------------------------------------
 
     group('ItemFoundInCatagoryItems -', () {
-      final _service = getAndRegisterDatabaseService();
+      // final _service = getAndRegisterDatabaseService();
       final model = _catagoryItemsViewModel();
       test('If item Found then return index as int', () {
         final int result = model.itemFoundInCatagoryItems(
