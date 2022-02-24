@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     log.d('-------------------- MyApp rebuild --------------------');
     return MaterialApp(
       // showPerformanceOverlay: true,
-      title: "My Grocery App",
+      title: "My Groceries App",
       debugShowCheckedModeBanner: false,
       theme: MyTheme.darkTheme(context),
       // darkTheme: ThemeData.dark(),
