@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/pages/smart_widgets/add_catagory_button.dart';
+import 'package:my_grocery_list/pages/smart_widgets/drawer/drawer_widget_view.dart';
 import 'package:my_grocery_list/pages/tabs/bought_tab_view.dart';
 import 'package:my_grocery_list/pages/tabs/buy_tab_view.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_test_widget.dart';
@@ -60,7 +61,7 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // drawer: MyDrawer(),
+                  drawer: DrawerWidgetView(),
                   body: TabBarView(
                     children: [
                       BuyTabView(),

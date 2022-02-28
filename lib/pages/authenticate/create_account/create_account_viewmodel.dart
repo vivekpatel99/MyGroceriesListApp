@@ -16,7 +16,9 @@ class CreateAccountViewModel extends AuthenticationViewModel {
   Future<FirebaseAuthenticationResult> runAuthentication() {
     log.i('runAuthentication');
     return _firebaseAuthenticationService.createAccountWithEmail(
-        email: emailValue ?? '', password: passwordValue ?? '');
+        email: emailValue ?? '',
+        password: passwordValue ?? '',
+        name: fullNameValue ?? '');
   }
 
   void navigationBack() => navigationService.back();
