@@ -1,13 +1,13 @@
 {
   "project_info": {
     "project_number": "405291175610",
-    "project_id": "mygrocerieslist-2ab17",
-    "storage_bucket": "mygrocerieslist-2ab17.appspot.com"
+    "project_id": "mygrocerylist-2ab17",
+    "storage_bucket": "mygrocerylist-2ab17.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:405291175610:android:73d7dc70fd048785f9bc83",
+        "mobilesdk_app_id": "1:405291175610:android:c57f0d73a9a5eb78f9bc83",
         "android_client_info": {
           "package_name": "com.viv.my_grocery_list"
         }

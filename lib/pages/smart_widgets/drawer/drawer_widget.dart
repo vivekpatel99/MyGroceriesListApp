@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/pages/smart_widgets/drawer/drawer_widget_viewmodel.dart';
-import 'package:my_grocery_list/pages/smart_widgets/mydrawer.dart';
+import 'package:my_grocery_list/pages/smart_widgets/old_mydrawer.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:package_info/package_info.dart';
@@ -65,11 +65,12 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () async {
                       log.i('Sign Out');
                       await _auth.signOut();
+                      model.goBackToSignInPage();
                     },
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     child: Center(
                       child: FutureBuilder(
                         future: _myPackageInfo(),

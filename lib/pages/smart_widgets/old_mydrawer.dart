@@ -49,7 +49,7 @@ class MyDrawer extends StatelessWidget {
                 ),
                 createDrawerBodyItem(
                   icon: Icons.coffee_sharp,
-                  title: 'Buy me Coffee',
+                  title: 'Buy me a Coffee',
                   onTap: () {},
                 ),
               ],
@@ -65,6 +65,7 @@ class MyDrawer extends StatelessWidget {
                   onTap: () async {
                     log.i('Sign Out');
                     await _auth.signOut();
+                    //Routes.loginView;
                   },
                 ),
                 Container(
@@ -103,8 +104,9 @@ class AlertDialogButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).accentColor)),
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+      ),
       onPressed: onPressed,
       child: child,
     );
