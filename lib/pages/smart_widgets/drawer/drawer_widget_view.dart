@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/pages/smart_widgets/drawer/drawer_widget_viewmodel.dart';
-import 'package:my_grocery_list/pages/smart_widgets/old_mydrawer.dart';
-import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:package_info/package_info.dart';
 import 'package:stacked/stacked.dart';
 
-class DrawerWidget extends StatelessWidget {
-  DrawerWidget({Key? key}) : super(key: key);
-  final AuthService _auth = AuthService();
+class DrawerWidgetView extends StatelessWidget {
+  DrawerWidgetView({Key? key}) : super(key: key);
 
   final log = getLogger('DrawerWidget');
   Widget createDrawerBodyItem(
@@ -41,16 +38,16 @@ class DrawerWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  MyDrawerHeader(),
+                  const MyDrawerHeader(),
                   createDrawerBodyItem(
                     icon: Icons.email_sharp,
                     title: 'Contact',
-                    onTap: () {},
+                    onTap: model.contactInfoOnTap,
                   ),
                   createDrawerBodyItem(
                     icon: Icons.coffee_sharp,
                     title: 'Buy me Coffee',
-                    onTap: () {},
+                    onTap: model.buyMeACoffeeOnTap,
                   ),
                 ],
               ),
@@ -64,7 +61,7 @@ class DrawerWidget extends StatelessWidget {
                     title: 'Sign Out',
                     onTap: () async {
                       log.i('Sign Out');
-                      await _auth.signOut();
+                      model.signOut();
                       model.goBackToSignInPage();
                     },
                   ),
@@ -89,6 +86,83 @@ class DrawerWidget extends StatelessWidget {
         ),
       ),
       viewModelBuilder: () => DrawerWidgetViewModel(),
+    );
+  }
+}
+
+class MyDrawerHeader extends StatelessWidget {
+  const MyDrawerHeader({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<DrawerWidgetViewModel>.nonReactive(
+      builder: (context, model, child) => DrawerHeader(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const CircleAvatar(
+              backgroundImage: AssetImage('assets/images/background.png'),
+              radius: 40.0,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.getUserName().toString(), //'Vivek Patel',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 25.0),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  model.getEmailAddress(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      viewModelBuilder: () => DrawerWidgetViewModel(),
+    );
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+class DeleteAllData extends StatefulWidget {
+  const DeleteAllData({Key? key}) : super(key: key);
+
+  @override
+  _DeleteAllDataState createState() => _DeleteAllDataState();
+}
+
+//--------------------------------------------------------------------------------------------
+class _DeleteAllDataState extends State<DeleteAllData> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Delete All Data!!'),
+      content: const Text('Are you sure to delete?'),
+      actions: [
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text('Yes'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            /* ///////////////////////////////////////////// */
+            Navigator.pop(context);
+          },
+          child: const Text('No'),
+        ),
+      ],
     );
   }
 }

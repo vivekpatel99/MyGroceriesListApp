@@ -7,7 +7,7 @@ import 'package:stacked_firebase_auth/src/firebase_authentication_service.dart';
 import 'login_view.form.dart';
 
 class LoginViewModel extends AuthenticationViewModel {
-  late final FirebaseAuthenticationService? _firebaseAuthenticationService =
+  late final FirebaseAuthenticationService _firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
 
   final log = getLogger('LoginViewModel');
@@ -16,12 +16,10 @@ class LoginViewModel extends AuthenticationViewModel {
   @override
   Future<FirebaseAuthenticationResult> runAuthentication() {
     log.i('runAuthentication');
-    return _firebaseAuthenticationService!
-        .loginWithEmail(email: emailValue ?? '', password: passwordValue ?? '');
+    return _firebaseAuthenticationService.loginWithEmail(
+        email: emailValue ?? '', password: passwordValue ?? '');
   }
 
   void navigateToCreateAccount() =>
       navigationService.navigateTo(Routes.createAccountView);
-  // void navigateToCreateAccount() =>
-  //     navigationService.navigateTo(Routes.homeView);
 }

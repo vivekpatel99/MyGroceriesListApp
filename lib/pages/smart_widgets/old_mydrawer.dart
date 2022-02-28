@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
+import 'package:my_grocery_list/pages/smart_widgets/drawer/drawer_widget_view.dart';
 import 'package:my_grocery_list/services/auth.dart';
 import 'package:my_grocery_list/shared/constants.dart';
 import 'package:package_info/package_info.dart';
@@ -64,7 +65,7 @@ class MyDrawer extends StatelessWidget {
                   title: 'Sign Out',
                   onTap: () async {
                     log.i('Sign Out');
-                    await _auth.signOut();
+                    // await _auth.signOut();
                     //Routes.loginView;
                   },
                 ),
@@ -114,77 +115,3 @@ class AlertDialogButton extends StatelessWidget {
 }
 
 //--------------------------------------------------------------------------------------------
-class MyDrawerHeader extends StatelessWidget {
-  MyDrawerHeader({
-    Key? key,
-  }) : super(key: key);
-  final AuthService _auth = AuthService();
-
-  @override
-  Widget build(BuildContext context) {
-    final String _email = _auth.getemailAdrress;
-
-    return DrawerHeader(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/background.png'),
-            radius: 40.0,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Vivek Patel',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                _email,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.0,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-//--------------------------------------------------------------------------------------------
-class DeleteAllData extends StatefulWidget {
-  const DeleteAllData({Key? key}) : super(key: key);
-
-  @override
-  _DeleteAllDataState createState() => _DeleteAllDataState();
-}
-
-//--------------------------------------------------------------------------------------------
-class _DeleteAllDataState extends State<DeleteAllData> {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Delete All Data!!'),
-      content: const Text('Are you sure to delete?'),
-      actions: [
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text('Yes'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('No'),
-        ),
-      ],
-    );
-  }
-}
