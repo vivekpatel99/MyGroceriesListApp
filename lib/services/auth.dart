@@ -85,43 +85,4 @@ class AuthService {
         .then((value) => log.i('Password is reset'))
         .catchError((error) => log.e(error));
   }
-
-//------------------------------------------------------------------------------
-  // register with email and password redundent
-  // Future signupWithEmailAndPassword(
-  //     {required String email, required String password}) async {
-  //   log.i('signupWithEmailAndPassword starts #################');
-
-  //   try {
-  //     final UserCredential result = await _auth.createUserWithEmailAndPassword(
-  //         email: email.trim(), password: password.trim());
-
-  //     final User userInfo = result.user!;
-  //     await userInfo
-  //         .updateDisplayName('Radha')
-  //         .then((value) => debugPrint('${userInfo.displayName}#########'))
-  //         .onError((error, stackTrace) => debugPrint('$error'));
-  //     await userInfo.reload();
-  //     await CatagoryItemsViewModel().initDatabaseSetup();
-  //     // await DatabaseService(uid: userInfo.uid).initDatabaseSetup();
-  //     log.i('User Sign in successful');
-  //     return _userFromFirebaseUser(userInfo);
-  //   } catch (error) {
-  //     log.e(error);
-  //     return null;
-  //   }
-  // }
-
-//------------------------------------------------------------------------------
-  // sign out
-  // Future signOut() async {
-  //   log.i('signOut');
-  //   _auth.signOut().then((_) {
-  //     log.i('Sign out Successful');
-  //     return "Success";
-  //   }).catchError((error) {
-  //     log.e(error);
-  //     return "Failed";
-  //   });
-  // }
 }
