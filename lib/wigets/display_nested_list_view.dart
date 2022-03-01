@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/models/item_model.dart';
+import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/styles.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/item_list_view/item_list_view.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.dart';
@@ -85,10 +87,7 @@ class DisplayNestedListView extends StatelessWidget {
                           },
                           child: Text(
                             catagoryTitle,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
+                            style: bodyStyle,
                           ),
                         ),
                         IconButton(
@@ -118,11 +117,11 @@ class DisplayNestedListView extends StatelessWidget {
                       //         true &&
                       //     onBuyPage)
                       // )
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'No item',
-                          style: TextStyle(fontSize: 10.0),
+                          kNoItem,
+                          style: bodyStyle,
                         ),
                       )
                     else

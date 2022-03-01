@@ -40,6 +40,7 @@ dependencies:
   stacked: ^2.2.5
   stacked_firebase_auth: ^0.2.10
   stacked_services: ^0.8.13
+  get: ^4.6.1
 
 dev_dependencies:
   build_runner: ^2.1.1
@@ -59,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icon/
     - assets/files/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

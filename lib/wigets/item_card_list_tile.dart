@@ -34,8 +34,7 @@ class ItemCardListTile extends StatelessWidget {
 
   final _snackBarService = locator<SnackbarService>();
   final _dialogService = locator<DialogService>();
-  static const String assetsPath = 'assets/images/';
-  static const String imageExt = '.png';
+
   final log = getLogger('ItemCardListTile');
   final catagoryItemsViewModel = locator<CatagoryItemsViewModel>();
   //------------------------------------------------------------------------------
@@ -56,8 +55,7 @@ class ItemCardListTile extends StatelessWidget {
 
     final Map<String, dynamic> myGroceryList =
         catagoryItemsViewModel.myGroceryList ?? {};
-    final String imagePath =
-        '${ItemCardListTile.assetsPath}${itemName.toLowerCase()}${ItemCardListTile.imageExt}';
+    final String imagePath = '$kAssetsPath${itemName.toLowerCase()}$kImageExt';
     // final String imagePath = 'assets/images/broccoli.png';
 
     //------------------------------------------------------------------------------
@@ -187,14 +185,14 @@ class ItemCardListTile extends StatelessWidget {
             background: onBuyPage
                 ? myconst.dismissibleBackground(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    msgText: 'Bought')
+                    msgText: kTabBought)
                 : myconst.secondaryBackground(
                     mainAxisAlignment: MainAxisAlignment.start),
             secondaryBackground: onBuyPage
                 ? myconst.secondaryBackground(
                     mainAxisAlignment: MainAxisAlignment.end)
                 : myconst.dismissibleBackground(
-                    mainAxisAlignment: MainAxisAlignment.end, msgText: 'Buy'),
+                    mainAxisAlignment: MainAxisAlignment.end, msgText: kTabBuy),
             confirmDismiss: (DismissDirection dismissDirection) {
               return onBuyPage
                   ? _confirmDismissForBuyPage(

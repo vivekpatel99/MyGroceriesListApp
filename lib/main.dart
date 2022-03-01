@@ -4,6 +4,7 @@ import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/app/app.router.dart';
 import 'package:my_grocery_list/pages/home/home_view.dart';
+import 'package:my_grocery_list/shared/constants.dart';
 import 'package:my_grocery_list/shared/setup_dialog_ui.dart';
 import 'package:my_grocery_list/shared/theme.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     log.d('-------------------- MyApp rebuild --------------------');
     return MaterialApp(
       // showPerformanceOverlay: true,
-      title: "My Groceries App",
+      title: kAppTitle,
       debugShowCheckedModeBanner: false,
       theme: MyTheme.darkTheme(context),
       // darkTheme: ThemeData.dark(),

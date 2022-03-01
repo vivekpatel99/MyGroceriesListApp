@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.locator.dart';
 import 'package:my_grocery_list/pages/authenticate/dumb_widgets/shared/ui_helpers.dart';
+import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/dimensions.dart';
+import 'package:my_grocery_list/shared/styles.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.dart';
 
@@ -27,14 +30,12 @@ class ListTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Map<String, dynamic>? _myGroceryList =
-    //     Provider.of<Map<String, dynamic>?>(context);
     final _catagoryItemsService = locator<CatagoryItemsViewModel>();
     final Map<String, dynamic> myGroceryList =
         _catagoryItemsService.myGroceryList ?? {};
 
     return SizedBox(
-      height: 70,
+      height: 70, //Dimensions.sizeBoxHeight70,
       child: Card(
         child: ListTile(
           dense: true,
@@ -44,18 +45,18 @@ class ListTileCard extends StatelessWidget {
           ),
           title: Text(
             itemName,
-            style: const TextStyle(fontSize: 14.0),
+            style: itemNameStyle,
           ),
           subtitle: Row(
             children: [
-              const Text(
-                'QTY',
-                style: TextStyle(fontSize: 12.0),
+              Text(
+                kQTY,
+                style: captionStyle,
               ),
               kHorizontalSpaceSmall,
               Text(
                 quantity,
-                style: const TextStyle(fontSize: 12.0),
+                style: captionStyle,
               ),
             ],
           ),
@@ -63,8 +64,8 @@ class ListTileCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(price.toString()),
-              const SizedBox(
-                width: 20,
+              SizedBox(
+                width: Dimensions.sizeBoxWidth20,
               ),
               IconButton(
                 // color: Colors.deepPurpleAccent,
@@ -93,3 +94,18 @@ class ListTileCard extends StatelessWidget {
     );
   }
 }
+
+
+
+// Container(
+//             width: 20,
+//             height: 20,
+//             decoration: BoxDecoration(
+//               shape: BoxShape.circle,
+//               image: DecorationImage(
+//                   image: _data != null
+//                       ? AssetImage(imagePath)
+//                       : AssetImage('assets/icon/icon.png')),
+//             ),
+//             child: (_data != null) ? null : Text(firstLettter),
+//           )

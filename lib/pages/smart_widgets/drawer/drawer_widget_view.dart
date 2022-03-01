@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_grocery_list/app/app.logger.dart';
 import 'package:my_grocery_list/pages/smart_widgets/drawer/drawer_widget_viewmodel.dart';
 import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/dimensions.dart';
+import 'package:my_grocery_list/shared/styles.dart';
 import 'package:package_info/package_info.dart';
 import 'package:stacked/stacked.dart';
 
@@ -41,12 +43,12 @@ class DrawerWidgetView extends StatelessWidget {
                   const MyDrawerHeader(),
                   createDrawerBodyItem(
                     icon: Icons.email_sharp,
-                    title: 'Contact',
+                    title: kContact,
                     onTap: model.contactInfoOnTap,
                   ),
                   createDrawerBodyItem(
                     icon: Icons.coffee_sharp,
-                    title: 'Buy me Coffee',
+                    title: kBuyMeCoffee,
                     onTap: model.buyMeACoffeeOnTap,
                   ),
                 ],
@@ -58,9 +60,9 @@ class DrawerWidgetView extends StatelessWidget {
                 children: [
                   createDrawerBodyItem(
                     icon: Icons.logout_sharp,
-                    title: 'Sign Out',
+                    title: kSignOut,
                     onTap: () async {
-                      log.i('Sign Out');
+                      log.i(kSignOut);
                       model.signOut();
                       model.goBackToSignInPage();
                     },
@@ -73,8 +75,8 @@ class DrawerWidgetView extends StatelessWidget {
                         future: _myPackageInfo(),
                         builder: (BuildContext context, snapshot) => Text(
                           snapshot.hasData
-                              ? 'App Version ${snapshot.data}'
-                              : 'Loading....',
+                              ? '$kAppVersion ${snapshot.data}'
+                              : kLoading,
                         ),
                       ),
                     ),
@@ -102,9 +104,9 @@ class MyDrawerHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/background.png'),
-              radius: 40.0,
+            CircleAvatar(
+              backgroundImage: const AssetImage(kDrawerBackgroundImg),
+              radius: Dimensions.avtarRadius40,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -112,18 +114,14 @@ class MyDrawerHeader extends StatelessWidget {
               children: [
                 Text(
                   model.getUserName().toString(), //'Vivek Patel',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25.0),
+                  style: heading3Style,
                 ),
-                const SizedBox(
-                  height: 10.0,
+                SizedBox(
+                  height: Dimensions.sizeBoxHeight10,
                 ),
                 Text(
                   model.getEmailAddress(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.0,
-                  ),
+                  style: itemNameStyle,
                 ),
               ],
             ),

@@ -22,5 +22,28 @@
             "type": "dart",
             "flutterMode": "profile"
         }
+        ,
+        {
+            "name": "S8+",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554"
+        },
+        {
+            "name": "J6",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5556"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": [
+                "S8+",
+                "J6",
+              
+            ]
+        }
     ]
 }

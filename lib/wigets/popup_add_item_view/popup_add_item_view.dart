@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_grocery_list/pages/authenticate/dumb_widgets/shared/ui_helpers.dart';
 import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/styles.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_view.form.dart';
 import 'package:my_grocery_list/wigets/popup_add_item_view/popup_add_item_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -53,10 +54,7 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
             kVerticalSpaceSmall,
             Text(
               addUpdate ? ksAddItemStr : ksUpdateitemStr,
-              style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey),
+              style: popupSubtitleStyle,
             ),
           ],
         ),
@@ -107,7 +105,7 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
                 if (model.validationMessage != null)
                   Text(
                     model.validationMessage!,
-                    style: const TextStyle(color: Colors.red, fontSize: 12),
+                    style: validationMsgRedStyle,
                   ),
                 if (model.validationMessage != null) kVerticalSpaceRegular,
                 Row(
@@ -129,10 +127,7 @@ class PopupAddItemView extends StatelessWidget with $PopupAddItemView {
                       },
                       child: Text(
                         addUpdate ? ksAddButtonTitle : ksUpdateButtonTitle,
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16.0),
+                        style: addupdateButtonStyle,
                       ),
                     ),
                   ],

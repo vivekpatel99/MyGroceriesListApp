@@ -7,6 +7,9 @@ import 'package:my_grocery_list/pages/tabs/bought_tab_view.dart';
 import 'package:my_grocery_list/pages/tabs/buy_tab_view.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_test_widget.dart';
 import 'package:my_grocery_list/pages/total_price/total_price_viewmodel.dart';
+import 'package:my_grocery_list/shared/constants.dart';
+import 'package:my_grocery_list/shared/dimensions.dart';
+import 'package:my_grocery_list/shared/styles.dart';
 import 'package:my_grocery_list/viewmodels/catagory_item_view_model.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,6 +18,7 @@ class HomeView extends StatelessWidget {
   final log = getLogger('HomeView');
   final CatagoryItemsViewModel _catagoryItemsViewModel =
       locator<CatagoryItemsViewModel>();
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TotalPriceViewModel>.nonReactive(
@@ -26,7 +30,11 @@ class HomeView extends StatelessWidget {
               builder: (BuildContext context) {
                 return Scaffold(
                   appBar: AppBar(
-                    title: const Center(child: Text('My Groceries List')),
+                    title: Center(
+                        child: Text(
+                      kAppTitle,
+                      style: heading3Style,
+                    )),
                     actions: [
                       PopupMenuButton<int>(
                         onSelected: _onPopupManuButtonSelect,
@@ -36,12 +44,12 @@ class HomeView extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(
-                                  children: const [
-                                    Icon(Icons.cleaning_services_rounded),
+                                  children: [
+                                    const Icon(Icons.cleaning_services_rounded),
                                     SizedBox(
-                                      width: 15,
+                                      width: Dimensions.sizeBoxWidth15,
                                     ),
-                                    Text('Erase All'),
+                                    const Text('Erase All'),
                                   ],
                                 ),
                               ],
@@ -53,10 +61,10 @@ class HomeView extends StatelessWidget {
                     bottom: const TabBar(
                       tabs: [
                         Tab(
-                          text: "Buy",
+                          text: kTabBuy,
                         ),
                         Tab(
-                          text: "Bought",
+                          text: kTabBought,
                         ),
                       ],
                     ),
@@ -78,13 +86,12 @@ class HomeView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text(
-                          'Total',
-                          style: TextStyle(
-                              fontSize: 25.0, fontWeight: FontWeight.bold),
+                        Text(
+                          kTotal,
+                          style: subheadingStyle,
                         ),
-                        const SizedBox(
-                          width: 40,
+                        SizedBox(
+                          width: Dimensions.sizeBoxWidth40,
                         ),
                         TotalPriceTextWidget(),
                       ],
